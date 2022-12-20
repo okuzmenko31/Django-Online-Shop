@@ -1,0 +1,241 @@
+.wrap {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #1d1d1d;
+    color: white;
+    margin-top: 50px;
+    display: flex;
+    transition: all .3s;
+}
+.card:hover{
+    box-shadow: white;
+}
+.card-img-top a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    padding: 20px;
+}
+
+.block {
+    position: absolute;
+    left: 45%;
+    top: 80%;
+}
+
+.card-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+article {
+    position: relative;
+}
+
+a {
+    color: white;
+    text-decoration: underline;
+    --bs-link-hover-color: #888 !important;
+}
+
+body {
+    -webkit-text-size-adjust: 100%;
+    background: #000;
+    color: #888;
+    overflow-x: hidden;
+}
+
+.bg-light {
+    --bs-bg-opacity: 1;
+    background-color: #1d1d1d !important;
+    color: white !important;
+}
+
+.nav-link {
+    display: block;
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+    font-weight: var(--bs-nav-link-font-weight);
+    color: white;
+    text-decoration: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
+    clear: both;
+    font-weight: 400;
+    color: white;
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+.navbar-nav {
+    --bs-nav-link-padding-x: 0;
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-color: white !important;
+    --bs-nav-link-hover-color: white;
+    --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+
+}
+
+.navbar-brand {
+    padding-top: var(--bs-navbar-brand-padding-y);
+    padding-bottom: var(--bs-navbar-brand-padding-y);
+    margin-right: var(--bs-navbar-brand-margin-end);
+    font-size: var(--bs-navbar-brand-font-size);
+    --bs-navbar-brand-hover-color: #888;
+    color: #888;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.navbar-nav .nav-link.active, .navbar-nav .show > .nav-link {
+    color: #888;
+}
+
+
+.dropdown-menu {
+    display: none;
+    --bs-dropdown-link-active-bg: black !important;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    background-color: #000;
+    position: absolute;
+}
+
+.me-2 {
+    margin-right: 0.5rem !important;
+    background-color: #1d1d1d;
+}
+
+.form-control-me2{
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #888;
+    background-color: #000;
+    background-clip: padding-box;
+    border: 1px solid #1d1d1d;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: none;
+
+}
+
+[type=search] {
+    background-color: #1d1d1d;
+    -webkit-appearance: textfield;
+}
+
+.active > .page-link, .page-link.active {
+    z-index: 3;
+    color: #888;
+    background-color: #000;
+    border-color: #000;
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    padding: var(--bs-pagination-padding-y) var(--bs-pagination-padding-x);
+    font-size: var(--bs-pagination-font-size);
+    color: #888;
+    text-decoration: none;
+    background-color: #000;
+    border: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.pagination {
+    --bs-pagination-padding-x: 0.75rem;
+    --bs-pagination-padding-y: 0.375rem;
+    --bs-pagination-font-size: 1rem;
+    --bs-pagination-color: white;
+    --bs-pagination-bg: #fff;
+    --bs-pagination-border-width: 1px;
+    --bs-pagination-border-color: #dee2e6;
+    --bs-pagination-border-radius: 0.375rem;
+    --bs-pagination-hover-color: #000;
+    --bs-pagination-hover-bg: #e9ecef;
+    --bs-pagination-hover-border-color: #dee2e6;
+    --bs-pagination-focus-color: black;
+    --bs-pagination-focus-bg: white !important;
+    --bs-pagination-focus-box-shadow: black;
+    --bs-pagination-active-color: #fff;
+    --bs-pagination-active-bg: white;
+    --bs-pagination-active-border-color: white;
+    --bs-pagination-disabled-color: #6c757d;
+    --bs-pagination-disabled-bg: #fff;
+    --bs-pagination-disabled-border-color: #dee2e6;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+}
+
+.rate > input {
+    display: none;
+}
+
+.rate {
+    display: inline-block;
+    border: 0;
+}
+
+.rate > label {
+    float: right;
+}
+
+.rate > label:before {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-family: FontAwesome;
+    content: "\f005";
+    margin: 0;
+    padding: 0.3rem .2rem;
+    cursor: pointer;
+}
+
+.rate .half:before {
+    content: "\f089";
+    position: absolute;
+    padding-right: 0;
+
+}
+
+input:checked ~ label, label:hover ~ label {
+    color: #ffb503;
+}
+
+input:checked + label:hover, input:checked ~ label:hover, input:checked ~ label:hover ~ label,
+label:hover ~ input:checked ~ label {
+    color: #cc9000;
+}

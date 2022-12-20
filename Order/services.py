@@ -1,0 +1,4 @@
+def get_product_cost(price, quantity):
+    """Here we are returning the calculated value of the total cost, by multiplying the product price
+     for its quantity"""
+    return float(price * quantity)

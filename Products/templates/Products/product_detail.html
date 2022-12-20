@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Купити {{ product.name }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="card mb-3" style="width: 2000px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                {% if product.img %}
+                    <img src="{{ product.img.url }}" class="img-fluid rounded-start" alt="...">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <br>
+                    <h5 class="card-text">{{ product.get_status_display }}</h5>
+                    <h6 class="card-text">Артикул: {{ product.article }}</h6>
+                    <br>
+                    {% if product.discount_availability %}
+                        <strike><h6 class="card-text">{{ product.price_view }} грн</h6></strike>
+                        <h5 class="card-text" style="color: red">{{ product.price_with_discount_view }} грн</h5>
+                        <br>
+                    {% else %}
+                        <h5 class="card-text">{{ product.price_view }} грн</h5>
+                        <br>
+                    {% endif %}
+
+                    <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block">Купити</a>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-8" style="width: 2000px;">
+        <div class="card-body">
+            <p class="card-text">{{ product.full_info|safe }}</p>
+        </div>
+    </div>
+
+    <div class="card mb-8" style="width: 2000px;">
+        <div class="card-body">
+            <p class="card-text">{{ product.characteristics|safe }}</p>
+            <h2 class="card-text">Ваша думка важлива для нас</h2>
+            <form action="" method="post">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Ім'я: </label>
+                    <br>
+                    <br>
+                    {{ form.name }}
+                    <div class="invalid-feedback">
+                        {{ form.name.errors }}
+                    </div>
+                </div>
+                <br>
+
+                <div class="form-group">
+                    <label for="{{ form.review.id_for_label }}">Відгук: </label>
+                    <br>
+                    <br>
+                    {{ form.review }}
+                    <div class="invalid-feedback">
+                        {{ form.review.errors }}
+                    </div>
+                </div>
+                <br>
+
+                <label>Ваша оцінка товару: </label>
+                <br>
+                <div class="rate">
+                    <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10"
+                                                                                              title="5"></label>
+                    <input type="radio" name="rating" id="rating9" value="4.5" required><label for="rating9" title="4.5"
+                                                                                               class="half"></label>
+                    <input type="radio" name="rating" id="rating8" value="4" required><label for="rating8"
+                                                                                             title="4"></label>
+                    <input type="radio" name="rating" id="rating7" value="3.5" required><label for="rating7"
+                                                                                               title="3.5"
+                                                                                               class="half"></label>
+                    <input type="radio" name="rating" id="rating6" value="3" required><label for="rating6"
+                                                                                             title="3"></label>
+                    <input type="radio" name="rating" id="rating5" value="2.5" required><label for="rating5"
+                                                                                               title="2.5"
+                                                                                               class="half"></label>
+                    <input type="radio" name="rating" id="rating4" value="2" required><label for="rating4"
+                                                                                             title="2"></label>
+                    <input type="radio" name="rating" id="rating3" value="1.5" required><label for="rating3"
+                                                                                               title="1.5"
+                                                                                               class="half"></label>
+                    <input type="radio" name="rating" id="rating2" value="1" required><label for="rating2"
+                                                                                             title="1"></label>
+                    <input type="radio" name="rating" id="rating1" value="0.5" required><label for="rating1"
+                                                                                               title="0.5"
+                                                                                               class="half"></label>
+                </div>
+                <br>
+                <br>
+
+                <button type="submit" class="btn btn-dark btn-block">Залишити відгук</button>
+
+            </form>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+
+    {% for review in reviews %}
+        <div class="card mb-8" style="width: 2000px;">
+            <div class="card-body">
+                <h3 class="comments">{{ review.name }}</h3>
+                <h5 class="comment">{{ review.review }}</h5>
+
+
+                <br>
+            </div>
+        </div>
+    {% endfor %}
+    <br>
+    <br>
+
+{% endblock %}
+

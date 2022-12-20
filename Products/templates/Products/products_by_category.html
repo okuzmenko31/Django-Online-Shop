@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ category.title }} - купити на RvShop
+{% endblock %}
+
+{% block content %}
+
+    {% for product in page_obj.object_list %}
+        <div class="card" style="width: 18rem;">
+            {% if product.img %}
+                <a href="{{ product.get_absolute_url }}"><img
+                        src="{{ product.img.url }}" class="card-img-top" alt="..."></a>
+            {% endif %}
+            <div class="card-body">
+                <a href="{{ product.get_absolute_url }}">
+                    <h5
+                            class="card-title">{{ product.name|truncatewords:7 }}
+                    </h5>
+                </a>
+                <hr>
+                {% if product.discount_availability %}
+                    <strike><h6 class="card-text">{{ product.price_view }} грн</h6></strike>
+                    <h5 class="card-text" style="color: red">{{ product.price_with_discount_view }} грн</h5>
+                {% else %}
+                    <h5 class="card-text">{{ product.price_with_discount }} грн</h5>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
