@@ -29,6 +29,13 @@
                         <br>
                     {% endif %}
 
+                    <div class="rating">
+                            {{ product.get_star|safe }}
+                        <br>
+                            Рейтинг товару: {{ product.total_rating }}
+                    </div>
+                    <br>
+
                     <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block">Купити</a>
 
 

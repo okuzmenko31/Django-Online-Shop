@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
-from .services import get_discount, get_price_sep
+from .services import get_discount, get_price_sep, get_rating_star
 
 
 class ProductCategory(models.Model):
@@ -114,6 +114,9 @@ class Product(models.Model):
             self.price_with_discount_view = self.price_view
 
         super(Product, self).save(*args, **kwargs)
+
+    def get_star(self):
+        return get_rating_star(self.total_rating)
 
 
 class Reviews(models.Model):
