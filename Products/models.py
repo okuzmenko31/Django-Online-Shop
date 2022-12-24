@@ -74,6 +74,8 @@ class Product(models.Model):
     price_with_discount_view = models.CharField(max_length=400,
                                                 verbose_name='Відредаговане представлення ціни зі знижкою, '
                                                              'яке буде бачити користувач', blank=True, default='1')
+    total_rating = models.DecimalField(max_digits=2, decimal_places=1, verbose_name='Total rating of product',
+                                       default=0)
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'category': self.main_category.slug,
