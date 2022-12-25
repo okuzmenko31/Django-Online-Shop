@@ -135,3 +135,6 @@ class Reviews(models.Model):
         verbose_name = 'відгук'
         verbose_name_plural = 'Відгуки'
         ordering = ['-created_at']
+
+    def get_review_star(self):
+        return get_rating_star(self.rating)
