@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-
 from .services import get_discount, get_price_sep, get_rating_star
 
 
