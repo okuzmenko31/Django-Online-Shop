@@ -239,3 +239,10 @@ input:checked + label:hover, input:checked ~ label:hover, input:checked ~ label:
 label:hover ~ input:checked ~ label {
     color: #cc9000;
 }
+.pagination{
+    margin-left: 288px;
+}
+.sorting{
+    margin-top: 40px;
+    margin-left: 30px;
+}

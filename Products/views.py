@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from .utils import *
-from .forms import ReviewsForms
+from .forms import ReviewsForms, OrderingChoices
 
 from .models import Product, ProductCategory, ProductSubCategory, Reviews
 
@@ -40,12 +40,28 @@ def all_products_list(request):
 
     products = Product.objects.all().select_related('main_category', 'subcategory')
 
+    all_sort_form = OrderingChoices(request.POST or {'form': request.session.get('all_sort')})
+
+    """Creating the key of sort in the session and passing the data from the form"""
+    if request.method == 'POST':
+        if all_sort_form.is_valid():
+            request.session['all_sort'] = all_sort_form.cleaned_data['ordering']
+    all_sort = request.session.get('all_sort')
+
+    if all_sort == 'standard':
+        products = products.order_by('-id')
+    elif all_sort == 'cheaper':
+        products = products.order_by('price_with_discount')
+    elif all_sort == 'expensive':
+        products = products.order_by('-price_with_discount')
+
     """Passing the received data to the paginator"""
 
     paginator = Paginator(products, 12)
     page_num = request.GET.get('page', 1)
     page_objects = paginator.get_page(page_num)
-    return render(request, 'Products/products_list.html', {'page_obj': page_objects})
+
+    return render(request, 'Products/products_list.html', {'page_obj': page_objects, 'sort_form': all_sort_form})
 
 
 def products_by_category(request, category_id, slug):
@@ -56,6 +72,22 @@ def products_by_category(request, category_id, slug):
     products = Product.objects.filter(
         main_category_id=category_id).select_related('main_category',
                                                      'subcategory')
+
+    cat_sort_form = OrderingChoices(request.POST or {'form': request.session.get('cat_sort')})
+
+    """Creating the key of sort in the session and passing the data from the form"""
+    if request.method == 'POST':
+        if cat_sort_form.is_valid():
+            request.session['cat_sort'] = cat_sort_form.cleaned_data['ordering']
+    cat_sort = request.session.get('cat_sort')
+
+    if cat_sort == 'standard':
+        products = products.order_by('-id')
+    elif cat_sort == 'cheaper':
+        products = products.order_by('price_with_discount')
+    elif cat_sort == 'expensive':
+        products = products.order_by('-price_with_discount')
+
     # filtering products by category_id which = category primary key
 
     """Passing the received data to the paginator"""
@@ -68,6 +100,7 @@ def products_by_category(request, category_id, slug):
         'category': category,
         'products': products,
         'page_obj': page_objects,
+        'sort_form': cat_sort_form
     }
     return render(request, template_name='Products/products_by_category.html', context=context)
 
@@ -84,8 +117,22 @@ def products_by_subcategory(request, category_id, slug, sub_id):
         subcategory_id=sub_id,
         main_category_id=category_id).select_related('main_category',
                                                      'subcategory')  # filtering by sub_id which = subcategory_id
-
     # and category_id which = main_category_id
+
+    sub_sort_form = OrderingChoices(request.POST or {'form': request.session.get('sub_sort')})
+
+    """Creating the key of sort in the session and passing the data from the form"""
+    if request.method == 'POST':
+        if sub_sort_form.is_valid():
+            request.session['sub_sort'] = sub_sort_form.cleaned_data['ordering']
+    sub_sort = request.session.get('sub_sort')
+
+    if sub_sort == 'standards':
+        products = products.order_by('-id')
+    elif sub_sort == 'cheaper':
+        products = products.order_by('price_with_discount')
+    elif sub_sort == 'expensive':
+        products = products.order_by('-price_with_discount')
 
     """Passing the received data to the paginator"""
 
@@ -97,6 +144,7 @@ def products_by_subcategory(request, category_id, slug, sub_id):
         'products': products,
         'page_obj': page_objects,
         'subcategory': subcategory,
+        'sort_form': sub_sort_form,
     }
     return render(request, template_name='Products/products_by_subcategory.html', context=context)
 
