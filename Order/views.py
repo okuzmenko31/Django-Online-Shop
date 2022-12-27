@@ -1,4 +1,7 @@
-from django.http import HttpResponseRedirect
+import datetime
+import json
+
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from .forms import OrderCreateForm
 from .models import *
@@ -16,7 +19,10 @@ def order_create(request):
         if request.method == 'POST':
             form = OrderCreateForm(request.POST)
             if form.is_valid():
-                order = form.save()  # assign the newly created order to the order variable
+                order = form.save(commit=False)  # assign the newly created order to the order variable
+                order.paid = True  # the payment integration will be soon...
+                order.save()
+
                 for item in cart:
                     """Loop through all the objects in cart and creating new instance of model OrderItem"""
 
