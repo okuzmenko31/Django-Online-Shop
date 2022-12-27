@@ -34,90 +34,95 @@
             <hr>
         {% endfor %}
 
-        <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума
-            замовлення: {{ cart.get_total_price_for_template }} грн</h5>
-        <hr>
 
-        <form action="" method="post" style="margin-left: 200px">
+
+        <form action="" method="post" style="margin-left: 200px; width: 20%">
             {% csrf_token %}
             {{ form.as_p }}
 
-{#            <!-- Set up a container element for the button -->#}
-{#            <div id="paypal-button-container"></div>#}
-{##}
-{#            <!-- Include the PayPal JavaScript SDK -->#}
-{#            <script src="https://www.paypal.com/sdk/js?client-id=AYufIkrW6w6Fz7C8iXzMj1t5_qnPQezhToUtFC2hW7kS8bM80Rs02aBdZyF6gpmGtbWI_cpOoFAmuTl7&currency=USD"></script>#}
-{##}
-{#            <script>#}
-{#                // Render the PayPal button into #paypal-button-container#}
-{#                function getCookie(name) {#}
-{#                    var cookieValue = null;#}
-{#                    if (document.cookie && document.cookie !== '') {#}
-{#                        var cookies = document.cookie.split(';');#}
-{#                        for (var i = 0; i < cookies.length; i++) {#}
-{#                            var cookie = cookies[i].trim();#}
-{#                            // Does this cookie string begin with the name we want?#}
-{#                            if (cookie.substring(0, name.length + 1) === (name + '=')) {#}
-{#                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));#}
-{#                                break;#}
-{#                            }#}
-{#                        }#}
-{#                    }#}
-{#                    return cookieValue;#}
-{#                }#}
-{##}
-{#                var csrftoken = getCookie('csrftoken');#}
-{##}
-{#                var total =#}
-{#                    {{ cart.get_total_price }}#}
-{##}
-{##}
-{#                    function#}
-{#                        completeOrder() {#}
-{#                        var url = "{% url 'order_creation' %}"#}
-{##}
-{#                        fetch(url, {#}
-{#                            method: 'POST',#}
-{#                            headers: {#}
-{#                                'content-type': 'application/json',#}
-{#                                'X-CSRFToken': csrftoken,#}
-{#                            },#}
-{#                            body: JSON.stringify({'total': total})#}
-{#                        })#}
-{#                    }#}
-{##}
-{#                paypal.Buttons({#}
-{##}
-{#                    // Set up the transaction#}
-{#                    createOrder: function (data, actions) {#}
-{#                        return actions.order.create({#}
-{#                            purchase_units: [{#}
-{#                                amount: {#}
-{#                                    value: total#}
-{#                                }#}
-{#                            }]#}
-{#                        });#}
-{#                    },#}
-{##}
-{#                    // Finalize the transaction#}
-{#                    onApprove: function (data, actions) {#}
-{#                        return actions.order.capture().then(function (orderData) {#}
-{#                            completeOrder()#}
-{#                            window.location.href = "{% url 'all_products' %}"#}
-{##}
-{#                            // Replace the above to show a success message within this page, e.g.#}
-{#                            // const element = document.getElementById('paypal-button-container');#}
-{#                            // element.innerHTML = '';#}
-{#                            // element.innerHTML = '<h3>Thank you for your payment!</h3>';#}
-{#                            // actions.redirect('');#}
-{#                        });#}
-{#                    }#}
-{##}
-{##}
-{#                }).render('#paypal-button-container');#}
-{#            </script>#}
+            {#            <!-- Set up a container element for the button -->#}
+            {#            <div id="paypal-button-container"></div>#}
+            {##}
+            {#            <!-- Include the PayPal JavaScript SDK -->#}
+            {#            <script src="https://www.paypal.com/sdk/js?client-id=AYufIkrW6w6Fz7C8iXzMj1t5_qnPQezhToUtFC2hW7kS8bM80Rs02aBdZyF6gpmGtbWI_cpOoFAmuTl7&currency=USD"></script>#}
+            {##}
+            {#            <script>#}
+            {#                // Render the PayPal button into #paypal-button-container#}
+            {#                function getCookie(name) {#}
+            {#                    var cookieValue = null;#}
+            {#                    if (document.cookie && document.cookie !== '') {#}
+            {#                        var cookies = document.cookie.split(';');#}
+            {#                        for (var i = 0; i < cookies.length; i++) {#}
+            {#                            var cookie = cookies[i].trim();#}
+            {#                            // Does this cookie string begin with the name we want?#}
+            {#                            if (cookie.substring(0, name.length + 1) === (name + '=')) {#}
+            {#                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));#}
+            {#                                break;#}
+            {#                            }#}
+            {#                        }#}
+            {#                    }#}
+            {#                    return cookieValue;#}
+            {#                }#}
+            {##}
+            {#                var csrftoken = getCookie('csrftoken');#}
+            {##}
+            {#                var total =#}
+            {#                    {{ cart.get_total_price }}#}
+            {##}
+            {##}
+            {#                    function#}
+            {#                        completeOrder() {#}
+            {#                        var url = "{% url 'order_creation' %}"#}
+            {##}
+            {#                        fetch(url, {#}
+            {#                            method: 'POST',#}
+            {#                            headers: {#}
+            {#                                'content-type': 'application/json',#}
+            {#                                'X-CSRFToken': csrftoken,#}
+            {#                            },#}
+            {#                            body: JSON.stringify({'total': total})#}
+            {#                        })#}
+            {#                    }#}
+            {##}
+            {#                paypal.Buttons({#}
+            {##}
+            {#                    // Set up the transaction#}
+            {#                    createOrder: function (data, actions) {#}
+            {#                        return actions.order.create({#}
+            {#                            purchase_units: [{#}
+            {#                                amount: {#}
+            {#                                    value: total#}
+            {#                                }#}
+            {#                            }]#}
+            {#                        });#}
+            {#                    },#}
+            {##}
+            {#                    // Finalize the transaction#}
+            {#                    onApprove: function (data, actions) {#}
+            {#                        return actions.order.capture().then(function (orderData) {#}
+            {#                            completeOrder()#}
+            {#                            window.location.href = "{% url 'all_products' %}"#}
+            {##}
+            {#                            // Replace the above to show a success message within this page, e.g.#}
+            {#                            // const element = document.getElementById('paypal-button-container');#}
+            {#                            // element.innerHTML = '';#}
+            {#                            // element.innerHTML = '<h3>Thank you for your payment!</h3>';#}
+            {#                            // actions.redirect('');#}
+            {#                        });#}
+            {#                    }#}
+            {##}
+            {##}
+            {#                }).render('#paypal-button-container');#}
+            {#            </script>#}
+
 
             <button type="submit" class="btn btn-primary btn-lg">Оформити</button>
+            <br>
+            <hr>
+
+            <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума
+                замовлення: {{ cart.get_total_price_for_template }} грн</h5>
+            <hr>
         </form>
         <hr>
 

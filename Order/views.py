@@ -34,7 +34,11 @@ def order_create(request):
                 cart.clear()  # clearing the cart after creating order
 
                 order_created.delay(order.id)
-                return render(request, 'Order/created_order.html', {'order': order, 'cart': cart})
+                context = {
+                    'order': order,
+                    'cart': cart
+                }
+                return render(request, template_name='Order/created_order.html', context=context)
 
         else:
             form = OrderCreateForm()  # just returning the order form with no data
