@@ -246,3 +246,10 @@ label:hover ~ input:checked ~ label {
     margin-top: 40px;
     margin-left: 30px;
 }
+
+select {
+    word-wrap: normal;
+    background-color: #1d1d1d !important;
+    border: 1px black !important;
+    color: white;
+}

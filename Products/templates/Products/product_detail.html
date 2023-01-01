@@ -17,7 +17,14 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <br>
-                    <h5 class="card-text">{{ product.get_status_display }}</h5>
+                    {% if product.status == 'Have in shop' %}
+                    <h5 class="card-text" style="color: green">{{ product.get_status_display }}</h5>
+                    {% elif product.status == 'Ends in shop' %}
+                    <h5 class="card-text" style="color: yellow">{{ product.get_status_display }}</h5>
+                    {% else %}
+                    <h5 class="card-text" style="color: darkred">{{ product.get_status_display }}</h5>
+                    {% endif %}
+
                     <h6 class="card-text">Артикул: {{ product.article }}</h6>
                     <br>
                     {% if product.discount_availability %}

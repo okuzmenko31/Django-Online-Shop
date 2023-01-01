@@ -6,7 +6,6 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from .utils import *
 from .forms import ReviewsForms, OrderingChoices
-
 from .models import Product, ProductCategory, ProductSubCategory, Reviews
 
 
