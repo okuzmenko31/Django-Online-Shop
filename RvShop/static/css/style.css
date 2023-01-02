@@ -253,3 +253,8 @@ select {
     border: 1px black !important;
     color: white;
 }
+.choice{
+    margin-left: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

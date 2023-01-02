@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -6,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from .utils import *
 from .forms import ReviewsForms, OrderingChoices
-from .models import Product, ProductCategory, ProductSubCategory, Reviews
+from .models import *
 
 
 def search(request):
@@ -156,7 +155,17 @@ def products_detail(request, pk, category, subcategory, slug):
     category = ProductCategory.objects.get(slug=category)  # getting category_slug
     subcategory = ProductSubCategory.objects.get(slug=subcategory)  # getting subcategory_slug
 
-    reviews = Reviews.objects.filter(product_id=pk)  # filtering reviews by product primary key
+    color = ProductColorChoice.objects.filter(category=product.subcategory,
+                                              memory=product.product_memory, version=product.product_version,
+                                              is_active=True)
+
+    memory = ProductMemoryChoice.objects.filter(category=product.subcategory, color=product.product_color,
+                                                version=product.product_version, is_active=True)
+
+    version = ProductVersionChoice.objects.filter(category=product.subcategory, color=product.product_color,
+                                                  memory=product.product_memory, is_active=True)
+
+    reviews = Reviews.objects.filter(product=product)  # filtering reviews by product
 
     """Posting reviews and getting them"""
 
@@ -174,5 +183,12 @@ def products_detail(request, pk, category, subcategory, slug):
             return HttpResponseRedirect(request.path)  # refresh the page to clear the form
     else:
         form = ReviewsForms()  # form output without data
-    return render(request, 'Products/product_detail.html',
-                  {'product': product, 'form': form, 'reviews': reviews})
+    context = {
+        'product': product,
+        'form': form,
+        'reviews': reviews,
+        'color': color,
+        'memory': memory,
+        'version': version
+    }
+    return render(request, template_name='Products/product_detail.html', context=context)

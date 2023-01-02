@@ -13,18 +13,19 @@
                         src="{{ product.img.url }}" class="card-img-top" alt="..."></a>
             {% endif %}
             <div class="card-body">
-                <a href="{{ product.get_absolute_url }}">
-                    <h5
-                            class="card-title">{{ product.name|truncatewords:7 }}
-                    </h5>
-                </a>
+                <h5 class="card-title">{{ product.name|truncatewords:7 }}</h5>
                 <hr>
-                {% if product.discount_availability %}
-                    <strike><h6 class="card-text">{{ product.price_view }} грн</h6></strike>
-                    <h5 class="card-text" style="color: red">{{ product.price_with_discount_view }} грн</h5>
-                {% else %}
-                    <h5 class="card-text">{{ product.price_view }} грн</h5>
-                {% endif %}
+
+                <div class="prices d-flex justify-content-between">
+                    {% if product.discount_availability %}
+                        <strike><h6 class="card-text-price">{{ product.price_view }} грн</h6></strike>
+                        <h5 class="card-text-price-disc" style="color: red">{{ product.price_with_discount_view }}
+                            грн</h5>
+                    {% else %}
+                        <h5 class="card-text">{{ product.price_with_discount_view }} грн</h5>
+                    {% endif %}
+                </div>
+
             </div>
         </div>
     {% endfor %}

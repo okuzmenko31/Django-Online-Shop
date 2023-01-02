@@ -15,7 +15,7 @@ class ProductCategory(models.Model):
         return reverse('products_by_cat', kwargs={'slug': self.slug, 'category_id': self.pk})
 
     def __str__(self):
-        return f"ID категорії: {self.id}, ім'я категорії: {self.name}"
+        return f"Категорія: {self.name}"
 
     class Meta:
         verbose_name = 'категорія товарів'
@@ -35,11 +35,44 @@ class ProductSubCategory(models.Model):
         return reverse('by_sub', kwargs={'category_id': self.main_category.pk, 'slug': self.slug, 'sub_id': self.pk})
 
     def __str__(self):
-        return f"ID підкатегорії: {self.id}, ім'я підкатегорії: {self.name}"
+        return f"Підкатегорія: {self.name}"
 
     class Meta:
         verbose_name = 'підкатегорія товарів'
         verbose_name_plural = 'Підкатегорії товарів'
+
+
+class ProductMemoryCategory(models.Model):
+    memory_size = models.CharField(max_length=250, verbose_name='Size of memory', blank=True)
+
+    def __str__(self):
+        return f'Memory size: {self.memory_size}'
+
+    class Meta:
+        verbose_name = 'Product memory category'
+        verbose_name_plural = 'Product memory categories'
+
+
+class ProductVersion(models.Model):
+    title = models.CharField(max_length=250, verbose_name='Product version', blank=True)
+
+    def __str__(self):
+        return f'Version: {self.title}'
+
+    class Meta:
+        verbose_name = 'Product version category'
+        verbose_name_plural = 'Product versions categories'
+
+
+class ProductColorCategory(models.Model):
+    color = models.CharField(max_length=350, verbose_name='Product color')
+
+    def __str__(self):
+        return f'Color: {self.color}'
+
+    class Meta:
+        verbose_name = 'Color category'
+        verbose_name_plural = 'Color categories'
 
 
 class Product(models.Model):
@@ -75,6 +108,12 @@ class Product(models.Model):
                                                              'яке буде бачити користувач', blank=True, default='1')
     total_rating = models.DecimalField(max_digits=2, decimal_places=1, verbose_name='Total rating of product',
                                        default=0)
+    product_memory = models.ForeignKey(ProductMemoryCategory, on_delete=models.CASCADE, null=True,
+                                       verbose_name='Product memory size', related_name='product_memory')
+    product_version = models.ForeignKey(ProductVersion, on_delete=models.CASCADE, null=True,
+                                        verbose_name='Product esim or global', related_name='product_esim_glob')
+    product_color = models.ForeignKey(ProductColorCategory, on_delete=models.CASCADE, null=True,
+                                      verbose_name='Product color', related_name='product_color')
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'category': self.main_category.slug,
@@ -84,9 +123,9 @@ class Product(models.Model):
 
     def __str__(self):
         if self.article:
-            return f"ID товару: {self.id}, ім'я товару: {self.name}, артикул товару: {self.article}"
+            return f"{self.name}"
         else:
-            return f"ID товару: {self.id}, ім'я товару: {self.name}"
+            return f"{self.name}"
 
     class Meta:
         verbose_name = 'товар'
@@ -111,6 +150,24 @@ class Product(models.Model):
 
             self.price_view = get_price_sep(self.price)
             self.price_with_discount_view = self.price_view
+
+        if self.product_memory.memory_size in self.name and self.product_color.color in self.name:
+            """If we changed product name after saving one time, the product name wouldn't be changed again after
+             repeated saving"""
+
+            self.name = self.name
+
+        else:
+            if self.product_version.title == 'Global':
+                name = f'{self.name} {self.product_memory.memory_size} ({self.product_color.color})'
+                self.name = name
+            elif self.product_version.title == 'e-Sim':
+                name = f'{self.name} {self.product_memory.memory_size} ({self.product_color.color}) ' \
+                       f'({self.product_version.title})'
+                self.name = name
+
+        name_for_url = self.name.replace(' ', '-').replace('(', '--').replace(')', '')
+        self.slug = name_for_url
 
         super(Product, self).save(*args, **kwargs)
 
@@ -137,3 +194,61 @@ class Reviews(models.Model):
 
     def get_review_star(self):
         return get_rating_star(self.rating)
+
+
+class ProductColorChoice(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, verbose_name='Товар',
+                                related_name='product')
+    category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, db_index=True, verbose_name='Category')
+    color = models.CharField(max_length=250, verbose_name='Color name at the choice button')
+    memory = models.ForeignKey(ProductMemoryCategory, on_delete=models.CASCADE, db_index=True,
+                               verbose_name='Product memory size', null=True)
+    version = models.ForeignKey(ProductVersion, on_delete=models.CASCADE, db_index=True,
+                                verbose_name='Product esim or global', null=True)
+    is_active = models.BooleanField(default=True, verbose_name='Is active?')
+    background_color = models.CharField(max_length=250, verbose_name='Button background color', blank=True)
+
+    def __str__(self):
+        return f'Color: {self.color}'
+
+    class Meta:
+        verbose_name = 'Color choice'
+        verbose_name_plural = 'Colors choices'
+
+
+class ProductMemoryChoice(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, verbose_name='Товар',
+                                related_name='memory_product')
+    category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, db_index=True, verbose_name='Category')
+    color = models.ForeignKey(ProductColorCategory, on_delete=models.CASCADE, db_index=True,
+                              verbose_name='Product color')
+    memory = models.CharField(max_length=250, verbose_name='Memory at the choice button', blank=True)
+    version = models.ForeignKey(ProductVersion, on_delete=models.CASCADE, db_index=True, verbose_name='Версія товару')
+    is_active = models.BooleanField(default=True, verbose_name='Активний?')
+
+    def __str__(self):
+        return f'Memory: {self.memory}'
+
+    class Meta:
+        verbose_name = "Вибір розміру пам'яті"
+        verbose_name_plural = "Вибір розмірів пам'яті"
+
+
+class ProductVersionChoice(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, verbose_name='Товар',
+                                related_name='version_product')
+    category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, db_index=True,
+                                 verbose_name='Підкатегорія товару')
+    memory = models.ForeignKey(ProductMemoryCategory, on_delete=models.CASCADE, db_index=True,
+                               verbose_name="Обсяг пам'яті товару")
+    color = models.ForeignKey(ProductColorCategory, on_delete=models.CASCADE, db_index=True,
+                              verbose_name='Колір товару')
+    version = models.CharField(max_length=300, verbose_name='Версія товару')
+    is_active = models.BooleanField(default=True, verbose_name='Активна?')
+
+    def __str__(self):
+        return f'Версія: {self.memory}'
+
+    class Meta:
+        verbose_name = 'Вибір версії товару'
+        verbose_name_plural = 'Вибір версій товару'
