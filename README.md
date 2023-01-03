@@ -19,7 +19,7 @@
 
 - For correct work of sending letters, you need to replace 
 available email to yours and write you password instead of
-available. I used connection with ukr.net, but if you want to
-connect with gmail, then <a href="https://support.google.com/mail/answer/7126229?hl=ru">click here</a> 
+available. I used connection with gmail.com, if you want to
+connect with it <a href="https://support.google.com/mail/answer/7126229?hl=ru">click here</a> 
 for more information about it.
 

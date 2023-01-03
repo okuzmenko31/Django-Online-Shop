@@ -58,7 +58,7 @@ def get_rating_star(rating):
         return '<img src="/static/stars/star.png">' * 4 + '<img src="/static/stars/rating.png">'
     elif 4.5 > rating > 3.9:
         return '<img src="/static/stars/star.png">' * 4 + '<img src="/static/stars/empty_star.png">'
-    elif 3.8 > rating > 3.4:
+    elif 3.9 > rating > 3.4:
         return '<img src="/static/stars/star.png">' * 3 + '<img src="/static/stars/rating.png">' + \
                '<img src="/static/stars/empty_star.png">'
     elif 3.5 > rating > 2.9:

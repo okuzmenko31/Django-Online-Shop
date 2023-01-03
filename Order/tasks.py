@@ -11,5 +11,5 @@ def order_created(order_id):
     message = f'Шановний {order.name} {order.last_name} - Ви успішно зробили замовлення на RvShop. Дякуємо Вам за те, '\
               f'що Ви вибрали саме нас. Номер Вашого замовлення: {order.id}. Очікуйте на дзвінок для уточнення ' \
               f'інформації, чекаємо Вас ще!'
-    mail_sent = send_mail(subject, message, 'rvmirzx_sites@ukr.net', [order.email])
+    mail_sent = send_mail(subject, message, 'kuzmenkowebdev@gmail.com', [order.email])
     return mail_sent
