@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from configparser import ConfigParser
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,12 +136,19 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# SETTINGS OF CONFIGPARSER, YOU CAN READ WHAT IS THAT HERE
+# https://docs.python.org/3/library/configparser.html
+
+config_urls = 'email_password_config.ini'
+config = ConfigParser()
+config.read(config_urls)
+
 # EMAIL
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'kuzmenkowebdev@gmail.com'
-EMAIL_HOST_PASSWORD = 'jmncnvzzivarydwl' #past the key or password app here
+EMAIL_HOST_PASSWORD = config['email_password']['email']  # write your password here
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
