@@ -152,14 +152,6 @@ EMAIL_HOST_PASSWORD = config['email_password']['email']  # write your password h
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-# EMAIL_HOST = 'smtp.ukr.net'
-# EMAIL_PORT = 465
-# EMAIL_HOST_USER = 'rvmirzx_sites@ukr.net'
-# EMAIL_HOST_PASSWORD = 'KDmL42OsdrSHUtQh'
-# EMAIL_USE_TLS = False
-# EMAIL_USE_SSL = True
-
-
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 CKEDITOR_CONFIGS = {
