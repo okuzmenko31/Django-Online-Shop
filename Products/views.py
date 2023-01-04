@@ -59,7 +59,12 @@ def all_products_list(request):
     page_num = request.GET.get('page', 1)
     page_objects = paginator.get_page(page_num)
 
-    return render(request, 'Products/products_list.html', {'page_obj': page_objects, 'sort_form': all_sort_form})
+    context = {
+        'page_obj': page_objects,
+        'sort_form': all_sort_form,
+    }
+
+    return render(request, template_name='Products/products_list.html', context=context)
 
 
 def products_by_category(request, category_id, slug):
@@ -157,13 +162,18 @@ def products_detail(request, pk, category, subcategory, slug):
 
     color = ProductColorChoice.objects.filter(category=product.subcategory,
                                               memory=product.product_memory, version=product.product_version,
-                                              is_active=True)
+                                              is_active=True).select_related('product__main_category',
+                                                                             'product__subcategory')
 
     memory = ProductMemoryChoice.objects.filter(category=product.subcategory, color=product.product_color,
-                                                version=product.product_version, is_active=True)
+                                                version=product.product_version, is_active=True).select_related(
+        'product__main_category',
+        'product__subcategory')
 
     version = ProductVersionChoice.objects.filter(category=product.subcategory, color=product.product_color,
-                                                  memory=product.product_memory, is_active=True)
+                                                  memory=product.product_memory, is_active=True).select_related(
+        'product__main_category',
+        'product__subcategory')
 
     reviews = Reviews.objects.filter(product=product)  # filtering reviews by product
 

@@ -3,3 +3,4 @@ venv
 *.pyc
 ABOUT CART CREATION
 *.ini
+migrations
