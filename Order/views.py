@@ -1,14 +1,10 @@
-import datetime
-import json
-
-from django.http import HttpResponseRedirect, JsonResponse
+from django.conf import settings
 from django.shortcuts import render, redirect
 from .forms import OrderCreateForm
 from .models import *
 from django.contrib import messages
 from Cart.cart import Cart
 from .tasks import order_created
-from django.core.mail import send_mail
 
 
 def order_create(request):

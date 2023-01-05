@@ -19,4 +19,5 @@ class OrderingChoices(forms.Form):
         ('expensive', 'Дорожче'),
     ]
 
-    ordering = forms.TypedChoiceField(label='Сортування', choices=ORDERING_CHOICES, required=False)
+    ordering = forms.TypedChoiceField(label='Сортування', choices=ORDERING_CHOICES, required=False,
+                                      widget=forms.Select(attrs={'class': 'form-control'}))
