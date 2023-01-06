@@ -25,6 +25,8 @@ urlpatterns = [
     path('rvshop/cart/', include('Cart.urls')),
     path('rvshop/products/', include('Products.urls')),
     path('rvshop/orders/', include('Order.urls')),
+    path('paypal/', include('paypal.standard.ipn.urls')),
+    path('rvshop/payment/', include('Payment.urls')),
 ]
 
 if settings.DEBUG:

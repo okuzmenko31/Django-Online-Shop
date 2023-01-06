@@ -40,71 +40,71 @@
             {% csrf_token %}
             {{ form.as_p }}
 
-            <!-- Set up a container element for the button -->
-            <div id="paypal-button-container"></div>
-
-            <!-- Include the PayPal JavaScript SDK -->
-            <script src="https://www.paypal.com/sdk/js?client-id=AYufIkrW6w6Fz7C8iXzMj1t5_qnPQezhToUtFC2hW7kS8bM80Rs02aBdZyF6gpmGtbWI_cpOoFAmuTl7&currency=USD"></script>
-
-            <script>
-                function getCookie(name) {
-                    var cookieValue = null;
-                    if (document.cookie && document.cookie !== '') {
-                        var cookies = document.cookie.split(';');
-                        for (var i = 0; i < cookies.length; i++) {
-                            var cookie = cookies[i].trim();
-                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                break;
-                            }
-                        }
-                    }
-                    return cookieValue;
-                }
-
-                var csrftoken = getCookie('csrftoken');
-
-
-                function initPayPalButton() {
-                    paypal.Buttons({
-                        style: {
-                            shape: 'rect',
-                            color: 'gold',
-                            layout: 'vertical',
-                            label: 'paypal',
-
-                        },
-                        createOrder: function (data, actions) {
-                            return actions.order.create({
-                                purchase_units: [{
-                                    "amount": {
-                                        "currency_code": "GBP",
-                                        "value": '{{cart.get_total_price}}'
-                                    }
-                                }]
-                            });
-                        },
-                        onApprove: function (data) {
-                            var url = "{% url 'order_creation' %}"
-                            return fetch(url, {
-                                method: 'POST',
-                                headers: {
-                                    'content-type': 'application/json',
-                                    'X-CSRFToken': csrftoken,
-                                },
-                                body: JSON.stringify({
-                                    orderID: data.orderID
-                                })
-                            }).then(function () {
-                                location.href = '{% url 'order_creation' %}';
-                            })
-                        },
-                    }).render('#paypal-button-container');
-                }
-
-                initPayPalButton();
-
-            </script>
+{#            <!-- Set up a container element for the button -->#}
+{#            <div id="paypal-button-container"></div>#}
+{##}
+{#            <!-- Include the PayPal JavaScript SDK -->#}
+{#            <script src="https://www.paypal.com/sdk/js?client-id=AYufIkrW6w6Fz7C8iXzMj1t5_qnPQezhToUtFC2hW7kS8bM80Rs02aBdZyF6gpmGtbWI_cpOoFAmuTl7&currency=USD"></script>#}
+{##}
+{#            <script>#}
+{#                function getCookie(name) {#}
+{#                    var cookieValue = null;#}
+{#                    if (document.cookie && document.cookie !== '') {#}
+{#                        var cookies = document.cookie.split(';');#}
+{#                        for (var i = 0; i < cookies.length; i++) {#}
+{#                            var cookie = cookies[i].trim();#}
+{#                            if (cookie.substring(0, name.length + 1) === (name + '=')) {#}
+{#                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));#}
+{#                                break;#}
+{#                            }#}
+{#                        }#}
+{#                    }#}
+{#                    return cookieValue;#}
+{#                }#}
+{##}
+{#                var csrftoken = getCookie('csrftoken');#}
+{##}
+{##}
+{#                function initPayPalButton() {#}
+{#                    paypal.Buttons({#}
+{#                        style: {#}
+{#                            shape: 'rect',#}
+{#                            color: 'gold',#}
+{#                            layout: 'vertical',#}
+{#                            label: 'paypal',#}
+{##}
+{#                        },#}
+{#                        createOrder: function (data, actions) {#}
+{#                            return actions.order.create({#}
+{#                                purchase_units: [{#}
+{#                                    "amount": {#}
+{#                                        "currency_code": "GBP",#}
+{#                                        "value": '{{ cart.get_total_price }}'#}
+{#                                    }#}
+{#                                }]#}
+{#                            });#}
+{#                        },#}
+{#                        onApprove: function (data) {#}
+{#                            var url = "{% url 'order_creation' %}"#}
+{#                            return fetch(url, {#}
+{#                                method: 'POST',#}
+{#                                headers: {#}
+{#                                    'content-type': 'application/json',#}
+{#                                    'X-CSRFToken': csrftoken,#}
+{#                                },#}
+{#                                body: JSON.stringify({#}
+{#                                    orderID: data.orderID#}
+{#                                })#}
+{#                            }).then(function () {#}
+{#                                location.href = '{% url 'order_creation' %}';#}
+{#                            })#}
+{#                        },#}
+{#                    }).render('#paypal-button-container');#}
+{#                }#}
+{##}
+{#                initPayPalButton();#}
+{##}
+{#            </script>#}
 
             <button type="submit" class="btn btn-primary btn-lg">Оформити</button>
             <br>

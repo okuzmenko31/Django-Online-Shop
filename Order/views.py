@@ -1,8 +1,6 @@
-from django.conf import settings
 from django.shortcuts import render, redirect
 from .forms import OrderCreateForm
 from .models import *
-from django.contrib import messages
 from Cart.cart import Cart
 from .tasks import order_created
 
@@ -15,9 +13,7 @@ def order_create(request):
         if request.method == 'POST':
             form = OrderCreateForm(request.POST)
             if form.is_valid():
-                order = form.save(commit=False)  # assign the newly created order to the order variable
-                order.paid = True  # the payment integration will be soon...
-                order.save()
+                order = form.save()  # assign the newly created order to the order variable
 
                 for item in cart:
                     """Loop through all the objects in cart and creating new instance of model OrderItem"""
@@ -27,17 +23,16 @@ def order_create(request):
                                              price=item['price'],
                                              quantity=item['quantity'])
 
-                cart.clear()  # clearing the cart after creating order
+                cart.clear()
 
                 order_created.delay(order.id)
-                context = {
-                    'order': order,
-                    'cart': cart
-                }
-                return render(request, template_name='Order/created_order.html', context=context)
+
+                request.session['order_id'] = order.id
+                return redirect('payment_process')
 
         else:
             form = OrderCreateForm()  # just returning the order form with no data
+
         context = {
             'cart': cart,
             'form': form,

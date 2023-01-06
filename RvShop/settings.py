@@ -36,11 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'paypal.standard.ipn',
     'debug_toolbar',
     'ckeditor',
     'Products',
     'Order',
     'Cart',
+    'Payment',
 ]
 
 MIDDLEWARE = [
@@ -226,3 +228,5 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+PAYPAL_RECEIVER_EMAIL = 'olegkuzmenko2005@gmail.com'

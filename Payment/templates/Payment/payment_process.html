@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Замовлення{% endblock %}
+
+{% block content %}
+
+    <div class="card mb-3" style="width: 2000px;">
+        <h1 style="margin-left: 400px; margin-top: 20px">Сплата замовлення</h1>
+        <br>
+        <hr style="height: 30px">
+{#        {% for item in cart %}#}
+{#            <div class="row g-0">#}
+{#                <div class="col-md-4">#}
+{##}
+{#                    {% if item.product.img %}#}
+{#                        <img src="{{ item.product.img.url }}" class="img-fluid rounded-start" alt="..." width="300">#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <div class="col-md-8">#}
+{#                    <div class="card-body">#}
+{##}
+{#                        <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }}шт.</h5>#}
+{##}
+{#                        <br>#}
+{#                        <h5 class="card-text">{{ item.total_price_view }} грн</h5>#}
+{##}
+{#                        <h6 class="card-text">Артикул: {{ item.product.article }}</h6>#}
+{#                        <br>#}
+{##}
+{##}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <hr>#}
+{#        {% endfor %}#}
+
+
+        {{ form.render }}
+{#        <br>#}
+{#        <hr>#}
+{##}
+{#        <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума#}
+{#            замовлення: {{ cart.get_total_price_for_template }} грн</h5>#}
+{#        <hr>#}
+{#        </form>#}
+{#        <hr>#}
+
+
+
+    </div>
+
+{% endblock %}
