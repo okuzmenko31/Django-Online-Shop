@@ -229,4 +229,4 @@ INTERNAL_IPS = [
     # ...
 ]
 
-PAYPAL_RECEIVER_EMAIL = 'olegkuzmenko2005@gmail.com'
+PAYPAL_RECEIVER_EMAIL = str(config['email']['my_email'])
