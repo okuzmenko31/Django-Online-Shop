@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from paypal.standard.forms import PayPalPaymentsForm
-from Order.models import Order
+from Order.models import Order, OrderItem
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from Cart.cart import Cart
@@ -14,10 +14,13 @@ def payment_done(request):
     order_id = request.session.get('order_id')
     order = get_object_or_404(Order, id=order_id)
 
+    items = OrderItem.objects.filter(order=order)
+
     order.paid = True
     order.save()
     context = {
         'order': order,
+        'items': items,
     }
     return render(request, template_name='Payment/payment_done.html', context=context)
 

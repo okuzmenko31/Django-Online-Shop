@@ -9,37 +9,38 @@
             оформлено!</h1>
         <br>
         <hr style="height: 30px">
-{#        {% for item in cart %}#}
-{#            <div class="row g-0">#}
-{#                <div class="col-md-4">#}
-{##}
-{#                    {% if item.product.img %}#}
-{#                        <img src="{{ item.product.img.url }}" class="img-fluid rounded-start" alt="..." width="300">#}
-{#                    {% endif %}#}
-{#                </div>#}
-{#                <div class="col-md-8">#}
-{#                    <div class="card-body">#}
-{##}
-{#                        <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }}шт.</h5>#}
-{##}
-{#                        <br>#}
-{#                        <h5 class="card-text">{{ item.total_price_view }} грн</h5>#}
-{##}
-{#                        <h6 class="card-text">Артикул: {{ item.product.article }}</h6>#}
-{#                        <br>#}
-{##}
-{##}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <hr>#}
-{#        {% endfor %}#}
+        {% for item in items %}
+            <div class="row g-0">
+                <div class="col-md-4">
 
-{#        <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума замовлення: {{ cart.get_total_price_for_template }} грн</h5>#}
-{#        <hr>#}
-{#        <hr>#}
-{#        <h5 style="margin-left: 20px; margin-bottom: 10px">Протягом дня з вами зв'яжеться менеджер для повного#}
-{#            підтвердження замовлення.</h5>#}
+                    {% if item.product.img %}
+                        <img src="{{ item.product.img.url }}" class="img-fluid rounded-start" alt="..." width="300">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+
+                        <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }}шт.</h5>
+
+                        <br>
+                        <h5 class="card-text">{{ item.get_total_price_view }} грн</h5>
+
+                        <h6 class="card-text">Артикул: {{ item.product.article }}</h6>
+                        <br>
+
+
+                    </div>
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+
+        <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума
+            замовлення: {{ order.order_total_price_view }} грн</h5>
+        <hr>
+        <hr>
+        <h5 style="margin-left: 20px; margin-bottom: 10px">Протягом дня з вами зв'яжеться менеджер для повного
+            підтвердження замовлення.</h5>
 
     </div>
 
