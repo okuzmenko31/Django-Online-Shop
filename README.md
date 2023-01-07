@@ -27,7 +27,7 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-ma
 ````
 - **Run the Celery with the command:**
 ```
-celery -A RvShop worker --loglevel=info -P eventlet`
+celery -A RvShop worker --loglevel=info -P eventlet
 ```
 
 ## About email connection in settings.py
