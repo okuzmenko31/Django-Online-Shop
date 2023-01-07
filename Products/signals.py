@@ -25,15 +25,18 @@ def get_total_rating(**kwargs):
 def get_memory_choice(**kwargs):
     instance = kwargs['instance']
 
-    ProductMemoryChoice.objects.create(product=instance, category=instance.subcategory, color=instance.product_color,
-                                       version=instance.product_version, memory=instance.product_memory.memory_size)
+    ProductMemoryChoice.objects.create(product=instance, category=instance.subcategory,
+                                       color=instance.product_color,
+                                       version=instance.product_version, memory=instance.product_memory.memory_size
+                                       )
 
 
 @receiver(post_save, sender=Product)
 def get_version_choice(**kwargs):
     instance = kwargs['instance']
 
-    ProductVersionChoice.objects.create(product=instance, category=instance.subcategory, memory=instance.product_memory,
+    ProductVersionChoice.objects.create(product=instance, category=instance.subcategory,
+                                        memory=instance.product_memory,
                                         color=instance.product_color, version=instance.product_version.title)
 
 

@@ -4,3 +4,4 @@ venv
 ABOUT CART CREATION
 *.ini
 static
+migrations
