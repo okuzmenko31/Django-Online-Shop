@@ -78,6 +78,7 @@ def payment_process(request):
             'order': order,
             'form': form,
             'cart': cart,
+            'order_items': order_items,
         }
 
         return render(request, template_name='Payment/payment_process.html', context=context)
