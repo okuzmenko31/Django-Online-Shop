@@ -168,12 +168,12 @@ def products_detail(request, pk, category, subcategory, slug):
     memory = ProductMemoryChoice.objects.filter(category=product.subcategory, color=product.product_color,
                                                 version=product.product_version, is_active=True).select_related(
         'product__main_category',
-        'product__subcategory')
+        'product__subcategory').order_by('product__product_memory__int_memory_value')
 
     version = ProductVersionChoice.objects.filter(category=product.subcategory, color=product.product_color,
                                                   memory=product.product_memory, is_active=True).select_related(
         'product__main_category',
-        'product__subcategory')
+        'product__subcategory').order_by('-id')
 
     reviews = Reviews.objects.filter(product=product)  # filtering reviews by product
 

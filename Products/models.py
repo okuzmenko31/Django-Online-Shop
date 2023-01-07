@@ -44,6 +44,7 @@ class ProductSubCategory(models.Model):
 
 class ProductMemoryCategory(models.Model):
     memory_size = models.CharField(max_length=250, verbose_name='Size of memory', blank=True)
+    int_memory_value = models.IntegerField(verbose_name='Value of memory size', blank=True)
 
     def __str__(self):
         return f'Memory size: {self.memory_size}'
@@ -51,6 +52,16 @@ class ProductMemoryCategory(models.Model):
     class Meta:
         verbose_name = 'Product memory category'
         verbose_name_plural = 'Product memory categories'
+
+    def save(self, *args, **kwargs):
+        if str(self.int_memory_value) in self.memory_size:
+            self.memory_size = self.memory_size
+        else:
+            if self.int_memory_value == 1000:
+                self.memory_size = f'{1}TB'
+            else:
+                self.memory_size = f'{self.int_memory_value}GB'
+        super(ProductMemoryCategory, self).save(*args, **kwargs)
 
 
 class ProductVersion(models.Model):
@@ -65,10 +76,12 @@ class ProductVersion(models.Model):
 
 
 class ProductColorCategory(models.Model):
+    color_in_admin_panel = models.CharField(max_length=350, verbose_name='Product color in admin panel', blank=True)
     color = models.CharField(max_length=350, verbose_name='Product color')
+    color_hex = models.CharField(max_length=350, verbose_name='Product HEX color', blank=True)
 
     def __str__(self):
-        return f'Color: {self.color}'
+        return f'Color: {self.color_in_admin_panel}'
 
     class Meta:
         verbose_name = 'Color category'

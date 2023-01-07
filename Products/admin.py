@@ -70,9 +70,9 @@ class ProductVersion(admin.ModelAdmin):
 
 @admin.register(ProductColorCategory)
 class ProductColorCategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'color']
-    list_display_links = ['id', 'color']
-    search_fields = ['id', 'color']
+    list_display = ['id', 'color_in_admin_panel']
+    list_display_links = ['id', 'color_in_admin_panel']
+    search_fields = ['id', 'color_in_admin_panel']
 
 
 @admin.register(ProductMemoryChoice)
