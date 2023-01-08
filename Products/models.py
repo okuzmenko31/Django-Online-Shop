@@ -165,24 +165,6 @@ class Product(models.Model):
             self.price_view = get_price_sep(self.price)
             self.price_with_discount_view = self.price_view
 
-        if self.product_memory.memory_size in self.name and self.product_color.color in self.name:
-            """If we changed product name after saving one time, the product name wouldn't be changed again after
-                repeated saving"""
-
-            self.name = self.name
-
-        else:
-            if self.product_version.title == 'Global':
-                name = f'{self.name} {self.product_memory.memory_size} ({self.product_color.color})'
-                self.name = name
-            elif self.product_version.title == 'e-Sim':
-                name = f'{self.name} {self.product_memory.memory_size} ({self.product_color.color}) ' \
-                       f'({self.product_version.title})'
-                self.name = name
-
-        name_for_url = self.name.replace(' ', '-').replace('(', '--').replace(')', '')
-        self.slug = name_for_url
-
         super(Product, self).save(*args, **kwargs)
 
     def get_star(self):
@@ -216,9 +198,9 @@ class ProductColorChoice(models.Model):
     category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, db_index=True, verbose_name='Category')
     color = models.CharField(max_length=250, verbose_name='Color name at the choice button')
     memory = models.ForeignKey(ProductMemoryCategory, on_delete=models.CASCADE, db_index=True,
-                               verbose_name='Product memory size', null=True)
+                               verbose_name='Product memory size', null=True, blank=True)
     version = models.ForeignKey(ProductVersion, on_delete=models.CASCADE, db_index=True,
-                                verbose_name='Product esim or global', null=True)
+                                verbose_name='Product esim or global', null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name='Is active?')
     background_color = models.CharField(max_length=250, verbose_name='Button background color', blank=True)
 
@@ -235,10 +217,10 @@ class ProductMemoryChoice(models.Model):
                                 related_name='memory_product')
     category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, db_index=True, verbose_name='Category')
     color = models.ForeignKey(ProductColorCategory, on_delete=models.CASCADE, db_index=True,
-                              verbose_name='Product color', null=True)
+                              verbose_name='Product color', null=True, blank=True)
     memory = models.CharField(max_length=250, verbose_name='Memory at the choice button', blank=True)
     version = models.ForeignKey(ProductVersion, on_delete=models.CASCADE, db_index=True, verbose_name='Версія товару',
-                                null=True)
+                                null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name='Активний?')
 
     def __str__(self):
@@ -255,9 +237,9 @@ class ProductVersionChoice(models.Model):
     category = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, db_index=True,
                                  verbose_name='Підкатегорія товару')
     memory = models.ForeignKey(ProductMemoryCategory, on_delete=models.CASCADE, db_index=True,
-                               verbose_name="Обсяг пам'яті товару", null=True)
+                               verbose_name="Обсяг пам'яті товару", null=True, blank=True)
     color = models.ForeignKey(ProductColorCategory, on_delete=models.CASCADE, db_index=True,
-                              verbose_name='Колір товару', null=True)
+                              verbose_name='Колір товару', null=True, blank=True)
     version = models.CharField(max_length=300, verbose_name='Версія товару')
     is_active = models.BooleanField(default=True, verbose_name='Активна?')
 

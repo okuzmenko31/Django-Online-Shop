@@ -25,26 +25,29 @@ def get_total_rating(**kwargs):
 def get_memory_choice(**kwargs):
     instance = kwargs['instance']
 
-    ProductMemoryChoice.objects.create(product=instance, category=instance.subcategory,
-                                       color=instance.product_color,
-                                       version=instance.product_version, memory=instance.product_memory.memory_size
-                                       )
+    if instance.product_memory:
+        ProductMemoryChoice.objects.create(product=instance, category=instance.subcategory,
+                                           color=instance.product_color,
+                                           version=instance.product_version, memory=instance.product_memory.memory_size
+                                           )
 
 
 @receiver(post_save, sender=Product)
 def get_version_choice(**kwargs):
     instance = kwargs['instance']
 
-    ProductVersionChoice.objects.create(product=instance, category=instance.subcategory,
-                                        memory=instance.product_memory,
-                                        color=instance.product_color, version=instance.product_version.title)
+    if instance.product_version:
+        ProductVersionChoice.objects.create(product=instance, category=instance.subcategory,
+                                            memory=instance.product_memory,
+                                            color=instance.product_color, version=instance.product_version.title)
 
 
 @receiver(post_save, sender=Product)
 def get_color_choice(**kwargs):
     instance = kwargs['instance']
 
-    ProductColorChoice.objects.create(product=instance, category=instance.subcategory,
-                                      color=instance.product_color.color, memory=instance.product_memory,
-                                      version=instance.product_version, is_active=True,
-                                      background_color=instance.product_color.color_hex)
+    if instance.product_color:
+        ProductColorChoice.objects.create(product=instance, category=instance.subcategory,
+                                          color=instance.product_color.color, memory=instance.product_memory,
+                                          version=instance.product_version, is_active=True,
+                                          background_color=instance.product_color.color_hex)

@@ -5,3 +5,4 @@ ABOUT CART CREATION
 *.ini
 static
 migrations
+media

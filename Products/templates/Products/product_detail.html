@@ -45,54 +45,80 @@
                         <br>
                     {% endif %}
 
-                    <hr style="margin-left: 8px; margin-right: 88px">
-
-                    <div class="d-flex">
-                        <h6 class="card-text" style="margin-left: 8px">Об'єм пам'яті:</h6>
-                        <h6 class="card-text" style="margin-left: 444px">Версія:</h6>
-                    </div>
 
 
-                    <div class="d-flex">
+                    {% if product.product_memory and product.product_version %}
+                        <hr style="margin-left: 8px; margin-right: 88px">
+                        <div class="d-flex">
+                            <h6 class="card-text" style="margin-left: 8px">Об'єм пам'яті:</h6>
+                            <h6 class="card-text" style="margin-left: 444px">Версія:</h6>
+                        </div>
 
-                        {% for memory in memory %}
-                            <div class="choice">
-                                <a href="{{ memory.product.get_absolute_url }}"
-                                   class="btn btn-light btn-block">{{ memory.memory }}</a>
-                            </div>
 
-                        {% endfor %}
+                        <div class="d-flex">
 
-                        <div class="d-flex" style="margin-left: 250px">
-
-                            {% for version in version %}
+                            {% for memory in memory %}
                                 <div class="choice">
-                                    <a href="{{ version.product.get_absolute_url }}"
-                                       class="btn btn-light">{{ version.version }}</a>
+                                    <a href="{{ memory.product.get_absolute_url }}"
+                                       class="btn btn-light btn-block">{{ memory.memory }}</a>
                                 </div>
+
                             {% endfor %}
 
-                            <br>
-                        </div>
-                    </div>
+                            <div class="d-flex" style="margin-left: 250px">
 
-                    <hr style="margin-left: 8px">
+                                {% for version in version %}
+                                    <div class="choice">
+                                        <a href="{{ version.product.get_absolute_url }}"
+                                           class="btn btn-light">{{ version.version }}</a>
+                                    </div>
+                                {% endfor %}
 
-                    <h6 class="card-text" style="margin-left: 8px">Колір пристрою:</h6>
-                    <div class="d-flex">
-
-                        {% for color in color %}
-                            <div class="choice">
-                                <a href="{{ color.product.get_absolute_url }}" class="btn"
-                                   style="background-color: {{ color.background_color }};
-                                           border-radius: 50%; width: 32px; height: 32px;">
-                                </a>
+                                <br>
                             </div>
+                        </div>
 
-                        {% endfor %}
-                    </div>
+                        <hr style="margin-left: 8px">
 
-                    <hr style="margin-left: 8px">
+                    {% elif product.product_memory %}
+
+                        <div class="d-flex">
+                            <h6 class="card-text" style="margin-left: 8px">Об'єм пам'яті:</h6>
+                            <h6 class="card-text" style="margin-left: 444px">Версія:</h6>
+                        </div>
+
+                        <div class="d-flex">
+
+                            {% for memory in memory %}
+                                <div class="choice">
+                                    <a href="{{ memory.product.get_absolute_url }}"
+                                       class="btn btn-light btn-block">{{ memory.memory }}</a>
+                                </div>
+
+                            {% endfor %}
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if product.product_color %}
+                        <hr style="margin-left: 8px">
+                        <h6 class="card-text" style="margin-left: 8px">Колір пристрою:</h6>
+                        <div class="d-flex">
+
+                            {% for color in color %}
+                                <div class="choice">
+                                    <a href="{{ color.product.get_absolute_url }}" class="btn"
+                                       style="background-color: {{ color.background_color }};
+                                               border-radius: 50%; width: 32px; height: 32px;">
+                                    </a>
+                                </div>
+
+                            {% endfor %}
+                        </div>
+                        <hr style="margin-left: 8px">
+                    {% endif %}
+
 
                     <div class="rating" style="margin-left: 8px">
                         {{ product.get_star|safe }}
@@ -102,7 +128,7 @@
                     <br>
 
                     <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block" style="margin-left: 8px">
-                        Купити
+                        Додати до кошику
                     </a>
 
 
