@@ -107,7 +107,7 @@ class Product(models.Model):
                                     verbose_name='Підкатегорія товару', blank=True, db_index=True)
     price = models.IntegerField(verbose_name='Вартість товару')
     discount_availability = models.BooleanField(default=False, verbose_name='Наявність знижки')
-    discount = models.IntegerField(verbose_name='Знижка на товар', blank=True)
+    discount = models.IntegerField(verbose_name='Знижка на товар', blank=True, default=1)
     price_with_discount = models.IntegerField(verbose_name='Вартість товару зі знижкою', default=0, blank=True)
     article = models.CharField(max_length=250, verbose_name='Артикул товару', blank=True)
     status = models.CharField(max_length=300, choices=PRODUCT_STATUS_CHOICES, default='Have in shop',
@@ -128,6 +128,8 @@ class Product(models.Model):
                                         blank=True)
     product_color = models.ForeignKey(ProductColorCategory, on_delete=models.CASCADE, null=True,
                                       verbose_name='Product color', related_name='product_color', blank=True)
+    editing = models.BooleanField(default=False,
+                                  verbose_name='Dont touch this field, after saving it will be True.')
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'category': self.main_category.slug,

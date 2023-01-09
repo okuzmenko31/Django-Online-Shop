@@ -45,10 +45,10 @@
 {% endblock %}
 
 {% block sort %}
-    <form action="" method="post">
+    <form action="" method="post" style="width: 20%">
         {% csrf_token %}
         {{ sort_form }}
 
-        <button type="submit" class="btn btn-dark btn-block">Применить</button>
+        <button type="submit" class="btn btn-dark btn-block" style="margin-top: 10px">Применить</button>
     </form>
 {% endblock %}

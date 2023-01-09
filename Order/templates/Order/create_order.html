@@ -4,8 +4,8 @@
 
 {% block content %}
 
-    <div class="card mb-3" style="width: 2000px;">
-        <h1 style="margin-left: 400px; margin-top: 20px">Оформлення замовлення</h1>
+    <div class="card mb-3" style="width: 750px;">
+        <h1 style="margin-left: 138px; margin-top: 20px">Оформлення замовлення</h1>
         <br>
         <hr style="height: 30px">
         {% for item in cart %}
@@ -36,7 +36,7 @@
 
 
 
-        <form action="" method="post" style="margin-left: 200px; width: 20%">
+        <form action="" method="post" style="margin-left: 180px; width: 50%">
             {% csrf_token %}
             {{ form.as_p }}
 
@@ -108,10 +108,12 @@
 
             <button type="submit" class="btn btn-primary btn-lg">Оформити</button>
             <br>
+
             <hr>
 
-            <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума
+            <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Загальна сума
                 замовлення: {{ cart.get_total_price_for_template }} грн</h5>
+
             <hr>
         </form>
         <hr>
