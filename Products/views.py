@@ -177,6 +177,9 @@ def products_detail(request, pk, category, subcategory, slug):
 
     reviews = Reviews.objects.filter(product=product)  # filtering reviews by product
 
+    # recommended_products = Product.objects.filter(main_category=category, subcategory=subcategory)
+    recommended_products = Product.objects.all().order_by('?')
+
     """Posting reviews and getting them"""
 
     if request.method == 'POST':
@@ -199,6 +202,7 @@ def products_detail(request, pk, category, subcategory, slug):
         'reviews': reviews,
         'color': color,
         'memory': memory,
-        'version': version
+        'version': version,
+        'recommended_products': recommended_products,
     }
     return render(request, template_name='Products/product_detail.html', context=context)
