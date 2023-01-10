@@ -13,8 +13,12 @@
                         src="{{ product.img.url }}" class="card-img-top" alt="..."></a>
             {% endif %}
             <div class="card-body">
-                <h5 class="card-title">{{ product.name|truncatewords:7 }}</h5>
-                <hr>
+                <h5
+                        class="card-title ">{{ product.name|truncatewords:8 }}
+                </h5>
+                <div class="hr">
+                    <hr>
+                </div>
 
                 <div class="prices d-flex justify-content-between">
                     {% if product.discount_availability %}
@@ -27,6 +31,9 @@
                 </div>
 
             </div>
+            <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block" style="margin-left: 8px">
+                Додати до кошику
+            </a>
         </div>
     {% endfor %}
 
