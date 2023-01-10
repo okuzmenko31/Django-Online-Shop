@@ -5,12 +5,15 @@ from Order.models import Order, OrderItem
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from Cart.cart import Cart
+from Order.tasks import order_created
 
 
 @csrf_exempt
 def payment_done(request):
     order_id = request.session.get('order_id')
     order = get_object_or_404(Order, id=order_id)
+
+    order_created.delay(order.id)
 
     items = OrderItem.objects.filter(order=order)
 

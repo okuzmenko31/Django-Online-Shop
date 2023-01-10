@@ -178,7 +178,7 @@ def products_detail(request, pk, category, subcategory, slug):
     reviews = Reviews.objects.filter(product=product)  # filtering reviews by product
 
     # recommended_products = Product.objects.filter(main_category=category, subcategory=subcategory)
-    recommended_products = Product.objects.all().order_by('?')
+    recommended_products = Product.objects.all().order_by('?').select_related('main_category', 'subcategory')
 
     """Posting reviews and getting them"""
 
