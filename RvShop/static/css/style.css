@@ -258,3 +258,6 @@ select {
 .placeholder{
     color: white !important;
 }
+.slic-prev{
+    left: -15px !important;
+}
