@@ -40,14 +40,14 @@
     <br>
 
 
-    <div id="tabs" style="margin-right: 90px; margin-top: 50px">
-        <a href="#content1" style="margin-left: 180px">Топ продажу</a>
-        <a href="#content2" style="margin-left: 180px">б/у Apple</a>
-        <a href="#content3" style="margin-left: 180px">Акустика та гаджети</a>
-        <a href="#content4" style="margin-left: 180px">Аксесуари</a>
+    <div id="tabs" style="margin-right: 80px; margin-top: 50px">
+        <a href="#content1" style="margin-left: 190px">Топ продажу</a>
+        <a href="#content2" style="margin-left: 190px">б/у Apple</a>
+        <a href="#content3" style="margin-left: 190px">Акустика та гаджети</a>
+        <a href="#content4" style="margin-left: 190px">Аксесуари</a>
 
         <div class="tabs_content">
-            <div id="content1" style="width: 1300px; margin-left: 50px">
+            <div id="content1" style="width: 1300px; margin-left: 50px; display: block">
 
                 <div class="top_sell1">
                     {% for item in top_sell %}
@@ -192,7 +192,80 @@
 
 
             </div>
-            <div id="content2">Содержимое 2</div>
+            <div id="content2" style="width: 1300px; margin-left: 50px; display: block">
+
+                <div class="bu-apple1" style="display:block;">
+                    {% for item in bu_apple %}
+                        <div class="card" style="margin-left: 20px; margin-right: 20px">
+                            {% if item.img %}
+                                <a href="{{ item.get_absolute_url }}"><img
+                                        src="{{ item.img.url }}" class="card-img-top" alt="..."></a>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5
+                                        class="card-title ">{{ item.name|truncatewords:8 }}
+                                </h5>
+                                <div class="hr">
+                                    <hr>
+                                </div>
+
+                                <div class="prices d-flex justify-content-between">
+                                    {% if item.discount_availability %}
+                                        <strike><h6 class="card-text-price">{{ item.price_view }} грн</h6></strike>
+                                        <h5 class="card-text-price-disc"
+                                            style="color: red">{{ item.price_with_discount_view }}
+                                            грн</h5>
+                                    {% else %}
+                                        <h5 class="card-text">{{ item.price_with_discount_view }} грн</h5>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                            <a href="{% url 'cart_add' item.pk %}" class="btn btn-danger btn-block"
+                               style="margin-left: 65px">
+                                Додати до кошику
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <script type="text/javascript">
+                    $('.bu-apple1').slick({
+                        dots: true,
+                        infinite: false,
+                        speed: 300,
+                        slidesToShow: 4,
+                        slidesToScroll: 4,
+                        responsive: [
+                            {
+                                breakpoint: 1024,
+                                settings: {
+                                    slidesToShow: 4,
+                                    slidesToScroll: 3,
+                                    infinite: true,
+                                    dots: true
+                                }
+                            },
+                            {
+                                breakpoint: 600,
+                                settings: {
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2
+                                }
+                            },
+                            {
+                                breakpoint: 480,
+                                settings: {
+                                    slidesToShow: 1,
+                                    slidesToScroll: 1
+                                }
+                            }
+                        ]
+                    });
+                </script>
+
+
+            </div>
             <div id="content3">Содержимое 3</div>
             <div id="content4">Содержимое 4</div>
         </div>
