@@ -40,251 +40,52 @@
     <br>
 
 
-    <div id="tabs" style="margin-right: 80px; margin-top: 50px">
-        <a href="#content1" style="margin-left: 190px">Топ продажу</a>
-        <a href="#content2" style="margin-left: 190px">б/у Apple</a>
-        <a href="#content3" style="margin-left: 190px">Акустика та гаджети</a>
-        <a href="#content4" style="margin-left: 190px">Аксесуари</a>
+    <div class="accessories" style="min-width: 0; width: 1500px">
+        {% for product in top_sell %}
+            <div class="card" style="height: 500px; margin-left: 20px">
+                {% if product.img %}
+                    <a href="{{ product.get_absolute_url }}"><img
+                            src="{{ product.img.url }}" class="card-img-top" alt="..."></a>
+                {% endif %}
+                <div class="card-body">
+                    <h5
+                            class="card-title">{{ product.name|truncatewords:8 }}
+                    </h5>
+                    <div class="hr">
+                        <hr>
+                    </div>
 
-        <div class="tabs_content">
-            <div id="content1" style="width: 1300px; margin-left: 50px; display: block">
+                    <div class="prices d-flex justify-content-between">
+                        {% if product.discount_availability %}
+                            <strike><h6 class="card-text-price">{{ product.price_view }} грн</h6></strike>
+                            <h5 class="card-text-price-disc" style="color: red">{{ product.price_with_discount_view }}
+                                грн</h5>
+                        {% else %}
+                            <h5 class="card-text">{{ product.price_with_discount_view }} грн</h5>
+                        {% endif %}
+                    </div>
 
-                <div class="top_sell1">
-                    {% for item in top_sell %}
-                        <div class="card" style="margin-left: 20px; margin-right: 20px">
-                            {% if item.img %}
-                                <a href="{{ item.get_absolute_url }}"><img
-                                        src="{{ item.img.url }}" class="card-img-top" alt="..."></a>
-                            {% endif %}
-                            <div class="card-body">
-                                <h5
-                                        class="card-title ">{{ item.name|truncatewords:8 }}
-                                </h5>
-                                <div class="hr">
-                                    <hr>
-                                </div>
-
-                                <div class="prices d-flex justify-content-between">
-                                    {% if item.discount_availability %}
-                                        <strike><h6 class="card-text-price">{{ item.price_view }} грн</h6></strike>
-                                        <h5 class="card-text-price-disc"
-                                            style="color: red">{{ item.price_with_discount_view }}
-                                            грн</h5>
-                                    {% else %}
-                                        <h5 class="card-text">{{ item.price_with_discount_view }} грн</h5>
-                                    {% endif %}
-                                </div>
-
-                            </div>
-                            <a href="{% url 'cart_add' item.pk %}" class="btn btn-danger btn-block"
-                               style="margin-left: 65px">
-                                Додати до кошику
-                            </a>
-                        </div>
-                    {% endfor %}
                 </div>
-
-                <script type="text/javascript">
-                    $('.top_sell1').slick({
-                        dots: true,
-                        infinite: false,
-                        speed: 300,
-                        slidesToShow: 4,
-                        slidesToScroll: 4,
-                        responsive: [
-                            {
-                                breakpoint: 1024,
-                                settings: {
-                                    slidesToShow: 4,
-                                    slidesToScroll: 3,
-                                    infinite: true,
-                                    dots: true
-                                }
-                            },
-                            {
-                                breakpoint: 600,
-                                settings: {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 2
-                                }
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1
-                                }
-                            }
-                        ]
-                    });
-                </script>
-
-
-                <div class="top_sell2">
-                    {% for item in top_sell_sec %}
-                        <div class="card" style="margin-left: 20px; margin-right: 20px">
-                            {% if item.img %}
-                                <a href="{{ item.get_absolute_url }}"><img
-                                        src="{{ item.img.url }}" class="card-img-top" alt="..."></a>
-                            {% endif %}
-                            <div class="card-body">
-                                <h5
-                                        class="card-title ">{{ item.name|truncatewords:8 }}
-                                </h5>
-                                <div class="hr">
-                                    <hr>
-                                </div>
-
-                                <div class="prices d-flex justify-content-between">
-                                    {% if item.discount_availability %}
-                                        <strike><h6 class="card-text-price">{{ item.price_view }} грн</h6></strike>
-                                        <h5 class="card-text-price-disc"
-                                            style="color: red">{{ item.price_with_discount_view }}
-                                            грн</h5>
-                                    {% else %}
-                                        <h5 class="card-text">{{ item.price_with_discount_view }} грн</h5>
-                                    {% endif %}
-                                </div>
-
-                            </div>
-                            <a href="{% url 'cart_add' item.pk %}" class="btn btn-danger btn-block"
-                               style="margin-left: 65px">
-                                Додати до кошику
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <script type="text/javascript">
-                    $('.top_sell2').slick({
-                        dots: true,
-                        infinite: false,
-                        speed: 300,
-                        slidesToShow: 4,
-                        slidesToScroll: 4,
-                        responsive: [
-                            {
-                                breakpoint: 1024,
-                                settings: {
-                                    slidesToShow: 4,
-                                    slidesToScroll: 3,
-                                    infinite: true,
-                                    dots: true
-                                }
-                            },
-                            {
-                                breakpoint: 600,
-                                settings: {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 2
-                                }
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1
-                                }
-                            }
-                        ]
-                    });
-                </script>
-
-
+                <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block"
+                   style="margin-left: 8px; margin-top: 10px">
+                    Додати до кошику
+                </a>
             </div>
-            <div id="content2" style="width: 1300px; margin-left: 50px; display: block">
-
-                <div class="bu-apple1" style="display:block;">
-                    {% for item in bu_apple %}
-                        <div class="card" style="margin-left: 20px; margin-right: 20px">
-                            {% if item.img %}
-                                <a href="{{ item.get_absolute_url }}"><img
-                                        src="{{ item.img.url }}" class="card-img-top" alt="..."></a>
-                            {% endif %}
-                            <div class="card-body">
-                                <h5
-                                        class="card-title ">{{ item.name|truncatewords:8 }}
-                                </h5>
-                                <div class="hr">
-                                    <hr>
-                                </div>
-
-                                <div class="prices d-flex justify-content-between">
-                                    {% if item.discount_availability %}
-                                        <strike><h6 class="card-text-price">{{ item.price_view }} грн</h6></strike>
-                                        <h5 class="card-text-price-disc"
-                                            style="color: red">{{ item.price_with_discount_view }}
-                                            грн</h5>
-                                    {% else %}
-                                        <h5 class="card-text">{{ item.price_with_discount_view }} грн</h5>
-                                    {% endif %}
-                                </div>
-
-                            </div>
-                            <a href="{% url 'cart_add' item.pk %}" class="btn btn-danger btn-block"
-                               style="margin-left: 65px">
-                                Додати до кошику
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
-
-                <script type="text/javascript">
-                    $('.bu-apple1').slick({
-                        dots: true,
-                        infinite: false,
-                        speed: 300,
-                        slidesToShow: 4,
-                        slidesToScroll: 4,
-                        responsive: [
-                            {
-                                breakpoint: 1024,
-                                settings: {
-                                    slidesToShow: 4,
-                                    slidesToScroll: 3,
-                                    infinite: true,
-                                    dots: true
-                                }
-                            },
-                            {
-                                breakpoint: 600,
-                                settings: {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 2
-                                }
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1
-                                }
-                            }
-                        ]
-                    });
-                </script>
-
-
-            </div>
-            <div id="content3">Содержимое 3</div>
-            <div id="content4">Содержимое 4</div>
-        </div>
+        {% endfor %}
     </div>
 
     <script>
-        $("#tabs>a").click(function () {
-
-            $("#tabs>a").removeClass("current");
-            $(this).addClass("current");
-
-            $(".tabs_content>div").hide();
-            t_content = $(this).attr("href");
-            $(t_content).show();
-
-            return false
-        })
-        $("#tabs>a:first").trigger("click");
+        $('.accessories').slick({
+            infinite: true,
+            slidesToShow: 4,
+            slidesToScroll: 3
+        });
     </script>
+
+
+
+
+
 
     {% for info in home_info %}
         <div class="card mb-8" style="background-color: black;">

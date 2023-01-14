@@ -48,7 +48,7 @@ def get_price_sep(price):
         return total
 
     else:
-        return "Занадто велика ціна до сплати, зменшіть кількість товарів"
+        return price
 
 
 def get_rating_star(rating):

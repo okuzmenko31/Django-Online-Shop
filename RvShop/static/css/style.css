@@ -9,7 +9,7 @@
     background-color: #1d1d1d;
     color: white;
     margin-top: 50px;
-    display: block;
+    display: flex;
     transition: all .3s;
     min-width: 0;
 }
@@ -279,4 +279,11 @@ select {
 
 .slic-prev {
     left: -15px !important;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 700 !important;
+    line-height: 1.2;
 }
