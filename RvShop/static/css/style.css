@@ -6,12 +6,71 @@
 }
 
 .card {
-    background-color: #1d1d1d;
-    color: white;
+    color: black;
     margin-top: 50px;
     display: flex;
     transition: all .3s;
     min-width: 0;
+}
+
+.product {
+    margin-top: 30px;
+    height: 460px;
+    margin-bottom: 30px;
+    background-color: #1d1d1d;
+}
+
+.image {
+    display: block;
+    margin-bottom: 30px;
+}
+
+.image img {
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.info h4 {
+    font-size: 18px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.info-price {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.discount {
+    text-align: center;
+    width: 17%;
+    margin-left: 20px;
+    background-color: red;
+    border-radius: 13px;
+}
+
+.price {
+    font-weight: 700;
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.add-to-cart {
+    border: none;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #8bc34a;
+    color: white;
+    border-radius: 10px;
+    margin-right: 20px;
 }
 
 .card:hover {
@@ -53,18 +112,19 @@ a {
 }
 
 a:hover {
-    color: blue;
+    color: white;
 }
 
 a.active {
-    color: blue !important;
+    color: white !important;
 }
 
 
 body {
+    position: relative;
     -webkit-text-size-adjust: 100%;
-    background: #000;
-    color: #888;
+    background: black;
+    color: white;
     overflow-x: hidden;
 }
 
@@ -280,10 +340,9 @@ select {
 .slic-prev {
     left: -15px !important;
 }
-
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    font-weight: 700 !important;
-    line-height: 1.2;
+#tabs>a:hover{
+    color: red;
+}
+#tabs>a:after{
+    color: red;
 }
