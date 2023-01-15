@@ -131,7 +131,7 @@ body {
 
 .bg-light {
     --bs-bg-opacity: 1;
-    background-color: #1d1d1d !important;
+    background-color: black !important;
     color: white !important;
 }
 
@@ -139,7 +139,7 @@ body {
     display: block;
     padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
     font-weight: var(--bs-nav-link-font-weight);
-    color: white;
+    color: #888;
     text-decoration: none;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
 }
@@ -161,9 +161,8 @@ body {
 .navbar-nav {
     --bs-nav-link-padding-x: 0;
     --bs-nav-link-padding-y: 0.5rem;
-    --bs-nav-link-color: white !important;
-    --bs-nav-link-hover-color: white;
-    --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
+    --bs-nav-link-color: #888 !important;
+    --bs-nav-link-hover-color: white !important;
     display: flex;
     flex-direction: column;
     padding-left: 0;
@@ -177,8 +176,8 @@ body {
     padding-bottom: var(--bs-navbar-brand-padding-y);
     margin-right: var(--bs-navbar-brand-margin-end);
     font-size: var(--bs-navbar-brand-font-size);
-    --bs-navbar-brand-hover-color: #888;
-    color: #888;
+    --bs-navbar-brand-hover-color: white;
+    color: white;
     text-decoration: none;
     white-space: nowrap;
 }
@@ -364,4 +363,31 @@ select {
 
 .slick-dots button:hover {
     padding: 4px !important;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: white !important;
+    background-color: #1d1d1d !important;
+    border: none;
+    background-clip: padding-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+::placeholder{
+    color: white !important;
+}
+.form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px white,0 0 8px white;
+    box-shadow: inset 0 1px 1px white,0 0 8px white;
 }
