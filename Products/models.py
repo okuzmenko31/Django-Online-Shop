@@ -261,3 +261,15 @@ class ProductVersionChoice(models.Model):
     class Meta:
         verbose_name = 'Вибір версії товару'
         verbose_name_plural = 'Вибір версій товару'
+
+
+class ProductPhotos(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
+    photo = models.ImageField(upload_to='product_photos/%Y-%m-%d', blank=True)
+
+    def __str__(self):
+        return f'Product: {self.product.name}'
+
+    class Meta:
+        verbose_name = 'Фото товару'
+        verbose_name_plural = 'Фото товару'

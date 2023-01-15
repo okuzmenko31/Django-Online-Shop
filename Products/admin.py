@@ -4,6 +4,11 @@ from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
+class ProductPhotosInline(admin.TabularInline):
+    model = ProductPhotos
+    raw_id_fields = ['product']
+
+
 class ProductAdminForm(forms.ModelForm):
     characteristics = forms.CharField(widget=CKEditorUploadingWidget())
     full_info = forms.CharField(widget=CKEditorUploadingWidget())
@@ -37,6 +42,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['main_category', 'subcategory', 'status']
     list_editable = ['main_category', 'subcategory', 'status']
     search_fields = ['name', 'article']
+    inlines = [ProductPhotosInline]
 
 
 @admin.register(Reviews)

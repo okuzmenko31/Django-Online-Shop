@@ -175,6 +175,8 @@ def products_detail(request, pk, category, subcategory, slug):
         'product__main_category',
         'product__subcategory').order_by('-id')
 
+    photos = ProductPhotos.objects.filter(product=product)
+
     reviews = Reviews.objects.filter(product=product)  # filtering reviews by product
 
     # recommended_products = Product.objects.filter(main_category=category, subcategory=subcategory)
@@ -204,5 +206,6 @@ def products_detail(request, pk, category, subcategory, slug):
         'memory': memory,
         'version': version,
         'recommended_products': recommended_products,
+        'photos': photos,
     }
     return render(request, template_name='Products/product_detail.html', context=context)

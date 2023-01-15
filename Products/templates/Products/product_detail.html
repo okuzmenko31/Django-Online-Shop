@@ -13,7 +13,24 @@
                 {% if product.img %}
                     <br>
                     <br>
-                    <img src="{{ product.img.url }}" class="img-fluid rounded-start" alt="..." style="margin-left: 5px">
+                    <div class="product-photo-slider" style="width: 500px">
+                        {% for photo in photos %}
+                            <img src="{{ photo.photo.url }}" class="img-fluid rounded-start" alt="..."
+                                 style="margin-left: 5px">
+                        {% endfor %}
+                    </div>
+
+                    <script>
+                        $('.product-photo-slider').slick({
+                            dots: true,
+                            arrows: false,
+                            infinite: true,
+                            speed: 500,
+                            fade: true,
+                            cssEase: 'linear'
+                        });
+                    </script>
+
                 {% endif %}
             </div>
             <div class="col-md-8">
@@ -133,7 +150,8 @@
                     </div>
                     <br>
 
-                    <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block" style="margin-left: 100px">
+                    <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block"
+                       style="margin-left: 100px">
                         Додати до кошику
                     </a>
 
