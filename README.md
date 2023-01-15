@@ -72,10 +72,14 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-## Run Celery
+## Run Celery worker and beat
 
 ```
 celery -A RvShop worker --loglevel=info -P eventlet
+```
+
+```
+celery -A RvShop beat -l info
 ```
 
 ## About email connection in settings.py
