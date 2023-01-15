@@ -9,11 +9,12 @@ def home_page(request):
     top_sell = Product.objects.all().order_by('?').select_related('main_category', 'subcategory').exclude(
         main_category_id=7).exclude(main_category_id=8).exclude(main_category_id=9)
 
-    accessories = Product.objects.filter(main_category_id=8)
+    accessories = Product.objects.filter(main_category_id=8).select_related('main_category', 'subcategory')
 
-    gadgets = Product.objects.filter(main_category_id=7)
+    gadgets = Product.objects.filter(main_category_id=7).select_related('main_category', 'subcategory')
 
-    recommend_prod = RecommendedProductsPhotos.objects.all()
+    recommend_prod = RecommendedProductsPhotos.objects.all().select_related('product_subcategory__main_category',
+                                                                            'product_subcategory')
     context = {
         'home_info': home_info,
         'recommend_prod': recommend_prod,

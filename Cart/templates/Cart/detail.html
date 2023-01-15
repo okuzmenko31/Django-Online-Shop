@@ -6,62 +6,6 @@
 
 {% block content %}
 
-
-    {#    <table class="cart">#}
-    {#        <thead>#}
-    {#        <tr>#}
-    {#            <th>Фото товару</th>#}
-    {#            <th>Товар</th>#}
-    {#            <th>Кількість товару</th>#}
-    {#            <th>Видалити</th>#}
-    {#            <th>Ціна за 1шт.</th>#}
-    {#            <th>Загальна ціна</th>#}
-    {#        </tr>#}
-    {#        </thead>#}
-    {#        <tbody>#}
-    {#        {% for item in cart %}#}
-    {#            {% with product=item.product %}#}
-    {#                <tr>#}
-    {#                    <td>#}
-    {#                        <a href="{{ product.get_absolute_url }}">#}
-    {#                            <img src="#}
-    {#                                {% if product.img %}#}
-    {#                                    {{ product.img.url }}#}
-    {#                                {% endif %}" width="300">#}
-    {#                        </a>#}
-    {#                    </td>#}
-    {#                    <td>{{ product.name }}</td>#}
-    {#                    <td>#}
-    {#                        <form action="{% url 'cart_add' product.pk %}" method="post">#}
-    {#                        {% csrf_token %}#}
-    {#                        {{ cart_product_form }}#}
-    {#                        <br>#}
-    {#                        <br>#}
-    {#                        <button type="submit" class="btn btn-danger btn-block">Оформити замовлення</button>#}
-    {#                    </form>#}
-    {##}
-    {#                        {{ item.quantity }}#}
-    {#                    </td>#}
-    {#                    <td><a href="{% url 'cart_remove' product.id %}">Видалити з кошику</a></td>#}
-    {#                    <td class="num">{{ item.price }} грн</td>#}
-    {#                    <td class="num">{{ item.total_price }} грн</td>#}
-    {#                </tr>#}
-    {#            {% endwith %}#}
-    {#        {% endfor %}#}
-    {#        <tr class="total">#}
-    {#            <td>Ціна за всі товари в кошику</td>#}
-    {#            <td colspan="4"></td>#}
-    {#            <td class="num">{{ cart.get_total_price }} грн</td>#}
-    {#        </tr>#}
-    {#        </tbody>#}
-    {#    </table>#}
-    {#    <p class="text-right">#}
-    {#        <a href="{% url 'all_products' %}" class="button light">Продовжити шопінг</a>#}
-    {#        <br>#}
-    {#        <a href="#" class="button">Оформити замовлення</a>#}
-    {#    </p>#}
-
-
     <div class="card mb-3" style="width: 2000px">
         <div class="card-header">
             <h1>Кошик товарів</h1>
@@ -100,9 +44,11 @@
                 </div>
             {% endfor %}
             <div class="card-footer d-flex justify-content-between">
-                <h3>Загальна ціна:</h3><h3 style="color: red; margin-left: 5px"> {{ cart.get_total_price_for_template }} грн</h3>
+                <h3>Загальна ціна:</h3>
+                <h3 style="color: red; margin-left: 5px"> {{ cart.get_total_price_for_template }} грн</h3>
                 <div class="buttons d-flex justify-content-between"></div>
-                <a href="{% url 'all_products' %}" class="btn btn-primary btn-block" style="margin-right: 50px; margin-left: 400px"><h5>Продовжити покупки</h5></a>
+                <input type="button" class="btn btn-primary btn-block" style="margin-right: 50px; margin-left: 400px"
+                       onclick="history.back();" value="Повернутись назад"/>
                 <a href="{% url 'order_creation' %}" class="btn btn-success btn-block"><h5>Оформити замовлення</h5></a>
             </div>
         {% else %}
