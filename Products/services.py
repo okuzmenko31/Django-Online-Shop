@@ -1,3 +1,7 @@
+from decimal import Decimal
+import requests
+
+
 def get_discount(price, discount):
     """Calculating discount"""
 
@@ -75,3 +79,19 @@ def get_rating_star(rating):
         return '<img src="/static/stars/star.png">' * 1 + '<img src="/static/stars/empty_star.png">' * 4
     else:
         return '<img src="/static/stars/empty_star.png">' * 5
+
+
+def get_price_in_usd(price):
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
+                      " Chrome/104.0.0.0 Safari/537.36"}
+
+    response = requests.get(url='https://v6.exchangerate-api.com/v6/e98fabe0a77eb665fdd30b63/latest/USD',
+                            headers=headers).json()
+    currencies = response.get('conversion_rates')
+
+    price_uah = float(price)
+    from_curr = currencies.get('UAH')
+    converted_amount = round(float(price / from_curr), 2)
+
+    return int(converted_amount) + 1

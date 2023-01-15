@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
-from .services import get_discount, get_price_sep, get_rating_star
+from .services import get_discount, get_price_sep, get_rating_star, get_price_in_usd
 
 
 class ProductCategory(models.Model):
@@ -130,6 +130,13 @@ class Product(models.Model):
                                       verbose_name='Product color', related_name='product_color', blank=True)
     editing = models.BooleanField(default=False,
                                   verbose_name='Dont touch this field, after saving it will be True.')
+    price_in_usd = models.IntegerField(verbose_name='Ціна в доларах', default=0)
+    price_in_usd_with_discount = models.IntegerField(verbose_name='Ціна в доларах зі знижкою', default=0)
+    price_in_usd_view = models.CharField(max_length=350, verbose_name='Відредаговане представлення ціни в доларах',
+                                         blank=True)
+    price_in_usd_with_discount_view = models.CharField(max_length=350,
+                                                       verbose_name='Відредаговане представлення '
+                                                                    'ціни зі знижкою в доларах', blank=True)
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'category': self.main_category.slug,
@@ -155,9 +162,9 @@ class Product(models.Model):
             """If we have discount"""
 
             self.price_with_discount = get_discount(self.price, self.discount)
-
             self.price_with_discount_view = get_price_sep(self.price_with_discount)
-
+            self.price_in_usd_with_discount = get_price_in_usd(self.price_with_discount)
+            self.price_in_usd_with_discount_view = get_price_sep(self.price_in_usd_with_discount)
             self.price_view = get_price_sep(self.price)
 
         else:
@@ -166,6 +173,9 @@ class Product(models.Model):
 
             self.price_view = get_price_sep(self.price)
             self.price_with_discount_view = self.price_view
+            self.price_in_usd = get_price_in_usd(self.price_with_discount)
+            self.price_in_usd_view = get_price_sep(self.price_in_usd)
+            self.price_in_usd_with_discount_view = get_price_sep(self.price_in_usd_view)
 
         super(Product, self).save(*args, **kwargs)
 

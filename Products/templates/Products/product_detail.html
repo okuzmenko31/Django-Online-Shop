@@ -18,44 +18,62 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h3 class="card-title" style="margin-left: 8px">{{ product.name }}</h3>
+                    <h3 class="card-title" style="margin-left: 100px">{{ product.name }}</h3>
                     <br>
                     {% if product.status == 'Have in shop' %}
                         <h5 class="card-text"
-                            style="color: green; margin-left: 8px">{{ product.get_status_display }}</h5>
+                            style="color: green; margin-left: 100px">{{ product.get_status_display }}</h5>
                     {% elif product.status == 'Ends in shop' %}
                         <h5 class="card-text"
-                            style="color: yellow; margin-left: 8px">{{ product.get_status_display }}</h5>
+                            style="color: yellow; margin-left: 100px">{{ product.get_status_display }}</h5>
                     {% else %}
                         <h5 class="card-text"
-                            style="color: darkred; margin-left: 8px">{{ product.get_status_display }}</h5>
+                            style="color: darkred; margin-left: 100px">{{ product.get_status_display }}</h5>
                     {% endif %}
 
-                    <h6 class="card-text" style="margin-left: 8px">Артикул: {{ product.article }}</h6>
+                    <h6 class="card-text" style="margin-left: 100px">Артикул: {{ product.article }}</h6>
 
 
                     <br>
                     {% if product.discount_availability %}
-                        <strike><h6 class="card-text" style="margin-left: 8px">{{ product.price_view }} грн</h6>
-                        </strike>
-                        <h5 class="card-text"
-                            style="color: red; margin-left: 8px">{{ product.price_with_discount_view }} грн</h5>
+                        <div class="d-flex justify-content-between">
+                            <strike><h6 class="card-text" style="margin-left: 100px">{{ product.price_view }} грн</h6>
+                            </strike>
+                            <strike><h6 class="card-text" style="margin-left: -640px">
+                                <small>{{ product.price_in_usd_view }}
+                                </small><small>$</small></h6>
+                            </strike>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-text"
+                                style="color: red; margin-left: 100px">{{ product.price_with_discount_view }} грн</h5>
+                            <h5 class="card-text"
+                                style="color: red; margin-right: 565px">
+                                <small>{{ product.price_in_usd_with_discount_view }}</small>
+                                <small>$</small></h5>
+
+                        </div>
                         <br>
                     {% else %}
-                        <h5 class="card-text" style="margin-left: 8px">{{ product.price_view }} грн</h5>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-text" style="margin-left: 100px">{{ product.price_view }} грн</h5>
+                            <h5 class="card-text" style="margin-right: 610px">
+                                <small>{{ product.price_in_usd_view }}</small> <small>$</small></h5>
+                        </div>
+
                         <br>
                     {% endif %}
 
 
 
                     {% if product.product_memory %}
-                        <hr style="margin-left: 8px">
+                        <hr style="margin-left: 100px">
 
                         <div class="d-flex">
-                            <h6 class="card-text" style="margin-left: 8px">Об'єм пам'яті:</h6>
+                            <h6 class="card-text" style="margin-left: 100px">Об'єм пам'яті:</h6>
                         </div>
 
-                        <div class="d-flex">
+                        <div class="d-flex" style="margin-left: 95px">
 
                             {% for memory in memory %}
                                 <div class="choice">
@@ -66,13 +84,13 @@
                             {% endfor %}
                         </div>
 
-                        <hr style="margin-left: 8px">
+                        <hr style="margin-left: 100px">
 
                     {% endif %}
 
                     {% if product.product_version %}
-                        <hr style="margin-left: 8px">
-                        <div class="d-flex">
+                        <hr style="margin-left: 100px">
+                        <div class="d-flex" style="margin-left: 95px">
 
                             {% for version in version %}
                                 <div class="choice">
@@ -85,14 +103,14 @@
                             <br>
                         </div>
 
-                        <hr style="margin-left: 8px">
+                        <hr style="margin-left: 100px">
                     {% endif %}
 
 
                     {% if product.product_color %}
-                        <hr style="margin-left: 8px">
-                        <h6 class="card-text" style="margin-left: 8px">Колір пристрою:</h6>
-                        <div class="d-flex">
+                        <hr style="margin-left: 100px">
+                        <h6 class="card-text" style="margin-left: 100px">Колір пристрою:</h6>
+                        <div class="d-flex" style="margin-left: 95px">
 
                             {% for color in color %}
                                 <div class="choice">
@@ -104,18 +122,18 @@
 
                             {% endfor %}
                         </div>
-                        <hr style="margin-left: 8px">
+                        <hr style="margin-left: 100px">
                     {% endif %}
 
 
-                    <div class="rating" style="margin-left: 8px">
+                    <div class="rating" style="margin-left: 100px">
                         {{ product.get_star|safe }}
                         <br>
                         Рейтинг товару: {{ product.total_rating }}
                     </div>
                     <br>
 
-                    <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block" style="margin-left: 8px">
+                    <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block" style="margin-left: 100px">
                         Додати до кошику
                     </a>
 
@@ -125,7 +143,7 @@
         </div>
     </div>
 
-         <h1>Recommended products:</h1>
+    <h1>Recommended products:</h1>
 
     <div class="recommended_items">
         {% for product in recommended_products %}
