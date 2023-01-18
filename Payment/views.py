@@ -66,7 +66,7 @@ def payment_process(request):
 
         paypal_dict = {
             'business': settings.PAYPAL_RECEIVER_EMAIL,
-            'amount': f'{order.order_total_price}',
+            'amount': f'{order.order_total_price_usd}',
             'item_name': f'Order #{order.id}, \n\n{count_items}',
             'invoice': f'{order.id}',
             'currency_code': 'USD',

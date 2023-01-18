@@ -40,7 +40,8 @@ class Cart:
 
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
-                                     'price': str(product.price_with_discount)}
+                                     'price': str(product.price_with_discount),
+                                     'price_usd': str(product.price_in_usd_with_discount)}
 
         self.cart[product_id]['quantity'] += 1
         self.save()
@@ -89,8 +90,12 @@ class Cart:
         for item in self.cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
+            item['price_usd'] = Decimal(item['price_usd'])
+            item['total_price_usd'] = item['price_usd'] * item['quantity']
             item['total_price_view'] = get_price_sep(item['total_price'])
+            item['total_price_usd_view'] = get_price_sep(item['total_price_usd'])
             item['price_view'] = get_price_sep(item['price'])
+            item['price_usd_view'] = get_price_sep(item['price_usd'])
             yield item
 
     def __len__(self):
@@ -98,6 +103,12 @@ class Cart:
         Counting all items in the cart.
         """
         return sum(item['quantity'] for item in self.cart.values())
+
+    def get_total_price(self):
+        """
+        Counting the total price of products in cart
+        """
+        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
     def get_total_price_for_template(self):
         """
@@ -109,11 +120,21 @@ class Cart:
 
         return products_total_price
 
-    def get_total_price(self):
+    def get_total_price_usd(self):
         """
         Counting the total price of products in cart
         """
-        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+        return sum(Decimal(item['price_usd']) * item['quantity'] for item in self.cart.values())
+
+    def get_total_price_usd_for_template(self):
+        """
+        Counting the total price of products in cart
+        """
+        summa = sum(Decimal(item['price_usd']) * item['quantity'] for item in self.cart.values())
+
+        products_total_price = get_price_sep(summa)
+
+        return products_total_price
 
     def clear(self):
         # Removing cart from the session

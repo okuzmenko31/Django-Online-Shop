@@ -24,6 +24,7 @@
 
                         <br>
                         <h5 class="card-text">{{ item.get_total_price_view }} грн</h5>
+                        <h5 class="card-text">{{ item.get_total_price_usd_view }} <small>$</small></h5>
 
                         <h6 class="card-text">Артикул: {{ item.product.article }}</h6>
                         <br>
@@ -36,7 +37,9 @@
         {% endfor %}
 
         <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума
-            замовлення: {{ order.order_total_price_view }} грн</h5>
+            замовлення в грн: {{ order.order_total_price_view }} грн</h5>
+        <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума
+                замовлення в доларах: {{ order.order_total_price_usd_view }} <small>$</small></h5>
         <hr>
         <h5 style="margin-left: 20px; margin-bottom: 10px">Протягом дня з вами зв'яжеться менеджер для повного
             підтвердження замовлення.</h5>

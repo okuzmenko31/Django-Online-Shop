@@ -21,6 +21,7 @@ def order_create(request):
                     OrderItem.objects.create(order=order,
                                              product=item['product'],
                                              price=item['price'],
+                                             price_usd=item['price_usd'],
                                              quantity=item['quantity'])
 
                 cart.clear()

@@ -24,6 +24,10 @@ class Order(models.Model):
     order_total_price = models.IntegerField(verbose_name='Order total price', default=0)
     order_total_price_view = models.CharField(max_length=350, verbose_name='Order total price with normal view',
                                               blank=True)
+    order_total_price_usd = models.IntegerField(verbose_name='Order total price in USD', default=0)
+    order_total_price_usd_view = models.CharField(max_length=350,
+                                                  verbose_name='Order total price in usd with normal view',
+                                                  blank=True)
 
     def __str__(self):
         return f"ID замовлення: {self.id}, Ім'я та фамілія замовника: {self.name} {self.last_name}"
@@ -34,6 +38,7 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         self.order_total_price_view = get_price_sep(self.order_total_price)
+        self.order_total_price_usd_view = get_price_sep(self.order_total_price_usd)
         super(Order, self).save(*args, **kwargs)
 
 
@@ -42,19 +47,26 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, verbose_name='Замовлення')
     product = models.ForeignKey(Product, related_name='order_items', on_delete=models.CASCADE, verbose_name='Товар')
     price = models.IntegerField(verbose_name='Ціна товару')
+    price_usd = models.IntegerField(verbose_name='Price per item in dollars', default=0)
     quantity = models.PositiveIntegerField(default=1, verbose_name='кількість товару')
     item_total_price = models.IntegerField(verbose_name='Total price of item', default=0)
+    item_total_price_usd = models.IntegerField(verbose_name='Total price of item in usd', default=0)
 
     def __str__(self):
         return f'ID: {self.id}'
 
     def save(self, *args, **kwargs):
         self.item_total_price = get_product_cost(self.price, self.quantity)
+        self.item_total_price_usd = get_product_cost(self.price_usd, self.quantity)
         super(OrderItem, self).save(*args, **kwargs)
 
     def get_total_price_view(self):
         item_total_price_view = get_price_sep(self.item_total_price)
         return item_total_price_view
+
+    def get_total_price_usd_view(self):
+        item_total_price_usd_view = get_price_sep(self.item_total_price_usd)
+        return item_total_price_usd_view
 
 
 def item_in_order_post_save(sender, instance, created, **kwargs):
@@ -63,14 +75,17 @@ def item_in_order_post_save(sender, instance, created, **kwargs):
     all_products_in_order = OrderItem.objects.filter(order=order)
 
     order_total_price = 0
+    order_total_price_usd = 0
 
     for item in all_products_in_order:
         """Loop through all the objects in the order"""
 
         order_total_price += item.item_total_price  # adding calculated value
         # how works get_product_cost method you can learn in services.py
+        order_total_price_usd += item.item_total_price_usd
 
     instance.order.order_total_price = order_total_price
+    instance.order.order_total_price_usd = order_total_price_usd
     instance.order.save(force_update=True)
 
 

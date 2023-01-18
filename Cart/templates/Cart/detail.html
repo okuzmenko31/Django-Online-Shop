@@ -24,6 +24,7 @@
                                     href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></h5>
                             <br>
                             <h5 class="card-text">{{ item.total_price_view }} грн</h5>
+                            <h5 class="card-text">{{ item.total_price_usd_view }} <small>$</small></h5>
                             <h6 class="card-text">Артикул: {{ item.product.article }}</h6>
                             <br>
 
@@ -43,12 +44,15 @@
                     </div>
                 </div>
             {% endfor %}
-            <div class="card-footer d-flex justify-content-between">
-                <h3>Загальна ціна:</h3>
-                <h3 style="color: red; margin-left: 5px"> {{ cart.get_total_price_for_template }} грн</h3>
+            <div class="card-footer">
+                <h3 style="margin-left: 5px">Загальна ціна в грн: {{ cart.get_total_price_for_template }}
+                    грн</h3>
+                <h3 style="margin-left: 5px; margin-bottom: 30px">Загальна ціна в
+                    доларах: {{ cart.get_total_price_usd_for_template }}
+                    <small>$</small></h3>
                 <div class="buttons d-flex justify-content-between"></div>
-                <input type="button" class="btn btn-primary btn-block" style="margin-right: 50px; margin-left: 400px"
-                       onclick="history.back();" value="Повернутись назад"/>
+                <a onclick="javascript:history.back()" class="btn btn-primary btn-lg"
+                   style="margin-right: 50px; margin-left: 400px">Повернутись назад</a>
                 <a href="{% url 'order_creation' %}" class="btn btn-success btn-block"><h5>Оформити замовлення</h5></a>
             </div>
         {% else %}
