@@ -90,7 +90,6 @@ def get_price_in_usd(price):
                             headers=headers).json()
     currencies = response.get('conversion_rates')
 
-    price_uah = float(price)
     from_curr = currencies.get('UAH')
     converted_amount = round(float(price / from_curr), 2)
 
