@@ -1,5 +1,5 @@
 from django import template
-from Products.models import ProductCategory, ProductSubCategory
+from Products.models import ProductCategory
 
 register = template.Library()
 
