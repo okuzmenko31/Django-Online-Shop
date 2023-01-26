@@ -1,7 +1,5 @@
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models.signals import post_save
 from Products.models import Product
 from .services import *
 from Products.services import get_price_sep
@@ -67,26 +65,3 @@ class OrderItem(models.Model):
     def get_total_price_usd_view(self):
         item_total_price_usd_view = get_price_sep(self.item_total_price_usd)
         return item_total_price_usd_view
-
-
-def item_in_order_post_save(sender, instance, created, **kwargs):
-    """Here we are counting the total_price of order"""
-    order = instance.order
-    all_products_in_order = OrderItem.objects.filter(order=order)
-
-    order_total_price = 0
-    order_total_price_usd = 0
-
-    for item in all_products_in_order:
-        """Loop through all the objects in the order"""
-
-        order_total_price += item.item_total_price  # adding calculated value
-        # how works get_product_cost method you can learn in services.py
-        order_total_price_usd += item.item_total_price_usd
-
-    instance.order.order_total_price = order_total_price
-    instance.order.order_total_price_usd = order_total_price_usd
-    instance.order.save(force_update=True)
-
-
-post_save.connect(item_in_order_post_save, sender=OrderItem)
