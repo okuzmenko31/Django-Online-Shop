@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block title %}
     {{ subcategory.title }} - купити на RvShop
@@ -7,32 +9,36 @@
 {% block content %}
 
     {% for product in page_obj.object_list %}
-        <div class="card" style="width: 18rem;">
-            {% if product.img %}
-                <a href="{{ product.get_absolute_url }}"><img
-                        src="{{ product.img.url }}" class="card-img-top" alt="..."></a>
-            {% endif %}
-            <div class="card-body">
-                <h5
-                        class="card-title ">{{ product.name|truncatewords:8 }}
-                </h5>
-                <div class="hr">
-                    <hr>
-                </div>
+        <div class="col-md-3">
+            <a href="{{ product.get_absolute_url }}" class="product-link">
+                <div class="product">
+                    <div class="image">
+                        <img src="{{ product.img.url }}" alt="">
+                    </div>
 
-                <div class="prices d-flex justify-content-between">
-                    {% if product.discount_availability %}
-                        <strike><h6 class="card-text-price">{{ product.price_view }} грн</h6></strike>
-                        <h5 class="card-text-price-disc" style="color: red">{{ product.price_with_discount_view }}
-                            грн</h5>
-                    {% else %}
-                        <h5 class="card-text">{{ product.price_with_discount_view }} грн</h5>
-                    {% endif %}
-                </div>
+                    <div class="info">
 
-            </div>
-            <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block" style="margin-left: 8px">
-                Додати до кошику
+                        <div class="product-name" style="width: 306px; height: 50.4px">
+                            <h4>{{ product.name|truncatewords:7 }}</h4>
+                        </div>
+
+
+                        <div class="info-price">
+                            {% if product.discount_availability %}
+
+                                <span class="discount">-{{ product.discount }}%</span>
+                                <span class="price"
+                                      style="margin-left: 63px">{{ product.price_with_discount_view }} <small>₴</small></span>
+
+                            {% else %}
+                                <span class="price">{{ product.price_view }} <small>₴</small></span>
+                            {% endif %}
+                            <a href="{% url 'cart_add' product.pk %}" class="add-to-cart button"><img
+                                    src="{% static 'icon/icons8-shopping-cart-24.png' %}"
+                                    alt=""></a>
+                        </div>
+                    </div>
+                </div>
             </a>
         </div>
     {% endfor %}

@@ -12,6 +12,6 @@ class OrderCreateForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваш телефон"}),
             'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваш email"}),
             'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Вашу адресу"}),
-            'postal_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваш поштовий код"}),
+            'postal_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваше вiддiлення"}),
             'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваше мiсто"}),
         }
