@@ -4,7 +4,7 @@ from Products.models import ProductCategory
 register = template.Library()
 
 
-@register.inclusion_tag('Products/_navbar.html')
+@register.simple_tag()
 def get_product_category():
-    categories = ProductCategory.objects.all()
-    return {'categories': categories}
+    return ProductCategory.objects.all()
+

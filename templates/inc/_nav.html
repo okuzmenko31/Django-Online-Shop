@@ -1,2 +1,61 @@
+{% load static %}
 {% load category_tags %}
-{% get_product_category %}
+
+<nav class="navbar navbar-expand-lg bg-light fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home_page' %}">RvShop</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% get_product_category as categories %}
+                {% for category in categories %}
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle" href="{{ category.get_absolute_url }}"
+                           role="button"
+                           aria-expanded="false">
+                            {{ category.name }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for subcategory in category.subcategory.all %}
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ subcategory.get_absolute_url }}">
+                                        {{ subcategory.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+
+
+            </ul>
+
+            <form action="{% url 'search' %}" class="d-flex" method="get">
+                <input class="form-control" type="search" placeholder="Пошук" aria-label="Search" name="search">
+                <button class="btn btn-dark" type="submit">Шукати</button>
+            </form>
+
+
+            {{ cat }}
+
+            <div class="col-md-1">
+                <div class="cart" style="margin-left: 30px">
+                    <a href="{% url 'cart' %}">
+                        <img src="{% static 'icon/pngimg.com - shopping_cart_PNG4.png' %}"
+                             alt="" width="30">
+                        <span class="badge badge-primary badge-pill"
+                              style="background-color: red; border-radius: 60%">{{ cart|length }}
+                            </span>
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</nav>
