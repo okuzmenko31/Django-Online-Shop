@@ -40,17 +40,15 @@
             </form>
 
 
-            {{ cat }}
-
             <div class="col-md-1">
                 <div class="cart" style="margin-left: 30px">
                     <a href="{% url 'cart' %}">
                         <img src="{% static 'icon/pngimg.com - shopping_cart_PNG4.png' %}"
                              alt="" width="30">
-                        <span class="badge badge-primary badge-pill"
-                              style="background-color: red; border-radius: 60%">{{ cart|length }}
-                            </span>
                     </a>
+                    <span class="badge badge-primary badge-pill"
+                          style="background-color: red; border-radius: 70%">{{ cart|length }}
+                    </span>
                 </div>
             </div>
 
