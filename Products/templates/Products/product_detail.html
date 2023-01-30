@@ -154,11 +154,12 @@
                         Product rating: {{ product.total_rating }}
                     </div>
                     <br>
-
-                    <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block"
-                       style="margin-left: 100px">
-                        Add to cart
-                    </a>
+                    {% if product.status == 'Have in shop' or product.status == 'Ends in shop' %}
+                        <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block"
+                           style="margin-left: 100px">
+                            Add to cart
+                        </a>
+                    {% endif %}
 
 
                 </div>
@@ -194,9 +195,11 @@
                                 {% else %}
                                     <span class="price">{{ product.price_view }} <small>₴</small></span>
                                 {% endif %}
+
                                 <a href="{% url 'cart_add' product.pk %}" class="add-to-cart button"><img
                                         src="{% static 'icon/icons8-shopping-cart-24.png' %}"
-                                        alt=""></a>
+                                        alt="">
+                                </a>
                             </div>
                         </div>
                     </div>

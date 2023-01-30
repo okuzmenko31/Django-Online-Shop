@@ -1,49 +1,52 @@
-{% extends 'base.html' %}
-
-{% block title %}Order{% endblock %}
-
-{% block content %}
-
-    <div class="card mb-3" style="width: 2000px;">
-        <h1 style="text-align: center; margin-top: 20px; color: lawngreen">Order #{{ order.id }} successfully
-            place!</h1>
-        <br>
-        <hr style="height: 30px">
-        {% for item in cart %}
-            <div class="row g-0">
-                <div class="col-md-4">
-
-                    {% if item.product.img %}
-                        <img src="{{ item.product.img.url }}" class="img-fluid rounded-start" alt="..." width="300">
-                    {% endif %}
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-
-                        <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }}шт.</h5>
-
-                        <br>
-                        <h5 class="card-text">{{ item.total_price_view }} <small>UAH</small></h5>
-                        <h5 class="card-text">{{ item.total_price_usd_view }} <small>$</small></h5>
-
-                        <h6 class="card-text">Product article: {{ item.product.article }}</h6>
-                        <br>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
 
 
-                    </div>
-                </div>
-            </div>
-            <hr>
-        {% endfor %}
+<div class="order" style="background-color: #1d1d1d; color: white; border: 2px whitesmoke;">
+    <h1 style="color:lawngreen;">{{ success_msg }}</h1>
+    <br>
+    <h2>{{ order_num }}</h2>
+    <h2>{{ order_price_uah }}</h2>
+    <h2>{{ order_price_usd }}</h2>
+    <br>
+    <h2>{{ last_msg }}</h2>
+</div>
 
-        <h5 style="margin-left: 20px; margin-bottom: 5px">Total price in
-            <small>UAH</small>: {{ cart.get_total_price_for_template }} <small>UAH</small></h5>
-        <h5 style="margin-left: 20px; margin-bottom: 5px">Total price in
-            <small>USD</small>: {{ cart.get_total_price_usd_for_template }} <small>$</small></h5>
-        <hr>
-        <hr>
-        <h5 style="margin-left: 20px; margin-bottom: 10px">Wait for a call from the manager</h5>
+{#    <a href="{{ item.product.get_absolute_url }}" class="product-link">#}
+{#        <div class="product">#}
+{#            <div class="image">#}
+{#                <img src="{{ item.product.img.url }}" alt="">#}
+{#            </div>#}
+{##}
+{#            <div class="info">#}
+{##}
+{#                <div class="product-name" style="width: 306px; height: 50.4px">#}
+{#                    <h4>{{ item.product.name|truncatewords:7 }}</h4>#}
+{#                </div>#}
+{##}
+{##}
+{#                <div class="info-price">#}
+{#                    {% if item.product.discount_availability %}#}
+{##}
+{#                        <span class="discount">-{{ item.product.discount }}%</span>#}
+{#                        <span class="price"#}
+{#                              style="margin-left: 63px">{{ item.product.price_with_discount_view }} <small>₴</small></span>#}
+{##}
+{#                    {% else %}#}
+{#                        <span class="price">{{ item.product.price_view }} <small>₴</small></span>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </a>#}
 
-    </div>
 
-{% endblock %}
+</body>
+</html>

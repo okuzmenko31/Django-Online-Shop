@@ -42,10 +42,10 @@
 
         <hr>
 
-        <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
-            <small>UAH</small>: {{ cart.get_total_price_for_template }} <small>UAH</small></h5>
-        <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
-            <small>USD</small>: {{ cart.get_total_price_usd_for_template }} <small>$</small></h5>
+    <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
+        <small>UAH</small>: {{ order.order_total_price_view }} <small>UAH</small></h5>
+    <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
+        <small>USD</small>: {{ order.order_total_price_usd_view }} <small>$</small></h5>
         </form>
         <hr>
 

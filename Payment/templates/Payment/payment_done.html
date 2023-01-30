@@ -5,7 +5,7 @@
 {% block content %}
 
     <div class="card mb-3" style="width: 2000px;">
-        <h1 style="margin-left: 280px; margin-top: 20px; color: lawngreen">Order #{{ order.id }} successfully
+        <h1 style="text-align: center; margin-top: 20px; color: lawngreen">Order #{{ order.id }} successfully
             placed!</h1>
         <br>
         <hr style="height: 30px">
@@ -37,9 +37,9 @@
         {% endfor %}
 
         <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
-            <small>UAH</small>: {{ cart.get_total_price_for_template }} <small>UAH</small></h5>
+            <small>UAH</small>: {{ order.order_total_price_view }} <small>UAH</small></h5>
         <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
-            <small>USD</small>: {{ cart.get_total_price_usd_for_template }} <small>$</small></h5>
+            <small>USD</small>: {{ order.order_total_price_usd_view }} <small>$</small></h5>
         <hr>
         <h5 style="margin-left: 20px; margin-bottom: 10px">Wait for a call from manager</h5>
 
