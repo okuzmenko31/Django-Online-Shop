@@ -7,16 +7,16 @@ from Products.services import get_price_sep
 
 class Order(models.Model):
     """Model of order"""
-    name = models.CharField(max_length=300, verbose_name="Ім'я")
-    last_name = models.CharField(max_length=300, verbose_name='Фамілія')
-    phone = models.CharField(max_length=200, verbose_name='Номер телефону', blank=True)
+    name = models.CharField(max_length=300, verbose_name="Name")
+    last_name = models.CharField(max_length=300, verbose_name='Surname')
+    phone = models.CharField(max_length=200, verbose_name='Phone number', blank=True)
     is_active = models.BooleanField(default=False, verbose_name='Замовлення підтверджено')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Створено')
     updated = models.DateTimeField(auto_now=True, verbose_name='Оновлено')
     email = models.EmailField(verbose_name='Пошта', blank=True)
-    address = models.CharField(max_length=250, verbose_name='Адреса')
-    postal_code = models.CharField(max_length=20, verbose_name='Nova poshta')
-    city = models.CharField(max_length=100, verbose_name='Місто')
+    address = models.CharField(max_length=250, verbose_name='Address')
+    postal_code = models.CharField(max_length=20, verbose_name='Post office')
+    city = models.CharField(max_length=100, verbose_name='City or town')
     paid = models.BooleanField(default=False, verbose_name='Замовлення сплачено?')
     order_total_price = models.IntegerField(verbose_name='Order total price', default=0)
     order_total_price_view = models.CharField(max_length=350, verbose_name='Order total price with normal view',

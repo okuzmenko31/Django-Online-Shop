@@ -21,7 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
+    # path('__debug__/', include('debug_toolbar.urls')),
     path('rvshop/', include('HomePage.urls')),
     path('rvshop/cart/', include('Cart.urls')),
     path('rvshop/products/', include('Products.urls')),

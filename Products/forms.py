@@ -7,17 +7,17 @@ class ReviewsForms(forms.ModelForm):
         model = Reviews
         fields = ['name', 'review', 'rating']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Ваше ім'я"}),
-            'review': forms.Textarea(attrs={'class': 'form-control', 'rows': '5', 'placeholder': "Ваш відгук"}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Your name"}),
+            'review': forms.Textarea(attrs={'class': 'form-control', 'rows': '5', 'placeholder': "Review"}),
         }
 
 
 class OrderingChoices(forms.Form):
     ORDERING_CHOICES = [
-        ('standard', 'Стандартна сортировка'),
-        ('cheaper', 'Дешевше'),
-        ('expensive', 'Дорожче'),
+        ('standard', 'Standard sorting'),
+        ('cheaper', 'Cheaper'),
+        ('expensive', 'Expensive'),
     ]
 
-    ordering = forms.TypedChoiceField(label='Сортування', choices=ORDERING_CHOICES, required=False,
+    ordering = forms.TypedChoiceField(label='Sorting', choices=ORDERING_CHOICES, required=False,
                                       widget=forms.Select(attrs={'class': 'form-control'}))

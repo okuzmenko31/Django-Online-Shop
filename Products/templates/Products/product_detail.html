@@ -48,24 +48,24 @@
                             style="color: darkred; margin-left: 100px">{{ product.get_status_display }}</h5>
                     {% endif %}
 
-                    <h6 class="card-text" style="margin-left: 100px">Артикул: {{ product.article }}</h6>
+                    <h6 class="card-text" style="margin-left: 100px">Product article: {{ product.article }}</h6>
 
 
                     <br>
                     {% if product.discount_availability %}
                         <div class="d-flex justify-content-between">
-                            <strike><h6 class="card-text" style="margin-left: 100px">{{ product.price_view }} грн</h6>
+                            <strike><h6 class="card-text" style="margin-left: 100px">{{ product.price_view }} UAH</h6>
                             </strike>
-                            <strike><h6 class="card-text" style="margin-left: -640px">
+                            <strike><h6 class="card-text" style="margin-left: -630px">
                                 <small>{{ product.price_in_usd_view }}
                                 </small><small>$</small></h6>
                             </strike>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h5 class="card-text"
-                                style="color: red; margin-left: 100px">{{ product.price_with_discount_view }} грн</h5>
+                                style="color: red; margin-left: 100px">{{ product.price_with_discount_view }} UAH</h5>
                             <h5 class="card-text"
-                                style="color: red; margin-right: 565px">
+                                style="color: red; margin-right: 555px">
                                 <small>{{ product.price_in_usd_with_discount_view }}</small>
                                 <small>$</small></h5>
 
@@ -87,7 +87,7 @@
                         <hr style="margin-left: 100px">
 
                         <div class="d-flex">
-                            <h6 class="card-text" style="margin-left: 100px">Об'єм пам'яті:</h6>
+                            <h6 class="card-text" style="margin-left: 100px">Memory size:</h6>
                         </div>
 
                         <div class="d-flex" style="margin-left: 95px">
@@ -107,7 +107,12 @@
 
                     {% if product.product_version %}
                         <hr style="margin-left: 100px">
+                        <div class="d-flex">
+                            <h6 class="card-text" style="margin-left: 100px">Version:</h6>
+                        </div>
+
                         <div class="d-flex" style="margin-left: 95px">
+
 
                             {% for version in version %}
                                 <div class="choice">
@@ -126,7 +131,7 @@
 
                     {% if product.product_color %}
                         <hr style="margin-left: 100px">
-                        <h6 class="card-text" style="margin-left: 100px">Колір пристрою:</h6>
+                        <h6 class="card-text" style="margin-left: 100px">Color:</h6>
                         <div class="d-flex" style="margin-left: 95px">
 
                             {% for color in color %}
@@ -146,13 +151,13 @@
                     <div class="rating" style="margin-left: 100px">
                         {{ product.get_star|safe }}
                         <br>
-                        Рейтинг товару: {{ product.total_rating }}
+                        Product rating: {{ product.total_rating }}
                     </div>
                     <br>
 
                     <a href="{% url 'cart_add' product.pk %}" class="btn btn-danger btn-block"
                        style="margin-left: 100px">
-                        Додати до кошику
+                        Add to cart
                     </a>
 
 
@@ -217,13 +222,13 @@
     <div class="card mb-8" style="width: 2000px;">
         <div class="card-body">
             <p class="card-text">{{ product.characteristics|safe }}</p>
-            <h2 class="card-text">Ваша думка важлива для нас</h2>
+            <h2 class="card-text">Your opinion is important to us</h2>
             <form action="" method="post">
 
                 {% csrf_token %}
 
                 <div class="form-group">
-                    <label for="{{ form.name.id_for_label }}">Ім'я: </label>
+                    <label for="{{ form.name.id_for_label }}">Name: </label>
                     <br>
                     <br>
                     {{ form.name }}
@@ -234,7 +239,7 @@
                 <br>
 
                 <div class="form-group">
-                    <label for="{{ form.review.id_for_label }}">Відгук: </label>
+                    <label for="{{ form.review.id_for_label }}">Review: </label>
                     <br>
                     <br>
                     {{ form.review }}
@@ -244,7 +249,7 @@
                 </div>
                 <br>
 
-                <label>Ваша оцінка товару: </label>
+                <label>Your rating for the product: </label>
                 <br>
                 <div class="rate">
                     <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10"
@@ -275,7 +280,7 @@
                 <br>
                 <br>
 
-                <button type="submit" class="btn btn-dark btn-block">Залишити відгук</button>
+                <button type="submit" class="btn btn-dark btn-block">Post review</button>
 
             </form>
             <br>

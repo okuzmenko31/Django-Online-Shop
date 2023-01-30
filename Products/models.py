@@ -91,9 +91,9 @@ class ProductColorCategory(models.Model):
 class Product(models.Model):
     """Model of product"""
     PRODUCT_STATUS_CHOICES = [
-        ('Have in shop', 'Є в наявності'),
-        ('Ends in shop', 'Закінчується'),
-        ('Not in shop', 'Нема в наявності'),
+        ('Have in shop', 'In stock'),
+        ('Ends in shop', 'Ends in shop'),
+        ('Not in shop', 'Out of stock'),
     ]
 
     """Модель товаров"""

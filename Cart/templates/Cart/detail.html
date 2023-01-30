@@ -8,7 +8,7 @@
 
     <div class="card mb-3" style="width: 2000px">
         <div class="card-header">
-            <h1>Кошик товарів</h1>
+            <h1>Products cart</h1>
         </div>
         {% if cart|length > 0 %}
             {% for item in cart %}
@@ -20,12 +20,12 @@
                             </a>
                         {% endif %}
                         <div class="media-body">
-                            <h5 class="card-title">Товар: <a
+                            <h5 class="card-title">Product: <a
                                     href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></h5>
                             <br>
-                            <h5 class="card-text">{{ item.total_price_view }} грн</h5>
+                            <h5 class="card-text">{{ item.total_price_view }} <small>UAH</small></h5>
                             <h5 class="card-text">{{ item.total_price_usd_view }} <small>$</small></h5>
-                            <h6 class="card-text">Артикул: {{ item.product.article }}</h6>
+                            <h6 class="card-text">Product article: {{ item.product.article }}</h6>
                             <br>
 
                             <p class="card-text">
@@ -36,8 +36,8 @@
                                 <a href="{% url 'cart_add_quantity' item.product.pk %}"
                                    class="btn btn-light btn-block">+</a></p>
                             <br>
-                            <a href="{% url 'cart_remove' item.product.pk %}" class="btn btn-secondary btn-block">Видалити
-                                з кошику</a>
+                            <a href="{% url 'cart_remove' item.product.pk %}" class="btn btn-secondary btn-block">Remove
+                                from cart</a>
 
                         </div>
                         <hr>
@@ -45,19 +45,18 @@
                 </div>
             {% endfor %}
             <div class="card-footer">
-                <h3 style="margin-left: 5px">Загальна ціна в грн: {{ cart.get_total_price_for_template }}
+                <h3 style="margin-left: 5px">Total price in <small>UAH</small>: {{ cart.get_total_price_for_template }}
                     грн</h3>
-                <h3 style="margin-left: 5px; margin-bottom: 30px">Загальна ціна в
-                    доларах: {{ cart.get_total_price_usd_for_template }}
+                <h3 style="margin-left: 5px; margin-bottom: 30px">Total price in <small>USD</small>: {{ cart.get_total_price_usd_for_template }}
                     <small>$</small></h3>
                 <div class="buttons d-flex justify-content-between"></div>
                 <a onclick="javascript:history.back()" class="btn btn-primary btn-lg"
-                   style="margin-right: 50px; margin-left: 400px">Повернутись назад</a>
-                <a href="{% url 'order_creation' %}" class="btn btn-success btn-block"><h5>Оформити замовлення</h5></a>
+                   style="margin-right: 50px; margin-left: 480px">Go back</a>
+                <a href="{% url 'order_creation' %}" class="btn btn-success btn-block"><h5>Place order</h5></a>
             </div>
         {% else %}
             <div class="card-header text-muted">
-                <h3>Кошик порожній. Але це можна виправити :)</h3>
+                <h3 style="color: #888">Cart is empty, but you can fix it :)</h3>
             </div>
         {% endif %}
 

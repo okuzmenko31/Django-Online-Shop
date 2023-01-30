@@ -7,11 +7,11 @@ class OrderCreateForm(forms.ModelForm):
         model = Order
         fields = ['name', 'last_name', 'phone', 'email', 'address', 'postal_code', 'city']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваше iм'я"}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Вашу фамiлiю"}),
-            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваш телефон"}),
-            'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваш email"}),
-            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Вашу адресу"}),
-            'postal_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваше вiддiлення"}),
-            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Введiть Ваше мiсто"}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Write your name"}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Write your surname"}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Write your phone"}),
+            'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Write your email"}),
+            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Write your address"}),
+            'postal_code': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Write you post office"}),
+            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Write you city or town"}),
         }

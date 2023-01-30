@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Замовлення{% endblock %}
+{% block title %}Order payment{% endblock %}
 
 {% block content %}
 
     <div class="card mb-3" style="width: 2000px;">
-        <h1 style="text-align: center; margin-top: 25px">Сплата замовлення</h1>
+        <h1 style="text-align: center; margin-top: 25px">Order payment</h1>
         <br>
         <hr style="height: 30px">
         {% for item in order_items %}
@@ -19,13 +19,13 @@
                 <div class="col-md-8">
                     <div class="card-body">
 
-                        <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }}шт.</h5>
+                        <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }} units.</h5>
 
                         <br>
-                        <h5 class="card-text">{{ item.get_total_price_view }} грн</h5>
+                        <h5 class="card-text">{{ item.get_total_price_view }} <small>UAH</small></h5>
                         <h5 class="card-text">{{ item.get_total_price_usd_view }} <small>$</small></h5>
 
-                        <h6 class="card-text">Артикул: {{ item.product.article }}</h6>
+                        <h6 class="card-text">Product article: {{ item.product.article }}</h6>
                         <br>
 
 
@@ -42,10 +42,10 @@
 
         <hr>
 
-        <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума
-            замовлення в грн: {{ order.order_total_price_view }} грн</h5>
-        <h5 style="margin-left: 20px; margin-bottom: 5px">Загальна сума
-                замовлення в доларах: {{ order.order_total_price_usd_view }} <small>$</small></h5>
+        <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
+            <small>UAH</small>: {{ cart.get_total_price_for_template }} <small>UAH</small></h5>
+        <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
+            <small>USD</small>: {{ cart.get_total_price_usd_for_template }} <small>$</small></h5>
         </form>
         <hr>
 

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Замовлення{% endblock %}
+{% block title %}Order{% endblock %}
 
 {% block content %}
 
     <div class="card mb-3" style="width: 2050px;">
-        <h1 style="text-align: center; margin-top: 20px">Оформлення замовлення</h1>
+        <h1 style="text-align: center; margin-top: 20px">Ordering</h1>
         <br>
         <hr style="height: 30px">
         {% for item in cart %}
@@ -19,12 +19,12 @@
                 <div class="col-md-8">
                     <div class="card-body">
 
-                        <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }}шт.</h5>
+                        <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }} units.</h5>
 
                         <br>
-                        <h5 class="card-text">{{ item.total_price_view }} грн</h5>
-                        <h5 class="card-text">{{ item.total_price_usd_view }} $</h5>
-                        <h6 class="card-text">Артикул: {{ item.product.article }}</h6>
+                        <h5 class="card-text">{{ item.total_price_view }} <small>UAH</small></h5>
+                        <h5 class="card-text">{{ item.total_price_usd_view }} <small>$</small></h5>
+                        <h6 class="card-text">Product article: {{ item.product.article }}</h6>
                         <br>
 
 
@@ -106,17 +106,16 @@
             {##}
             {#            </script>#}
 
-            <button type="submit" class="btn btn-primary btn-lg">Оформити</button>
+            <button type="submit" class="btn btn-primary btn-lg">Pay</button>
             <br>
-
 
 
         </form>
         <hr>
-        <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Загальна сума
-            замовлення в грн: {{ cart.get_total_price_for_template }} грн</h5>
-        <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Загальна сума
-            замовлення в доларах: {{ cart.get_total_price_usd_for_template }} <small>$</small></h5>
+        <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
+            <small>UAH</small>: {{ cart.get_total_price_for_template }} <small>UAH</small></h5>
+        <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
+            <small>USD</small>: {{ cart.get_total_price_usd_for_template }} <small>$</small></h5>
         <hr>
 
 
