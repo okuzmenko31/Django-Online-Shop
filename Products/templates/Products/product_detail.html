@@ -225,8 +225,14 @@
     <div class="card mb-8" style="width: 2000px;">
         <div class="card-body">
             <p class="card-text">{{ product.characteristics|safe }}</p>
+        </div>
+    </div>
+
+    <div class="card mb-8" style="width: 2000px">
+        <div class="card-body">
             <h2 class="card-text">Your opinion is important to us</h2>
             <form action="" method="post">
+
 
                 {% csrf_token %}
 
@@ -295,20 +301,27 @@
 
     {% for review in reviews %}
         <div class="card mb-8" style="width: 2000px;">
-            <div class="card-body">
-                <div class="name-rating d-flex justify-content-between">
-                    <h3 class="comments">{{ review.name }}</h3>
-                    <div class="rating">
-                        {{ review.get_review_star|safe }}
-                    </div>
-                </div>
-                <h5 class="comment">{{ review.review }}</h5>
+        <div class="card-body">
+        <div class="name-rating d-flex justify-content-between">
 
-
-                <br>
+            <h3 class="comments">{{ review.name }}</h3>
+            <div class="rating">
+                {{ review.get_review_star|safe }}
             </div>
+
         </div>
+        <h5 class="comment">{{ review.review }}</h5>
     {% endfor %}
+    
+</div>
+</div>
+
+
+
+
+    <br>
+    </div>
+    </div>
     <br>
     <br>
 
