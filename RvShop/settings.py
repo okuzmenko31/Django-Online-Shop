@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 from configparser import ConfigParser
+from dotenv import load_dotenv
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3b%&ld(ua)y1xnirv(r8gc7$2pir8#8yo^pwvs9ho1d(bhypb7'
+SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+load_dotenv()
 
 ALLOWED_HOSTS = []
 
@@ -84,11 +88,11 @@ WSGI_APPLICATION = 'RvShop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rv_shop_db',
-        'USER': 'postgres',
-        'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': 5433
+        'NAME': os.getenv('POSTGRES_DB', 'rv_shop_db'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', '123'),
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_PORT', 5433)
     }
 }
 
@@ -149,10 +153,15 @@ config.read(config_urls)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'kuzmenkowebdev@gmail.com'
-EMAIL_HOST_PASSWORD = config['email_password']['email']  # write your password here
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # write your password here
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# REDIS
+
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
@@ -229,4 +238,4 @@ INTERNAL_IPS = [
     # ...
 ]
 
-PAYPAL_RECEIVER_EMAIL = str(config['email']['my_email'])
+PAYPAL_RECEIVER_EMAIL = os.getenv('PAYPAL_RECEIVER_EMAIL')
