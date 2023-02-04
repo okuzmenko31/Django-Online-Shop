@@ -7,9 +7,9 @@ services:
     volumes:
       - rvshop_psg_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: okuzmenko
-      POSTGRES_PASSWORD: my_password
-      POSTGRES_DB: rv_shop_my_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
 
   rvshop-web-app:
     build: .
