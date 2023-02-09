@@ -85,14 +85,25 @@ WSGI_APPLICATION = 'RvShop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('POSTGRES_DB'),
+#         'USER': os.getenv('POSTGRES_USER'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#         'HOST': os.getenv('POSTGRES_HOST'),
+#         'PORT': os.getenv('POSTGRES_PORT')
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB', 'rv_shop_db'),
-        'USER': os.getenv('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', '123'),
-        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
-        'PORT': os.getenv('POSTGRES_PORT', 5433)
+        'NAME': os.getenv('LOCAL_POSTGRES_DB'),
+        'USER': os.getenv('LOCAL_POSTGRES_USER'),
+        'PASSWORD': os.getenv('LOCAL_POSTGRES_PASSWORD'),
+        'HOST': os.getenv('LOCAL_POSTGRES_HOST'),
+        'PORT': os.getenv('LOCAL_POSTGRES_PORT')
     }
 }
 
