@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-from configparser import ConfigParser
 from dotenv import load_dotenv
 import os
 
@@ -25,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = str(os.getenv('DEBUG'))
 
 load_dotenv()
 
@@ -156,18 +155,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SETTINGS OF CONFIGPARSER, YOU CAN READ WHAT IS THAT HERE
 # https://docs.python.org/3/library/configparser.html
 
-config_urls = 'email_password_config.ini'
-config = ConfigParser()
-config.read(config_urls)
 
 # EMAIL
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # write your password here
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 
 # REDIS
 
@@ -249,4 +245,4 @@ INTERNAL_IPS = [
     # ...
 ]
 
-PAYPAL_RECEIVER_EMAIL = os.getenv('PAYPAL_RECEIVER_EMAIL')
+PAYPAL_RECEIVER_EMAIL = str(os.getenv('PAYPAL_RECEIVER_EMAIL'))
