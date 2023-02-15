@@ -1,41 +1,32 @@
 from django.shortcuts import render, redirect
+from django.views import View
 from .forms import OrderCreateForm
 from .models import *
 from Cart.cart import Cart
-from .tasks import order_created
 
 
-def order_create(request):
-    """Order creating"""
-    cart = Cart(request)
+class OrderCreate(View):
 
-    if len(cart) > 0:
-        if request.method == 'POST':
-            form = OrderCreateForm(request.POST)
-            if form.is_valid():
-                order = form.save()  # assign the newly created order to the order variable
+    def get(self, *args, **kwargs):
+        cart = Cart(self.request)
+        form = OrderCreateForm()
 
-                for item in cart:
-                    """Loop through all the objects in cart and creating new instance of model OrderItem"""
+        return render(self.request, 'Order/create_order.html', {'cart': cart, 'form': form})
 
-                    OrderItem.objects.create(order=order,
-                                             product=item['product'],
-                                             price=item['price'],
-                                             price_usd=item['price_usd'],
-                                             quantity=item['quantity'])
+    def post(self, *args, **kwargs):
+        cart = Cart(self.request)
+        form = OrderCreateForm(self.request.POST)
 
-                cart.clear()
+        if form.is_valid():
+            order = form.save()
 
-                request.session['order_id'] = order.id
-                return redirect('payment_process')
+            for item in cart:
+                OrderItem.objects.create(order=order,
+                                         product=item['product'],
+                                         price=item['price'],
+                                         price_usd=item['price_usd'],
+                                         quantity=item['quantity'])
+            cart.clear()
 
-        else:
-            form = OrderCreateForm()  # just returning the order form with no data
-
-        context = {
-            'cart': cart,
-            'form': form,
-        }
-        return render(request, 'Order/create_order.html', context=context)
-    else:
-        return redirect('all_products')
+            self.request.session['order_id'] = order.id
+            return redirect('payment_process')
