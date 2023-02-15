@@ -29,57 +29,54 @@ source venv/Scripts/activate
 pip install -r req.txt
 ```
 
-## Running RabbitMQ
+## Running docker-container
 
 - **Run the Docker ([Install](https://docs.docker.com/get-docker/) if you don't have it)**
-- **Run the RabbitMQ with the command in cmd or linux console:**
-````
-docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-management
-````
+- **Go to docker-compose.yml and in service rvshop_db
+  change environment settings to the following:**
+
+```
+    environment:
+      POSTGRES_USER: rvshop_user
+      POSTGRES_PASSWORD: rvshop_password
+      POSTGRES_DB: rvshop_database
+```
+
+- **Build docker container and run it**
+
+```
+docker-compose build
+docker-compose up -d
+```
 
 ## Change DB connection in settings.py
-### Connection to SQLite3
 
-```
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-```
-
-### Connection to PostgreSQL
+### Comment all DATABASE settings in settings.py and paste this database settings:
 
 ```
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'your_db_name',
-        'USER': 'username',
-        'PASSWORD': 'password',
-        'HOST': 'host',
-        'PORT': 5433
+        'NAME': 'rvshop_database',
+        'USER': 'rvshop_user',
+        'PASSWORD': 'rvshop_password',
+        'HOST': 'rvshop_db',
+        'PORT': 5432
     }
 }
 ```
 
-## Migrate & Start Server
+## Make migrations and migrate them to the database
 
 ```
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
+docker-compose run rvshop-web-app python manage.py makemigrations
+docker-compose run rvshop-web-app python manage.py migrate
 ```
 
-## Run Celery worker and beat
+## Create superuser
 
 ```
-celery -A RvShop worker --loglevel=info -P eventlet
-```
-
-```
-celery -A RvShop beat -l info
+docker-compose run rvshop-web-app python manage.py createsuperuser
 ```
 
 ## About email connection in settings.py

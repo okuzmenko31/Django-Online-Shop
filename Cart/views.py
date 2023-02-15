@@ -4,7 +4,16 @@ from Products.models import Product
 from .cart import Cart
 
 
+class CartDetail(View):
+    """Detail view of the basket"""
+
+    def get(self, *args, **kwargs):
+        cart = Cart(self.request)
+        return render(self.request, 'Cart/detail.html', {'cart': cart})
+
+
 class CartAdd(View):
+    """Detail view of the cart"""
 
     def get(self, *args, **kwargs):
         cart = Cart(self.request)
@@ -14,6 +23,7 @@ class CartAdd(View):
 
 
 class CartRemove(View):
+    """View for removing product from the basket"""
 
     def get(self, *args, **kwargs):
         cart = Cart(self.request)
@@ -23,6 +33,7 @@ class CartRemove(View):
 
 
 class CartAddQuantity(View):
+    """View for increasing product quantity in the cart"""
 
     def get(self, *args, **kwargs):
         cart = Cart(self.request)
@@ -32,16 +43,10 @@ class CartAddQuantity(View):
 
 
 class CartMinusQuantity(View):
+    """View for decreasing product quantity in the cart"""
 
     def get(self, *args, **kwargs):
         cart = Cart(self.request)
         product = get_object_or_404(Product, id=self.kwargs['product_id'])
         cart.minus_quantity(product)
         return redirect('cart')
-
-
-class CartDetail(View):
-
-    def get(self, *args, **kwargs):
-        cart = Cart(self.request)
-        return render(self.request, 'Cart/detail.html', {'cart': cart})
