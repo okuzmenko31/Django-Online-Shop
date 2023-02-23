@@ -32,11 +32,13 @@ class AllProductsList(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(AllProductsList, self).get_context_data(**kwargs)
-        context['sort_form'] = OrderingChoices({'form': self.request.session.get('all_sort')})
+        context['sort_form'] = OrderingChoices(
+            {'form': self.request.session.get('all_sort')})
         return context
 
     def post(self, *args, **kwargs):
-        sort_form = OrderingChoices(self.request.POST or {'form': self.request.session.get('all_sort')})
+        sort_form = OrderingChoices(
+            self.request.POST or {'form': self.request.session.get('all_sort')})
         if sort_form.is_valid():
             self.request.session['all_sort'] = sort_form.cleaned_data['ordering']
         all_sort = self.request.session.get('all_sort')
@@ -64,8 +66,10 @@ class ProductsByCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsByCategory, self).get_context_data(**kwargs)
-        context['sort_form'] = OrderingChoices({'form': self.request.session.get('all_sort')})
-        context['category'] = ProductCategory.objects.get(pk=self.kwargs['category_id'], slug=self.kwargs['slug'])
+        context['sort_form'] = OrderingChoices(
+            {'form': self.request.session.get('all_sort')})
+        context['category'] = ProductCategory.objects.get(
+            pk=self.kwargs['category_id'], slug=self.kwargs['slug'])
         return context
 
     def get_queryset(self):
@@ -75,7 +79,8 @@ class ProductsByCategory(ListView):
         return products
 
     def post(self, *args, **kwargs):
-        cat_sort_form = OrderingChoices(self.request.POST or {'form': self.request.session.get('all_sort')})
+        cat_sort_form = OrderingChoices(
+            self.request.POST or {'form': self.request.session.get('all_sort')})
         if cat_sort_form.is_valid():
             self.request.session['all_sort'] = cat_sort_form.cleaned_data['ordering']
         all_sort = self.request.session.get('all_sort')
@@ -104,8 +109,10 @@ class ProductsBySubCategory(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsBySubCategory, self).get_context_data(**kwargs)
-        context['sort_form'] = OrderingChoices({'form': self.request.session.get('all_sort')})
-        context['subcategory'] = ProductSubCategory.objects.get(pk=self.kwargs['sub_id'])
+        context['sort_form'] = OrderingChoices(
+            {'form': self.request.session.get('all_sort')})
+        context['subcategory'] = ProductSubCategory.objects.get(
+            pk=self.kwargs['sub_id'])
         return context
 
     def get_queryset(self):
@@ -115,7 +122,8 @@ class ProductsBySubCategory(ListView):
         return products
 
     def post(self, *args, **kwargs):
-        sub_sort_form = OrderingChoices(self.request.POST or {'form': self.request.session.get('all_sort')})
+        sub_sort_form = OrderingChoices(
+            self.request.POST or {'form': self.request.session.get('all_sort')})
         if sub_sort_form.is_valid():
             self.request.session['all_sort'] = sub_sort_form.cleaned_data['ordering']
         all_sort = self.request.session.get('all_sort')

@@ -8,3 +8,9 @@ migrations
 media
 RvShop img
 *.env
+.vscode
+__pycache__
+celerybeat-schedule
+!/celerybeat-schedule.bak
+!/celerybeat-schedule.dat
+!/celerybeat-schedule.dir

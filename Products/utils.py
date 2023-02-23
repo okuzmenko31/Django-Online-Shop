@@ -1,6 +1,4 @@
 from django.db.models import Q
-
-from Products.forms import OrderingChoices
 from Products.models import Product
 from .services import get_price_in_usd
 
