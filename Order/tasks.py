@@ -1,6 +1,6 @@
 from django.template.loader import render_to_string
 
-from RvShop.celery import app
+from OnlineShop.celery import app
 from django.core.mail import send_mail
 from .models import Order, OrderItem
 from Cart.cart import Cart

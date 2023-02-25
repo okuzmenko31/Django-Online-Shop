@@ -2,18 +2,18 @@
 
 - **python 3.11**
 - **Django 4.1.3**
-- **postgres 15.1**
+- **postgres 15**
 
 ## Clone Repository
 
 ```
-git clone https://github.com/okuzmenko31/RvShop-Online-Store-.git
+https://github.com/okuzmenko31/Django-Online-Shop.git
 ```
 
 ## Go to project directory
 
 ```
-cd RvShop-Online-Store
+cd Django-Online-Shop
 ```
 
 ## Setup Virtualenv
@@ -29,17 +29,34 @@ source venv/Scripts/activate
 pip install -r req.txt
 ```
 
+## Change DB connection in settings.py
+
+### Change DATABASE settings in settings.py to following:
+
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'shop_db',
+        'USER': 'shop_user',
+        'PASSWORD': 'password',
+        'HOST': 'db',
+        'PORT': 5432
+    }
+}
+```
+
 ## Running docker-container
 
-- **Run the Docker ([Install](https://docs.docker.com/get-docker/) if you don't have it)**
-- **Go to docker-compose.yml and in service rvshop_db
+- **Run the Docker desktop ([Install](https://docs.docker.com/get-docker/) if you don't have it)**
+- **Go to docker-compose.yml and in service db
   change environment settings to the following:**
 
 ```
     environment:
-      POSTGRES_USER: rvshop_user
-      POSTGRES_PASSWORD: rvshop_password
-      POSTGRES_DB: rvshop_database
+      POSTGRES_USER: shop_user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: shop_db
 ```
 
 - **Build docker container and run it**
@@ -49,42 +66,33 @@ docker-compose build
 docker-compose up -d
 ```
 
-## Change DB connection in settings.py
-
-### Comment all DATABASE settings in settings.py and paste this database settings:
-
-```
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rvshop_database',
-        'USER': 'rvshop_user',
-        'PASSWORD': 'rvshop_password',
-        'HOST': 'rvshop_db',
-        'PORT': 5432
-    }
-}
-```
-
 ## Make migrations and migrate them to the database
 
 ```
-docker-compose run rvshop-web-app python manage.py makemigrations
-docker-compose run rvshop-web-app python manage.py migrate
+docker-compose run shop-app python manage.py makemigrations
+docker-compose run shop-app python manage.py migrate
 ```
 
 ## Create superuser
 
 ```
-docker-compose run rvshop-web-app python manage.py createsuperuser
+docker-compose run shop-app python manage.py createsuperuser
 ```
 
-## About email connection in settings.py
+## Connection to gmail
 
-- **For correct work of sending letters, you need to replace
-  available email to yours and write you password instead of
-  available. I used connection with gmail.com, if you want to
-  connect with it [click here](https://support.google.com/mail/answer/7126229?hl=ru)
-  for more information about it.**
-- **Also, my gmail password was hidden with ConfigParser, you can
-  read the documentation [here](https://docs.python.org/3/library/configparser.html#module-configparser).**
+## In settings.py replace gmail settings to following:
+
+```
+EMAIL_HOST = smtp.gmail.com
+EMAIL_HOST_USER = your_gmail
+EMAIL_HOST_PASSWORD = your_password
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+```
+
+- **Change the content of EMAIL_HOST_USER and EMAIL_HOST_PASSWORD
+  to yours gmail and password from it.**
+
+
+- **For more information about connection to gmail, [click here.](https://support.google.com/mail/answer/7126229?hl=en)** 

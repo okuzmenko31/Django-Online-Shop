@@ -1,4 +1,4 @@
-from RvShop.celery import app
+from OnlineShop.celery import app
 from Products.models import Product
 from .services import get_price_in_usd, get_price_sep
 

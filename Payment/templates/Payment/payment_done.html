@@ -20,7 +20,11 @@
                 <div class="col-md-8">
                     <div class="card-body">
 
-                        <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }} units.</h5>
+                        {% if item.quantity > 1 %}
+                            <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }} units.</h5>
+                        {% else %}
+                            <h5 class="card-title">{{ item.product.name }} - {{ item.quantity }} unit.</h5>
+                        {% endif %}
 
                         <br>
                         <h5 class="card-text">{{ item.get_total_price_view }} <small>UAH</small></h5>

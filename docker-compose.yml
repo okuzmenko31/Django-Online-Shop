@@ -1,24 +1,24 @@
 version: '3'
 
 services:
-  rvshop_db:
+  db:
     image: postgres:15
     restart: always
     volumes:
-      - rvshop_psg_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
 
-  rvshop-web-app:
+  shop-app:
     build: .
     restart: always
-    command: python /rvshop/app/manage.py runserver 0.0.0.0:8000
+    command: python /shop/app/manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/rvshop/app
+      - .:/shop/app
     depends_on:
-      - rvshop_db
+      - db
     ports:
       - '8000:8000'
 
@@ -31,26 +31,26 @@ services:
     build:
       context: .
     volumes:
-      - .:/rvshop/app
-    command: celery -A RvShop worker -l DEBUG
+      - .:/shop/app
+    command: celery -A OnlineShop worker -l DEBUG
     depends_on:
-      - rvshop_db
+      - db
       - redis
-      - rvshop-web-app
+      - shop-app
 
   celery-beats:
     restart: always
     build:
       context: .
     volumes:
-      - .:/rvshop/app
-    command: celery -A RvShop beat -l info
+      - .:/shop/app
+    command: celery -A OnlineShop beat -l info
     depends_on:
-      - rvshop_db
+      - db
       - redis
       - worker
-      - rvshop-web-app
+      - shop-app
 
 
 volumes:
-  rvshop_psg_data:
+  postgres_data:

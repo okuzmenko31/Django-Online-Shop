@@ -163,6 +163,8 @@ class Product(models.Model):
 
             self.price_with_discount = get_discount(self.price, self.discount)
             self.price_with_discount_view = get_price_sep(self.price_with_discount)
+            self.price_in_usd = get_price_in_usd(self.price)
+            self.price_in_usd_view = get_price_sep(self.price_in_usd)
             self.price_in_usd_with_discount = get_price_in_usd(self.price_with_discount)
             self.price_in_usd_with_discount_view = get_price_sep(self.price_in_usd_with_discount)
             self.price_view = get_price_sep(self.price)
@@ -170,7 +172,6 @@ class Product(models.Model):
         else:
             """If we dont have discount"""
             self.price_with_discount = self.price
-
             self.price_view = get_price_sep(self.price)
             self.price_with_discount_view = self.price_view
             self.price_in_usd = get_price_in_usd(self.price_with_discount)

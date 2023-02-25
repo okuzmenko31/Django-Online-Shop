@@ -3,7 +3,6 @@ venv
 *.pyc
 ABOUT CART CREATION
 *.ini
-static
 migrations
 media
 RvShop img

@@ -301,27 +301,25 @@
 
     {% for review in reviews %}
         <div class="card mb-8" style="width: 2000px;">
-        <div class="card-body">
-        <div class="name-rating d-flex justify-content-between">
+            <div class="card-body">
+                <div class="name-rating d-flex justify-content-between">
+                    <h3 class="comments">{{ review.name }}</h3>
+                    <div class="rating">
+                        {{ review.get_review_star|safe }}
+                    </div>
+                </div>
+                <h5 class="comment">{{ review.review }}</h5>
 
-            <h3 class="comments">{{ review.name }}</h3>
-            <div class="rating">
-                {{ review.get_review_star|safe }}
+
+                <br>
             </div>
-
         </div>
-        <h5 class="comment">{{ review.review }}</h5>
     {% endfor %}
-
-</div>
-</div>
 
 
 
 
     <br>
-    </div>
-    </div>
     <br>
     <br>
 

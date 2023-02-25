@@ -55,6 +55,7 @@ class AllProductsList(ListView):
             'sort_form': sort_form,
             'products': products,
         }
+        print(self.paginate_by)
         return render(self.request, template_name=self.template_name, context=context)
 
 
