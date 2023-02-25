@@ -92,7 +92,4 @@ EMAIL_USE_TLS = True
 ```
 
 - **Change the content of EMAIL_HOST_USER and EMAIL_HOST_PASSWORD
-  to yours gmail and password from it.**
-
-
-- **For more information about connection to gmail, [click here.](https://support.google.com/mail/answer/7126229?hl=en)** 
+  to yours gmail and password from it. For more information about connection to gmail, [click here.](https://support.google.com/mail/answer/7126229?hl=en)** 
