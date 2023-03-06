@@ -1,5 +1,5 @@
 from django.db import models
-from Products.models import ProductSubCategory
+from Products.models import ProductSubcategory
 
 
 class AboutUs(models.Model):
@@ -15,7 +15,7 @@ class AboutUs(models.Model):
 
 
 class RecommendedProductsPhotos(models.Model):
-    product_subcategory = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE, verbose_name='Subcategory')
+    product_subcategory = models.ForeignKey(ProductSubcategory, on_delete=models.CASCADE, verbose_name='Subcategory')
     photo = models.ImageField(upload_to='recommended_products/photos/', verbose_name='photo')
 
     def __str__(self):

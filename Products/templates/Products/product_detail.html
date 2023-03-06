@@ -54,28 +54,28 @@
                     <br>
                     {% if product.discount_availability %}
                         <div class="d-flex justify-content-between">
-                            <strike><h6 class="card-text" style="margin-left: 100px">{{ product.price_view }} UAH</h6>
+                            <strike><h6 class="card-text" style="margin-left: 100px">{{ product.get_price_view }} UAH</h6>
                             </strike>
                             <strike><h6 class="card-text" style="margin-left: -630px">
-                                <small>{{ product.price_in_usd_view }}
+                                <small>{{ product.get_price_in_usd_view }}
                                 </small><small>$</small></h6>
                             </strike>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h5 class="card-text"
-                                style="color: red; margin-left: 100px">{{ product.price_with_discount_view }} UAH</h5>
+                                style="color: red; margin-left: 100px">{{ product.get_price_with_discount_view }} UAH</h5>
                             <h5 class="card-text"
                                 style="color: red; margin-right: 555px">
-                                <small>{{ product.price_in_usd_with_discount_view }}</small>
+                                <small>{{ product.get_price_in_usd_with_discount_view }}</small>
                                 <small>$</small></h5>
 
                         </div>
                         <br>
                     {% else %}
                         <div class="d-flex justify-content-between">
-                            <h5 class="card-text" style="margin-left: 100px">{{ product.price_view }} грн</h5>
+                            <h5 class="card-text" style="margin-left: 100px">{{ product.get_price_view }} грн</h5>
                             <h5 class="card-text" style="margin-right: 610px">
-                                <small>{{ product.price_in_usd_view }}</small> <small>$</small></h5>
+                                <small>{{ product.get_price_in_usd_view }}</small> <small>$</small></h5>
                         </div>
 
                         <br>
@@ -190,10 +190,10 @@
 
                                     <span class="discount">-{{ product.discount }}%</span>
                                     <span class="price"
-                                          style="margin-left: 63px">{{ product.price_with_discount_view }} <small>₴</small></span>
+                                          style="margin-left: 63px">{{ product.get_price_with_discount_view }} <small>₴</small></span>
 
                                 {% else %}
-                                    <span class="price">{{ product.price_view }} <small>₴</small></span>
+                                    <span class="price">{{ product.get_price_view }} <small>₴</small></span>
                                 {% endif %}
 
                                 <a href="{% url 'cart_add' product.pk %}" class="add-to-cart button"><img

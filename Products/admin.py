@@ -11,7 +11,7 @@ class ProductPhotosInline(admin.TabularInline):
 
 class ProductAdminForm(forms.ModelForm):
     characteristics = forms.CharField(widget=CKEditorUploadingWidget())
-    full_info = forms.CharField(widget=CKEditorUploadingWidget())
+    info = forms.CharField(widget=CKEditorUploadingWidget())
 
     class Meta:
         model = Product
@@ -26,7 +26,7 @@ class ProductCategoryAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 
-@admin.register(ProductSubCategory)
+@admin.register(ProductSubcategory)
 class ProductSubCategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'main_category']
     list_display_links = ['id', 'name']
@@ -54,10 +54,10 @@ class ReviewsAdmin(admin.ModelAdmin):
 
 @admin.register(ProductColorChoice)
 class ProductColorChoiceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'color', 'product', 'category', 'is_active']
+    list_display = ['id', 'color', 'product', 'subcategory', 'is_active']
     list_display_links = ['id', 'color']
-    list_editable = ['category', 'is_active']
-    search_fields = ['id', 'category', 'color']
+    list_editable = ['subcategory', 'is_active']
+    search_fields = ['id', 'subcategory', 'color']
 
 
 @admin.register(ProductMemoryCategory)
@@ -67,8 +67,8 @@ class ProductMemoryCategoryAdmin(admin.ModelAdmin):
     search_fields = ['id', 'memory_size']
 
 
-@admin.register(ProductVersion)
-class ProductVersion(admin.ModelAdmin):
+@admin.register(ProductVersionCategory)
+class ProductVersionCategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'title']
     list_display_links = ['id', 'title']
     search_fields = ['id', 'title']
@@ -83,15 +83,15 @@ class ProductColorCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(ProductMemoryChoice)
 class ProductMemoryChoiceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'memory', 'product', 'category', 'is_active']
+    list_display = ['id', 'memory', 'product', 'subcategory', 'is_active']
     list_display_links = ['id', 'memory']
-    list_editable = ['category', 'is_active']
-    search_fields = ['id', 'category', 'memory']
+    list_editable = ['subcategory', 'is_active']
+    search_fields = ['id', 'subcategory', 'memory']
 
 
 @admin.register(ProductVersionChoice)
 class ProductVersionChoiceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'version', 'product', 'category', 'is_active']
+    list_display = ['id', 'version', 'product', 'subcategory', 'is_active']
     list_display_links = ['id', 'version']
-    list_editable = ['category', 'is_active']
-    search_fields = ['id', 'category', 'version']
+    list_editable = ['subcategory', 'is_active']
+    search_fields = ['id', 'subcategory', 'version']

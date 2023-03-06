@@ -11,9 +11,9 @@
     <div class="recommend_prod">
         {% for item in recommend_prod %}
 
-            <a href="{{ item.product_subcategory.get_absolute_url }}"><img src="{{ item.photo.url }}"
-                                                                           style="width: 1000px"
-                                                                           class="d-block w-100" alt="..."></a>
+            <a href="{{ item.product_subcategory.get_absolute_url }}">
+                <img src="{{ item.photo.url }}" style="width: 1000px" class="d-block w-100" alt="...">
+            </a>
 
         {% endfor %}
     </div>
@@ -56,10 +56,10 @@
 
                                     <span class="discount">-{{ product.discount }}%</span>
                                     <span class="price"
-                                          style="margin-left: 63px">{{ product.price_with_discount_view }} <small>₴</small></span>
+                                          style="margin-left: 63px">{{ product.get_price_with_discount_view }} <small>₴</small></span>
 
                                 {% else %}
-                                    <span class="price">{{ product.price_view }} <small>₴</small></span>
+                                    <span class="price">{{ product.get_price_view }} <small>₴</small></span>
                                 {% endif %}
                                 <a href="{% url 'cart_add' product.pk %}" class="add-to-cart button"><img
                                         src="{% static 'icon/icons8-shopping-cart-24.png' %}"

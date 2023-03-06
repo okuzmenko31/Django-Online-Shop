@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
     'paypal.standard.ipn',
-    # 'debug_toolbar',
     'ckeditor',
     'Products',
     'Order',
@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # "debug_toolbar.middleware.DebugToolbarMiddleware",
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'OnlineShop.urls'
@@ -84,14 +84,25 @@ WSGI_APPLICATION = 'OnlineShop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('POSTGRES_DB'),
+#         'USER': os.getenv('POSTGRES_USER'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#         'HOST': os.getenv('POSTGRES_HOST'),
+#         'PORT': os.getenv('POSTGRES_PORT')
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
-        'PORT': os.getenv('POSTGRES_PORT')
+        'NAME': os.getenv('LOCAL_POSTGRES_DB'),
+        'USER': os.getenv('LOCAL_POSTGRES_USER'),
+        'PASSWORD': os.getenv('LOCAL_POSTGRES_PASSWORD'),
+        'HOST': os.getenv('LOCAL_POSTGRES_HOST'),
+        'PORT': os.getenv('LOCAL_POSTGRES_PORT')
     }
 }
 
@@ -116,7 +127,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -158,6 +169,8 @@ EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
+
+# CKEDITOR
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
@@ -226,12 +239,18 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-CART_SESSION_ID = 'cart'
+# DEBUG TOOLBAR
 
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
     # ...
 ]
+
+# CART SESSION
+
+CART_SESSION_ID = 'cart'
+
+# PAYPAL
 
 PAYPAL_RECEIVER_EMAIL = str(os.getenv('PAYPAL_RECEIVER_EMAIL'))

@@ -12,12 +12,11 @@ class ReviewsForms(forms.ModelForm):
         }
 
 
-class OrderingChoices(forms.Form):
+class OrderingChoicesForm(forms.Form):
     ORDERING_CHOICES = [
         ('standard', 'Standard sorting'),
         ('cheaper', 'Cheaper'),
         ('expensive', 'Expensive'),
     ]
-
     ordering = forms.TypedChoiceField(label='Sorting', choices=ORDERING_CHOICES, required=False,
                                       widget=forms.Select(attrs={'class': 'form-control'}))
