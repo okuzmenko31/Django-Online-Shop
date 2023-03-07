@@ -43,6 +43,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['main_category', 'subcategory', 'status']
     search_fields = ['name', 'article']
     inlines = [ProductPhotosInline]
+    exclude = ['editing']
 
 
 @admin.register(Reviews)

@@ -5,9 +5,10 @@ from .models import Reviews, Product, ProductMemoryChoice, ProductVersionChoice,
 
 @receiver(post_save, sender=Reviews)
 def get_total_rating(**kwargs):
+    """This signal is for getting total rating of product"""
     instance = kwargs['instance']
     product = instance.product
-    reviews = Reviews.objects.filter(product=product)
+    reviews = Reviews.objects.filter(product=product)  # getting reviews which related with product
 
     count_of_rating = 0
 
@@ -20,9 +21,12 @@ def get_total_rating(**kwargs):
 
 @receiver(post_save, sender=Product)
 def get_product_choices(**kwargs):
+    """This signal is for creating choices after adding a product"""
     instance = kwargs['instance']
 
     if not instance.editing:
+        """instance.editing - this is boolean field which is needed to avoid
+        creation of similar choices of product after saving."""
         if instance.product_memory:
             ProductMemoryChoice.objects.create(product=instance, subcategory=instance.subcategory,
                                                color=instance.product_color,
@@ -42,5 +46,5 @@ def get_product_choices(**kwargs):
                                               version=instance.product_version, is_active=True,
                                               background_color=instance.product_color.color_hex)
 
-        instance.editing = True
+        instance.editing = True  # value changing to True and similar choices won't be creating
         instance.save()

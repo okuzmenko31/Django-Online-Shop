@@ -194,12 +194,12 @@ class Product(models.Model):
 
 class Reviews(models.Model):
     """Model of reviews"""
-    name = models.CharField(max_length=200, verbose_name="Name", blank=True)
+    name = models.CharField(max_length=200, verbose_name="Name")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Product',
                                 related_name='review_product')
     review = models.TextField(verbose_name='Review')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Creation date')
-    rating = models.FloatField(verbose_name='Rating', blank=True)
+    rating = models.FloatField(verbose_name='Rating')
     ip = models.CharField(max_length=20, blank=True, verbose_name='IP address')
 
     def __str__(self):

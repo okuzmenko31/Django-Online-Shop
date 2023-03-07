@@ -5,13 +5,17 @@ from .forms import OrderingChoicesForm
 from .models import ProductColorChoice, ProductMemoryChoice, ProductVersionChoice
 
 
-def get_search(search):
-    """Method of getting search query."""
-    """The search function parameter is the search result we get in the file views.py"""
+class SearchMixin:
+    """Mixin for getting search queryset"""
 
-    return Product.objects.filter(
-        Q(name__icontains=search) | Q(characteristics__icontains=search) | Q(
-            full_info__icontains=search) | Q(status__icontains=search)).select_related('main_category', 'subcategory')
+    @staticmethod
+    def get_search(search):
+        """This method has a search parameter which is search query from user"""
+        queryset = Product.objects.filter(
+            Q(name__icontains=search) | Q(characteristics__icontains=search) | Q(
+                info__icontains=search) | Q(status__icontains=search)).select_related('main_category',
+                                                                                      'subcategory')
+        return queryset
 
 
 class ProductsSortMixin:
@@ -43,6 +47,8 @@ class ProductsSortMixin:
 
 
 class ProductRelatedChoicesMixin:
+    """Mixin for getting related choices of product.
+    Mixin returns context with choices."""
 
     @staticmethod
     def get_related_choices(product):

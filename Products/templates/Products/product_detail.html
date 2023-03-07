@@ -54,7 +54,8 @@
                     <br>
                     {% if product.discount_availability %}
                         <div class="d-flex justify-content-between">
-                            <strike><h6 class="card-text" style="margin-left: 100px">{{ product.get_price_view }} UAH</h6>
+                            <strike><h6 class="card-text" style="margin-left: 100px">{{ product.get_price_view }}
+                                UAH</h6>
                             </strike>
                             <strike><h6 class="card-text" style="margin-left: -630px">
                                 <small>{{ product.get_price_in_usd_view }}
@@ -63,7 +64,8 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <h5 class="card-text"
-                                style="color: red; margin-left: 100px">{{ product.get_price_with_discount_view }} UAH</h5>
+                                style="color: red; margin-left: 100px">{{ product.get_price_with_discount_view }}
+                                UAH</h5>
                             <h5 class="card-text"
                                 style="color: red; margin-right: 555px">
                                 <small>{{ product.get_price_in_usd_with_discount_view }}</small>
@@ -236,6 +238,7 @@
 
                 {% csrf_token %}
 
+                {{ form.non_field.errors }}
                 <div class="form-group">
                     <label for="{{ form.name.id_for_label }}">Name: </label>
                     <br>

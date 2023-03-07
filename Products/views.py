@@ -2,15 +2,15 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
-from .utils import get_search, ProductsSortMixin, ProductRelatedChoicesMixin
+from .utils import ProductsSortMixin, ProductRelatedChoicesMixin, SearchMixin
 from .forms import ReviewsForms, OrderingChoicesForm
 from .models import *
 
 
-class Search(ListView):
+class Search(SearchMixin, ListView):
     """View for search"""
     model = Product
-    template_name = 'Product/products_list.html'
+    template_name = 'Products/products_list.html'
     paginate_by = 12
     context_object_name = 'products'
 
@@ -18,7 +18,7 @@ class Search(ListView):
         search_query = self.request.GET.get('search', '')
 
         if search_query:
-            queryset = get_search(search_query)
+            queryset = self.get_search(search_query)
         else:
             queryset = self.queryset
         return queryset

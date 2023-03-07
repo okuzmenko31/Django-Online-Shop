@@ -64,28 +64,39 @@ def get_price_sep(price):
 
 
 def get_rating_star(rating):
+    """Function for getting rating stars of product"""
     if 5.1 > rating > 4.9:
+        # if rating of product is 5
         return '<img src="/static/stars/star.png">' * 5
     elif 4.8 > rating > 4.4:
+        # if rating of product is 4.5
         return '<img src="/static/stars/star.png">' * 4 + '<img src="/static/stars/rating.png">'
     elif 4.5 > rating > 3.9:
+        # if rating of product is 4
         return '<img src="/static/stars/star.png">' * 4 + '<img src="/static/stars/empty_star.png">'
     elif 3.9 > rating > 3.4:
+        # if rating of product is 3.5
         return '<img src="/static/stars/star.png">' * 3 + '<img src="/static/stars/rating.png">' + \
             '<img src="/static/stars/empty_star.png">'
     elif 3.5 > rating > 2.9:
+        # if rating of product is 3
         return '<img src="/static/stars/star.png">' * 3 + '<img src="/static/stars/empty_star.png">' * 2
     elif 2.8 > rating > 2.4:
+        # if rating of product is 2.5
         return '<img src="/static/stars/star.png">' * 2 + '<img src="/static/stars/rating.png">' + \
             '<img src="/static/stars/empty_star.png">' * 2
     elif 2.5 > rating > 1.9:
+        # if rating of product is 2
         return '<img src="/static/stars/star.png">' * 2 + '<img src="/static/stars/empty_star.png">' * 3
     elif 1.8 > rating > 1.4:
+        # if rating of product is 1.5
         return '<img src="/static/stars/star.png">' * 1 + '<img src="/static/stars/rating.png">' + \
             '<img src="/static/stars/empty_star.png">' * 3
     elif 1.5 > rating > 0.9:
+        # if rating of product is 1
         return '<img src="/static/stars/star.png">' * 1 + '<img src="/static/stars/empty_star.png">' * 4
     else:
+        # if rating of product is 0
         return '<img src="/static/stars/empty_star.png">' * 5
 
 
