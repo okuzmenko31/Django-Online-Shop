@@ -71,7 +71,9 @@ class Cart:
         """Iterating through items in the basket and getting the products from the database.
         Adding to the basket the objects of the model."""
         product_ids = self.cart.keys()
-        products = Product.objects.filter(id__in=product_ids)  # getting all products, whose IDs in the cart
+        products = Product.objects.filter(id__in=product_ids).select_related('main_category',
+                                                                             'subcategory')
+        # getting all products, whose IDs in the cart
 
         for product in products:
             """In every id of product in the cart assigns value 'product',
@@ -85,10 +87,11 @@ class Cart:
             item['total_price'] = item['price'] * item['quantity']
             item['price_usd'] = Decimal(item['price_usd'])
             item['total_price_usd'] = item['price_usd'] * item['quantity']
-            item['total_price_view'] = get_price_sep(item['total_price'])
-            item['total_price_usd_view'] = get_price_sep(item['total_price_usd'])
-            item['price_view'] = get_price_sep(item['price'])
-            item['price_usd_view'] = get_price_sep(item['price_usd'])
+            item['total_price_view'] = get_price_sep(item['total_price'])  # total price of product for template
+            item['total_price_usd_view'] = get_price_sep(
+                item['total_price_usd'])  # total price of product in usd for template
+            item['price_view'] = get_price_sep(item['price'])  # product price for template
+            item['price_usd_view'] = get_price_sep(item['price_usd'])  # product price in usd for template
             yield item
 
     def __len__(self):

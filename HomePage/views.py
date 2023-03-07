@@ -17,8 +17,7 @@ class HomePage(View):
 
         gadgets = Product.objects.filter(main_category_id=7).select_related('main_category', 'subcategory')
 
-        recommend_prod = RecommendedProductsPhotos.objects.all().select_related('product_subcategory__main_category',
-                                                                                'product_subcategory')
+        recommend_prod = RecommendedProductsPhotos.objects.all().only('photo')
         context = {
             'home_info': home_info,
             'recommend_prod': recommend_prod,

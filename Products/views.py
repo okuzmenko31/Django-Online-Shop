@@ -116,22 +116,29 @@ class ProductsDetailView(ProductRelatedChoicesMixin, DetailView):
     template_name = 'Products/product_detail.html'
     context_object_name = 'product'
 
+    def get_queryset(self):
+        return Product.objects.filter(pk=self.kwargs['pk']).select_related('main_category', 'subcategory',
+                                                                           'product_memory', 'product_version',
+                                                                           'product_color')
+
     def get_context_data(self, **kwargs):
         """Added to the context colors, memory and version choices
          which related with the product. Also added photos and reviews which related
          with the product too, form and recommended products."""
         context = super(ProductsDetailView, self).get_context_data(**kwargs)
-        product = get_object_or_404(Product, pk=self.kwargs['pk'])
+        product = self.get_queryset().get()
         context.update(self.get_related_choices(product))
-        context['photos'] = ProductPhotos.objects.filter(product=product)
-        context['reviews'] = Reviews.objects.filter(product=product)
+        context['photos'] = ProductPhotos.objects.filter(product=product).only('photo')
+        context['reviews'] = Reviews.objects.filter(product=product).only('name',
+                                                                          'review',
+                                                                          'rating')
         context['recommended_products'] = Product.objects.all().order_by('?').select_related('main_category',
                                                                                              'subcategory')
         context['form'] = ReviewsForms()
         return context
 
     def post(self, *args, **kwargs):
-        product = get_object_or_404(Product, pk=self.kwargs['pk'])
+        product = self.get_queryset()
         form = ReviewsForms(self.request.POST)
 
         if form.is_valid():
