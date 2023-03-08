@@ -41,9 +41,9 @@
         {% endfor %}
 
         <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
-            <small>UAH</small>: {{ order.order_total_price_view }} <small>UAH</small></h5>
+            <small>UAH</small>: {{ order.get_order_total_price_view }} <small>UAH</small></h5>
         <h5 style="margin-left: 5px; margin-bottom: 5px; width: 700px">Total price in
-            <small>USD</small>: {{ order.order_total_price_usd_view }} <small>$</small></h5>
+            <small>USD</small>: {{ order.get_order_total_price_usd_view }} <small>$</small></h5>
         <hr>
         <h5 style="margin-left: 20px; margin-bottom: 10px">Wait for a call from manager</h5>
 

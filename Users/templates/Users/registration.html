@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block titlte %}
+    Registration
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data" style="width: 35%">
+        {% csrf_token %}
+        <h1>Registration</h1>
+        {{ form.as_p }}
+        {#        {{ form.non_field.errors }}#}
+        {#        <p>#}
+        {#            <label for="id_name">Name:</label>#}
+        {#            <input type="text" name="name" class="form-control" id="id_name">#}
+        {#            {{ form.name.errors }}#}
+        {#        </p>#}
+        {##}
+        {#        <p>#}
+        {#            <label for="id_last_name">Last name:</label>#}
+        {#            <input type="text" name="last_name" class="form-control" id="id_last_name">#}
+        {#            {{ form.last_name.errors }}#}
+        {#        </p>#}
+        {##}
+        {##}
+        {#        <p>#}
+        {#            <label for="id_surname">Surname:</label>#}
+        {#            <input type="text" name="surname" class="form-control" id="id_surname">#}
+        {#            {{ form.surname.errors }}#}
+        {#        </p>#}
+        {##}
+        {#        <p>#}
+        {#            <label for="id_phone">Phone:</label>#}
+        {#            <input type="text" name="phone" class="form-control" id="id_phone">#}
+        {#            {{ form.surname.errors }}#}
+        {#        </p>#}
+        {##}
+        {##}
+        {#        <p>#}
+        {#            <label for="id_email">Email:</label>#}
+        {#            <input type="email" name="email" class="form-control" id="id_email">#}
+        {#            {{ form.email.errors }}#}
+        {#        </p>#}
+        {##}
+        {#        <p>#}
+        {#            <label for="id_city">City(Optional):</label>#}
+        {#            <input type="text" name="city" class="form-control" id="id_city">#}
+        {#            {{ form.city.errors }}#}
+        {#        </p>#}
+        {##}
+        {##}
+        {#        <p>#}
+        {#            <label for="id_post_office">Post office(Optional):</label>#}
+        {#            <input type="text" name="post_office" class="form-control" id="id_post_office">#}
+        {#            {{ form.post_offices.errors }}#}
+        {#        </p>#}
+        {##}
+        {#        <p>#}
+        {#            <label for="id_photo">Photo:</label>#}
+        {#            <input type="file" name="photo" class="form-control" id="id_photo">#}
+        {#            {{ form.photo.errors }}#}
+        {#        </p>#}
+        {##}
+        {##}
+        {#        <p>#}
+        {#            <label for="id_password1">Password:</label>#}
+        {#            <input type="password" name="password1" class="form-control" id="id_password1">#}
+        {#            {{ form.password1.errors }}#}
+        {#        </p>#}
+        {##}
+        {#        <p>#}
+        {#            <label for="id_password2">Password confirmation:</label>#}
+        {#            <input type="password" name="password2" class="form-control" id="id_password2">#}
+        {#            {{ form.password2.errors }}#}
+        {#        </p>#}
+
+        <button type="submit" class="btn btn-dark btn-block">Register</button>
+
+    </form>
+{% endblock %}

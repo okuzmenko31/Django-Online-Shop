@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'Cart',
     'Payment',
     'HomePage',
+    'Users',
 ]
 
 MIDDLEWARE = [
@@ -255,17 +256,19 @@ CART_SESSION_ID = 'cart'
 
 PAYPAL_RECEIVER_EMAIL = str(os.getenv('PAYPAL_RECEIVER_EMAIL'))
 
-LOGGING = {
-    'version': 1,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'DEBUG'
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG'
+#         },
+#     },
+# }
+
+AUTH_USER_MODEL = 'Users.User'

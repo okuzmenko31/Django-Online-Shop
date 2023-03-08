@@ -28,6 +28,7 @@ urlpatterns = [
     path('online-shop/orders/', include('Order.urls')),
     path('paypal/', include('paypal.standard.ipn.urls')),
     path('online-shop/payment/', include('Payment.urls')),
+    path('online-shop/user/', include('Users.urls'))
 ]
 
 if settings.DEBUG:

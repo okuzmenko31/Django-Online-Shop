@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block titlte %}
+    Registration
+{% endblock %}
+
+{% block content %}
+    <form action="" method="post" style="width: 35%">
+        {% csrf_token %}
+        <h1>Authentication</h1>
+        {{ form.non_field.errors }}
+        <p>
+            <label for="id_username">Email:</label>
+            <input type="text" name="username" class="form-control" id="id_username">
+            {{ form.username.errors }}
+        </p>
+
+        <p>
+            <label for="id_password">Password:</label>
+            <input type="password" name="password" class="form-control" id="id_password">
+            {{ form.password.errors }}
+        </p>
+        <button type="submit" class="btn btn-dark btn-block">Authenticate</button>
+
+    </form>
+{% endblock %}
