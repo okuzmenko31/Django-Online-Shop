@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Купити {{ product.name }}
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="card mb-3" style="width: 2000px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                {% if user.photo %}
+                    <img src="{{ user.photo.url }}" class="img-fluid rounded-start" alt="..."
+                         style="margin-left: 5px; margin-top: 20px; margin-bottom: 20px">
+
+                {% else %}
+                    <img src="{% static 'icon/default-user-icon-8.png' %}" class="img-fluid rounded-start" alt="..."
+                         style="margin-left: 5px; margin-top: 20px; margin-bottom: 20px">
+                {% endif %}
+
+
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title" style="margin-left: 100px">
+                        Personal information
+                    </h3>
+                    {% if user.name or user.last_name or user.surname %}
+                        <h6 class="card-text"
+                            style="margin-left: 100px; margin-top: 40px">
+                            Full name: {{ user.name }} {{ user.last_name }} {{ user.surname }}</h6>
+                    {% endif %}
+
+                    {% if user.phone %}
+                        <h6 class="card-text"
+                            style="margin-left: 100px; margin-top: 15px">Phone number: {{ user.phone }}</h6>
+                    {% endif %}
+
+                    <h6 class="card-text"
+                        style="margin-left: 100px; margin-top: 15px">Email: {{ user.email }}</h6>
+
+
+                    <br>
+                    <br>
+                    <h3 class="card-title" style="margin-left: 100px">
+                        Shipping information
+                    </h3>
+                    {% if user.city %}
+                        <h6 class="card-text"
+                            style="margin-left: 100px; margin-top: 40px">
+                            City: {{ user.city }}</h6>
+                    {% endif %}
+                    <h6 class="card-text"
+                        style="margin-left: 100px; margin-top: 15px">Post office: {{ user.phone }}</h6>
+                    <h6 class="card-text"
+                        style="margin-left: 100px; margin-top: 15px">Email: {{ user.email }}</h6>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

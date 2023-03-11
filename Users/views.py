@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView
 from django.views import View
+from django.views.generic import DetailView
+
 from .forms import UserRegistration, AuthenticationForm
 from .models import User
 from django.contrib.auth import login
@@ -46,3 +47,13 @@ class Authentication(View):
             login(self.request, user)
             return redirect('all_products')
         return render(self.request, 'Users/authentication.html', {'form': form})
+
+
+class UserDetailPage(View):
+
+    def get(self, *args, **kwargs):
+        user = self.request.user
+        context = {
+            'user': user
+        }
+        return render(self.request, template_name='Users/detail-page.html', context=context)

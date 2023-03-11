@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.db import models
 from Products.models import Product
 from .services import *
@@ -11,23 +10,23 @@ class Order(models.Model):
     last_name = models.CharField(max_length=300, verbose_name='Last name')
     surname = models.CharField(max_length=300, verbose_name='Surname')
     phone = models.CharField(max_length=200, verbose_name='Phone number', blank=True)
-    is_active = models.BooleanField(default=False, verbose_name='Замовлення підтверджено')
-    created = models.DateTimeField(auto_now_add=True, verbose_name='Створено')
-    updated = models.DateTimeField(auto_now=True, verbose_name='Оновлено')
-    email = models.EmailField(verbose_name='Пошта', blank=True)
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Order creation date')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Order update date')
+    email = models.EmailField(verbose_name='Email', blank=True)
     address = models.CharField(max_length=250, verbose_name='Address')
-    post_office = models.CharField(max_length=20, verbose_name='Post office')
-    city = models.CharField(max_length=100, verbose_name='City or town')
-    paid = models.BooleanField(default=False, verbose_name='Замовлення сплачено?')
+    post_office = models.CharField(max_length=200, verbose_name='Post office')
+    country = models.CharField(max_length=250, verbose_name='Country')
+    city = models.CharField(max_length=250, verbose_name='City or town')
+    paid = models.BooleanField(default=False, verbose_name='Paid')
     order_total_price = models.IntegerField(verbose_name='Order total price', default=0)
     order_total_price_usd = models.IntegerField(verbose_name='Order total price in USD', default=0)
 
     def __str__(self):
-        return f"ID замовлення: {self.id}, Ім'я та фамілія замовника: {self.name} {self.last_name}"
+        return f"Order ID: {self.id}, customer name and last name: {self.name} {self.last_name}"
 
     class Meta:
-        verbose_name = 'замовлення'
-        verbose_name_plural = 'Замовлення'
+        verbose_name = 'order'
+        verbose_name_plural = 'Orders'
 
     def get_order_total_price_view(self):
         order_total_price_view = get_price_sep(self.order_total_price)
@@ -39,12 +38,12 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    """Model of item in order"""
-    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, verbose_name='Замовлення')
-    product = models.ForeignKey(Product, related_name='order_items', on_delete=models.CASCADE, verbose_name='Товар')
-    price = models.IntegerField(verbose_name='Ціна товару')
+    """Model of orders items"""
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, verbose_name='Order')
+    product = models.ForeignKey(Product, related_name='order_items', on_delete=models.CASCADE, verbose_name='Product')
+    price = models.IntegerField(verbose_name='Product price')
     price_usd = models.IntegerField(verbose_name='Price per item in dollars', default=0)
-    quantity = models.PositiveIntegerField(default=1, verbose_name='кількість товару')
+    quantity = models.PositiveIntegerField(default=1, verbose_name='Quantity of product')
     item_total_price = models.IntegerField(verbose_name='Total price of item', default=0)
     item_total_price_usd = models.IntegerField(verbose_name='Total price of item in usd', default=0)
 
