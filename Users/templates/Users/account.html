@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    Купити {{ product.name }}
+    My account
 {% endblock %}
 
 {% block content %}
@@ -38,10 +38,15 @@
                        aria-current="true">Personal
                         information</a>
                 </div>
+                <a href="{% url 'logout' %}">
+                    <img src="{% static 'icon/61208.png' %}" alt=""
+                         style="width: 30px; margin-right: 5px; margin-left: 250px">
+                    Logout
+                </a>
             </div>
 
-            <div class="col-md-8">
-            <h1 class="pers-info-title" style="margin-bottom: 50px">Your personal information</h1>
+            <div class="col-md-8 personal-info">
+                <h1 class="pers-info-title" style="margin-bottom: 50px">Your personal information</h1>
                 <div class="card-body">
                     <h3 class="card-title" style="margin-left: 100px">
                         Personal information

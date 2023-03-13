@@ -1,8 +1,15 @@
+from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.views import View
 from django.contrib import messages
-from .forms import UserRegistration, AuthenticationForm
-from django.contrib.auth import login, logout
+from .forms import UserRegistration, AuthenticationForm, UserResetPasswordForm
+from django.contrib.auth import login, logout, get_user_model
+from .tasks import send_password_reset_mail
+
+User = get_user_model()
 
 
 class Registration(View):
@@ -12,20 +19,18 @@ class Registration(View):
             form = UserRegistration()
             return render(self.request, 'Users/registration.html', {'form': form})
         else:
-            return redirect(self.request.path)
+            return redirect('customer-account')
 
     def post(self, *args, **kwargs):
-        form = UserRegistration(self.request.POST, self.request.FILES)
+        form = UserRegistration(self.request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.photo = self.request.FILES['photo']
             user.save()
 
             try:
                 login(self.request, user)
                 messages.success(self.request, 'You successfully created an account!')
-            except (Exception,) as a:
-                print(a)
+            except (Exception,):
                 messages.error(self.request, 'Something went wrong. Try again.')
 
             self.request.user.username = f'user{self.request.user.id}'
@@ -60,8 +65,7 @@ class Logout(View):
             try:
                 logout(self.request)
                 messages.success(self.request, 'You successfully logged out!')
-            except (Exception,) as a:
-                print(a)
+            except (Exception,):
                 messages.error(self.request, 'Something went wrong. Try again.')
         else:
             messages.error(self.request, 'You can\'t logout if you are not authenticated')
@@ -79,3 +83,39 @@ class UserDetailPage(View):
                 'user': user
             }
             return render(self.request, template_name='Users/account.html', context=context)
+
+
+class UserResetPassword(View):
+
+    def get(self, *args, **kwargs):
+        reset_form = UserResetPasswordForm()
+        return render(self.request, 'Users/password_reset_page.html', {'reset_form': reset_form})
+
+    def post(self, *args, **kwargs):
+        reset_form = UserResetPasswordForm(self.request.POST)
+
+        if reset_form.is_valid():
+            email = reset_form.cleaned_data['email']
+
+            try:
+                user = User.objects.get(email=email)
+
+                if user:
+                    subject = 'Requested password reset'
+                    email_template_name = 'Users/password_reset_mail_template.html'
+                    cont = {
+                        'email': email,
+                        'domain': '127.0.0.1:8000',
+                        'site_name': 'OnlineShop',
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'user': user,
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'http',
+                    }
+                    msg_html = render_to_string(email_template_name, cont)
+                    send_password_reset_mail.delay(subject, email, msg_html)
+                    messages.success(self.request, 'Mail was sent successfully!')
+            except (Exception,):
+                messages.error(self.request, 'User with this email does not exist!')
+
+        return render(self.request, 'Users/password_reset_page.html', {'reset_form': reset_form})
