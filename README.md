@@ -7,7 +7,7 @@
 ## Clone Repository
 
 ```
-https://github.com/okuzmenko31/Django-Online-Shop.git
+git clone https://github.com/okuzmenko31/Django-Online-Shop.git
 ```
 
 ## Go to project directory
