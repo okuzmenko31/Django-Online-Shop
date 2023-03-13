@@ -69,7 +69,7 @@ class PaymentProcess(CSRFExemptMixin, View):
                 'business': settings.PAYPAL_RECEIVER_EMAIL,
                 'amount': f'{order.order_total_price_usd}',
                 'item_name': f'Order #{order.id}, \n\n{count_items}',
-                'invoice': f'{order.id}',
+                'invoice': f'103114',
                 'currency_code': 'USD',
                 'notify_url': f'http://{host}{reverse("paypal-ipn")}',
                 'return_url': f'http://{host}{reverse("payment_done")}',

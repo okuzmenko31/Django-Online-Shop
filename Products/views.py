@@ -138,7 +138,7 @@ class ProductsDetailView(ProductRelatedChoicesMixin, DetailView):
         return context
 
     def post(self, *args, **kwargs):
-        product = self.get_queryset()
+        product = Product.objects.get(pk=self.kwargs['pk'])
         form = ReviewsForms(self.request.POST)
 
         if form.is_valid():

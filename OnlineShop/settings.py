@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'paypal.standard.ipn',
     'ckeditor',
+
+    # Applications
     'Products',
     'Order',
     'Cart',

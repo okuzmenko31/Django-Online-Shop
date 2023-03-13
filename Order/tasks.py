@@ -12,8 +12,8 @@ def order_created(order_id):
     html_msg = {
         'success_msg': f'{order.name} - You successfully placed your order!',
         'order_num': f'Number of order: {order.id}.',
-        'order_price_uah': f'Total price of order in UAH: {order.order_total_price_view}.',
-        'order_price_usd': f'Total price of order in USD: {order.order_total_price_usd_view}.',
+        'order_price_uah': f'Total price of order in UAH: {order.get_order_total_price_view()}.',
+        'order_price_usd': f'Total price of order in USD: {order.get_order_total_price_usd_view()}.',
         'last_msg': 'Thanks for order. Wait for call from our manager.'
     }
 

@@ -42,14 +42,23 @@
                 <button class="btn btn-dark" type="submit">Search</button>
             </form>
 
-            <div class="user-image" style="width: 40px; height: 40px; margin-left: 25px">
-                {% if request.user.photo %}
-                    <img src="{{ request.user.photo.url }}" alt="">
-                {% else %}
-                    <img src="{% static 'icon/default-user-icon-8.png' %}" alt="">
-                {% endif %}
-            </div>
-
+            {% if request.user.is_authenticated %}
+                <div class="user-image" style="width: 40px; height: 40px; margin-left: 25px">
+                    {% if request.user.photo %}
+                        <a href="{% url 'customer-account' %}"><img src="{{ request.user.photo.url }}" alt=""></a>
+                    {% else %}
+                        <a href="{% url 'customer-account' %}">
+                            <img src="{% static 'icon/default-user-icon-8.png' %}" alt=""></a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="d-flex" style="margin-left: 20px; margin-left: 20px">
+                    <a href="{% url 'authentication' %}" style="margin-right: 20px">Sign in</a>
+                    <div class="sign-up" style="border: 1px solid white; border-radius: 7px; padding: 2px">
+                        <a href="{% url 'registration' %}">Sign up</a>
+                    </div>
+                </div>
+            {% endif %}
 
             <div class="col-md-1">
                 <div class="cart" style="margin-left: 30px">

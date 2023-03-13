@@ -1,10 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import DetailView
-
+from django.contrib import messages
 from .forms import UserRegistration, AuthenticationForm
-from .models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 
 class Registration(View):
@@ -14,7 +12,7 @@ class Registration(View):
             form = UserRegistration()
             return render(self.request, 'Users/registration.html', {'form': form})
         else:
-            return redirect('all_products')
+            return redirect(self.request.path)
 
     def post(self, *args, **kwargs):
         form = UserRegistration(self.request.POST, self.request.FILES)
@@ -22,7 +20,13 @@ class Registration(View):
             user = form.save(commit=False)
             user.photo = self.request.FILES['photo']
             user.save()
-            login(self.request, user)
+
+            try:
+                login(self.request, user)
+                messages.success(self.request, 'You successfully created an account!')
+            except (Exception,) as a:
+                print(a)
+                messages.error(self.request, 'Something went wrong. Try again.')
 
             self.request.user.username = f'user{self.request.user.id}'
             self.request.user.save()
@@ -37,7 +41,7 @@ class Authentication(View):
             form = AuthenticationForm()
             return render(self.request, 'Users/authentication.html', {'form': form})
         else:
-            return redirect('all_products')
+            return redirect(self.request.path)
 
     def post(self, *args, **kwargs):
         form = AuthenticationForm(data=self.request.POST)
@@ -45,15 +49,33 @@ class Authentication(View):
         if form.is_valid():
             user = form.get_user()
             login(self.request, user)
-            return redirect('all_products')
+            return redirect('customer-account')
         return render(self.request, 'Users/authentication.html', {'form': form})
+
+
+class Logout(View):
+
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            try:
+                logout(self.request)
+                messages.success(self.request, 'You successfully logged out!')
+            except (Exception,) as a:
+                print(a)
+                messages.error(self.request, 'Something went wrong. Try again.')
+        else:
+            messages.error(self.request, 'You can\'t logout if you are not authenticated')
+        return redirect('authentication')
 
 
 class UserDetailPage(View):
 
     def get(self, *args, **kwargs):
-        user = self.request.user
-        context = {
-            'user': user
-        }
-        return render(self.request, template_name='Users/detail-page.html', context=context)
+        if not self.request.user.is_authenticated:
+            return redirect('registration')
+        else:
+            user = self.request.user
+            context = {
+                'user': user
+            }
+            return render(self.request, template_name='Users/account.html', context=context)
