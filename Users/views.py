@@ -5,7 +5,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views import View
 from django.contrib import messages
-from .forms import UserRegistration, AuthenticationForm, UserResetPasswordForm
+from .forms import UserRegistration, AuthenticationForm, UserResetPasswordForm, UserChangePasswordForm
 from django.contrib.auth import login, logout, get_user_model
 from .tasks import send_password_reset_mail
 
@@ -119,3 +119,24 @@ class UserResetPassword(View):
                 messages.error(self.request, 'User with this email does not exist!')
 
         return render(self.request, 'Users/password_reset_page.html', {'reset_form': reset_form})
+
+
+class UserChangePassword(View):
+
+    def get(self, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            user = self.request.user
+            form = UserChangePasswordForm(user=user)
+            return render(self.request, 'Users/password-change.html', {'form': form})
+        else:
+            return redirect('registration')
+
+    def post(self, *args, **kwargs):
+        user = self.request.user
+        form = UserChangePasswordForm(data=self.request.POST, user=user)
+
+        if form.is_valid():
+            user.set_password(form.cleaned_data['new_password1'])
+            user.save()
+            messages.success(self.request, 'You successfully changed your password!')
+        return render(self.request, 'Users/password-change.html', {'form': form})
