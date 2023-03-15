@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    My account
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="card mb-3" style="width: 2000px;">
+        <div class="row g-0">
+            <div class="col-md-12">
+                {% if user.photo %}
+                    <img src="{{ user.photo.url }}" class="img-fluid rounded-start" alt="..."
+                         style="margin-left: 5px; margin-top: 20px; margin-bottom: 20px; width: 120px">
+
+                {% else %}
+                    <img src="{% static 'icon/default-user-icon-8.png' %}" class="img-fluid rounded-start" alt="..."
+                         style="margin-left: 5px; margin-top: 20px; margin-bottom: 20px; width: 120px;
+                          border-radius: 12px">
+                {% endif %}
+                <h5 class="user-full-name" style="margin-left: 5px">{{ user.name }} {{ user.last_name }}</h5>
+                <hr>
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="list-group list-group-flush" style="width: 80%">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        My cabinet
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">Coupons</a>
+                    <a href="{% url 'user-orders' %}" class="list-group-item list-group-item-action active"
+                       aria-current="true">My orders</a>
+                    <a href="#" class="list-group-item list-group-item-action">Favorites</a>
+                    <a href="{% url 'customer-account' %}" class="list-group-item list-group-item-action">Personal
+                        information</a>
+                </div>
+                <a href="{% url 'logout' %}">
+                    <img src="{% static 'icon/61208.png' %}" alt=""
+                         style="width: 30px; margin-right: 5px; margin-left: 250px">
+                    Logout
+                </a>
+            </div>
+
+            <div class="col-md-8 personal-info">
+                <h1 class="pers-info-title" style="margin-bottom: 50px">My orders</h1>
+                <div class="card-body">
+                    <h3 class="card-title" style="margin-left: 100px">
+                        Orders
+                    </h3>
+
+                    <div class="orders" style="margin-left: 100px; margin-top: 40px">
+                        {% if orders %}
+                            {% for order in orders %}
+                                <div class="card" style="border: 1px solid white !important">
+                                    <h5 class="card-header">№ {{ order.id }}</h5>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ order.created|date:"d-m-Y" }}</h5>
+                                        {% if order.order_status is 1 %}
+                                            <p class="card-text"
+                                               style="color: green">{{ order.get_order_status_display }}</p>
+                                        {% else %}
+                                            <p class="card-text"
+                                               style="color: yellow">{{ order.get_order_status_display }}</p>
+                                        {% endif %}
+                                        <p class="card-text"><h6>{{ order.get_order_total_price_view }}
+                                        <small>₴</small>
+                                    </h6></p>
+                                        <p class="card-text" style="margin-top: -10px">
+                                        <h6>{{ order.get_order_total_price_usd_view }}
+                                            <small>$</small>
+                                        </h6></p>
+
+                                        <a href="{% url 'user-order-detail' order.id %}" class="btn btn-dark">More
+                                            information</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <h6>You don't have orders</h6>
+                        {% endif %}
+
+                    </div>
+
+
+                    <br>
+                    <br>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    My account
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="card mb-3" style="width: 2000px;">
+        <div class="row g-0">
+            <div class="col-md-12">
+                {% if user.photo %}
+                    <img src="{{ user.photo.url }}" class="img-fluid rounded-start" alt="..."
+                         style="margin-left: 5px; margin-top: 20px; margin-bottom: 20px; width: 120px">
+
+                {% else %}
+                    <img src="{% static 'icon/default-user-icon-8.png' %}" class="img-fluid rounded-start" alt="..."
+                         style="margin-left: 5px; margin-top: 20px; margin-bottom: 20px; width: 120px;
+                          border-radius: 12px">
+                {% endif %}
+                <h5 class="user-full-name" style="margin-left: 5px">{{ user.name }} {{ user.last_name }}</h5>
+                <hr>
+
+            </div>
+
+            <div class="col-md-4">
+                <div class="list-group list-group-flush" style="width: 80%">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        My cabinet
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">Coupons</a>
+                    <a href="{% url 'user-orders' %}" class="list-group-item list-group-item-action active"
+                       aria-current="true">My orders</a>
+                    <a href="#" class="list-group-item list-group-item-action">Favorites</a>
+                    <a href="{% url 'customer-account' %}" class="list-group-item list-group-item-action">Personal
+                        information</a>
+                </div>
+                <a href="{% url 'logout' %}">
+                    <img src="{% static 'icon/61208.png' %}" alt=""
+                         style="width: 30px; margin-right: 5px; margin-left: 250px">
+                    Logout
+                </a>
+            </div>
+
+            <div class="col-md-8 personal-info">
+                <h1 class="pers-info-title" style="margin-bottom: 50px">Order: № {{ order.id }}</h1>
+                <div class="card-body">
+
+                    <div class="order" style="margin-left: 100px; margin-top: 40px">
+
+                        <div class="card" style="border: 1px solid white !important">
+                            <h5 class="card-header">№ {{ order.id }}</h5>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ order.created|date:"d-m-Y" }}</h5>
+                                {% if order.order_status is 1 %}
+                                    <p class="card-text"
+                                       style="color: green">{{ order.get_order_status_display }}</p>
+                                {% else %}
+                                    <p class="card-text"
+                                       style="color: yellow">{{ order.get_order_status_display }}</p>
+                                {% endif %}
+
+                                <p class="card-text">
+                                <h5>Order bonuses</h5>
+                                <h6>{{ order.order_bonuses }} ₴<small></small></h6>
+                                <h6>{{ order.order_bonuses_usd }} $<small></small></h6>
+                                </p>
+
+                                <hr>
+
+                                {% for item in order_items %}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <a href="{{ item.product.get_absolute_url }}">
+                                                <img src="{{ item.product.img.url }}" alt="" width="150">
+                                            </a>
+                                            <a href="{{ item.product.get_absolute_url }}"><h5
+                                                    class="card-title">{{ item.product.name }}</h5></a>
+                                            {% if item.quantity > 1 %}
+                                                <p class="card-text"><h6>{{ item.quantity }} units</h6></p>
+                                            {% else %}
+                                                <p class="card-text"><h6>{{ item.quantity }} unit</h6></p>
+                                            {% endif %}
+                                            <p class="card-text"><h6>{{ item.product.get_price_view }} <small>₴</small>
+                                        </h6></p>
+                                            <p class="card-text"><h6>{{ item.product.get_price_in_usd_view }}
+                                            <small>$</small>
+                                        </h6></p>
+                                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                <hr>
+
+                                <div class="shipping">
+                                    <h2>Shipping:</h2>
+                                    <p class="card-text">Status: {{ order.get_order_status_display }}</p>
+                                    <p class="card-text">
+                                        Address: {{ order.country }}, {{ order.city }}, {{ order.address }}
+                                    </p>
+                                    <p class="card-text">Recipient: {{ order.last_name }} {{ order.name }}</p>
+                                    <p class="card-text">Recipient number: {{ order.phone }}</p>
+                                </div>
+
+                                <hr>
+                                <div class="total">
+                                    <h2>Total:</h2>
+                                    <p class="card-text"><h5>{{ order.get_order_total_price_view }}
+                                    <small>₴</small>
+                                </h5></p>
+                                    <p class="card-text" style="margin-top: -10px">
+                                    <h5>{{ order.get_order_total_price_usd_view }}
+                                        <small>$</small>
+                                    </h5></p>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <br>
+                    <br>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

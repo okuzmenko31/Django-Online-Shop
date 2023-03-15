@@ -7,6 +7,7 @@ from django.conf import settings
 from Cart.cart import Cart
 from Order.tasks import order_created
 from .utils import CSRFExemptMixin
+from Order.services import generate_code
 
 
 class PaymentDone(CSRFExemptMixin, View):
@@ -77,7 +78,7 @@ class PaymentProcess(CSRFExemptMixin, View):
                 'business': settings.PAYPAL_RECEIVER_EMAIL,
                 'amount': f'{order.order_total_price_usd}',
                 'item_name': f'Order #{order.id}, \n\n{count_items}',
-                'invoice': f'103114',
+                'invoice': f'{generate_code()}{order_id}',
                 'currency_code': 'USD',
                 'notify_url': f'http://{host}{reverse("paypal-ipn")}',
                 'return_url': f'http://{host}{reverse("payment_done")}',

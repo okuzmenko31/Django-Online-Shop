@@ -10,6 +10,10 @@ User = get_user_model()
 
 class Order(models.Model):
     """Model of order"""
+    ORDER_STATUSES = (
+        (1, 'Completed'),
+        (2, 'In progress')
+    )
     name = models.CharField(max_length=300, verbose_name="Name")
     last_name = models.CharField(max_length=300, verbose_name='Last name')
     surname = models.CharField(max_length=300, verbose_name='Surname', blank=True)
@@ -30,6 +34,9 @@ class Order(models.Model):
                              null=True,
                              blank=True)
     activate_bonuses = models.BooleanField(verbose_name='Activate bonuses?', default=False)
+    order_status = models.IntegerField(verbose_name='Order status', default=2, choices=ORDER_STATUSES)
+    order_bonuses = models.IntegerField(default=0, verbose_name='Order bonuses')
+    order_bonuses_usd = models.IntegerField(default=0, verbose_name='Order bonuses in usd')
 
     def __str__(self):
         return f"Order ID: {self.id}, customer name and last name: {self.name} {self.last_name}"

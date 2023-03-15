@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
@@ -5,10 +6,12 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views import View
 from django.contrib import messages
+from django.views.generic import ListView
 from .forms import UserRegistration, AuthenticationForm, UserResetPasswordForm, UserChangePasswordForm
 from django.contrib.auth import login, logout, get_user_model
 from .tasks import send_password_reset_mail
 from .services import get_clean_email
+from Order.models import Order, OrderItem
 
 User = get_user_model()
 
@@ -143,3 +146,28 @@ class UserChangePassword(View):
             user.save()
             messages.success(self.request, 'You successfully changed your password!')
         return render(self.request, 'Users/password-change.html', {'form': form})
+
+
+class UserOrders(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'Users/user-orders.html'
+    context_object_name = 'orders'
+    login_url = 'registration'
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+
+class UserOrderDetail(LoginRequiredMixin, View):
+    login_url = 'registration'
+
+    def get(self, *args, **kwargs):
+        order = Order.objects.get(id=kwargs['order_id'])
+        order_items = OrderItem.objects.filter(order=order).select_related('product__main_category',
+                                                                           'product__subcategory')
+
+        context = {
+            'order': order,
+            'order_items': order_items
+        }
+        return render(self.request, template_name='Users/user-order-detail.html', context=context)
