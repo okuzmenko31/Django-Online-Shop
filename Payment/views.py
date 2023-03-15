@@ -18,6 +18,14 @@ class PaymentDone(CSRFExemptMixin, View):
         order_created.delay(order.id)
 
         items = OrderItem.objects.filter(order=order)
+        user_bonuses = 0
+
+        for item in items:
+            user_bonuses += item.product.bonuses
+
+        if self.request.user.is_authenticated:
+            self.request.user.bonuses_balance = user_bonuses
+            self.request.user.save()
 
         del self.request.session['order_id']
         self.request.session.modified = True

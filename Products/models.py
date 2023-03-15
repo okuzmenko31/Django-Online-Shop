@@ -46,7 +46,7 @@ class ProductSubcategory(models.Model):
 class ProductMemoryCategory(models.Model):
     """Category of products memories"""
     memory_size = models.CharField(max_length=250, verbose_name='Size of memory', blank=True)
-    int_memory_value = models.IntegerField(verbose_name='Value of memory size', blank=True)
+    int_memory_value = models.IntegerField(verbose_name='Value of memory size(In megabytes)', blank=True)
 
     def __str__(self):
         return f'Memory size: {self.memory_size}'
@@ -131,6 +131,7 @@ class Product(models.Model):
                                   verbose_name='Dont touch this field, after saving it will be True.')
     price_in_usd = models.IntegerField(verbose_name='Product price in dollars', default=0)
     price_in_usd_with_discount = models.IntegerField(verbose_name='Product price in dollars with discount', default=0)
+    bonuses = models.IntegerField(verbose_name='Bonuses for buying this product', default=0)
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'category': self.main_category.slug,
@@ -145,8 +146,8 @@ class Product(models.Model):
             return f"{self.name}"
 
     class Meta:
-        verbose_name = 'товар'
-        verbose_name_plural = 'Товари'
+        verbose_name = 'product'
+        verbose_name_plural = 'Products'
         ordering = ['-id']
 
     def save(self, *args, **kwargs):

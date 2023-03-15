@@ -16,9 +16,14 @@ class OrderCreate(View):
     def post(self, *args, **kwargs):
         cart = Cart(self.request)
         form = OrderCreateForm(self.request.POST)
+        user = self.request.user
 
         if form.is_valid():
-            order = form.save()
+            order = form.save(commit=False)
+
+            if user.is_authenticated:
+                order.user = user
+            order.save()
 
             for item in cart:
                 OrderItem.objects.create(order=order,

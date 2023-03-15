@@ -53,19 +53,12 @@ class ReviewsAdmin(admin.ModelAdmin):
     search_fields = ['id']
 
 
-@admin.register(ProductColorChoice)
-class ProductColorChoiceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'color', 'product', 'subcategory', 'is_active']
-    list_display_links = ['id', 'color']
-    list_editable = ['subcategory', 'is_active']
-    search_fields = ['id', 'subcategory', 'color']
-
-
 @admin.register(ProductMemoryCategory)
 class ProductMemoryCategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'memory_size']
     list_display_links = ['id', 'memory_size']
     search_fields = ['id', 'memory_size']
+    exclude = ['memory_size']
 
 
 @admin.register(ProductVersionCategory)
@@ -80,19 +73,3 @@ class ProductColorCategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'color_in_admin_panel']
     list_display_links = ['id', 'color_in_admin_panel']
     search_fields = ['id', 'color_in_admin_panel']
-
-
-@admin.register(ProductMemoryChoice)
-class ProductMemoryChoiceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'memory', 'product', 'subcategory', 'is_active']
-    list_display_links = ['id', 'memory']
-    list_editable = ['subcategory', 'is_active']
-    search_fields = ['id', 'subcategory', 'memory']
-
-
-@admin.register(ProductVersionChoice)
-class ProductVersionChoiceAdmin(admin.ModelAdmin):
-    list_display = ['id', 'version', 'product', 'subcategory', 'is_active']
-    list_display_links = ['id', 'version']
-    list_editable = ['subcategory', 'is_active']
-    search_fields = ['id', 'subcategory', 'version']

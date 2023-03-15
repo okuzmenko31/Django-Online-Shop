@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from .models import Reviews, Product, ProductMemoryChoice, ProductVersionChoice, ProductColorChoice
 
@@ -28,23 +28,23 @@ def get_product_choices(**kwargs):
         """instance.editing - this is boolean field which is needed to avoid
         creation of similar choices of product after saving."""
         if instance.product_memory:
-            ProductMemoryChoice.objects.create(product=instance, subcategory=instance.subcategory,
-                                               color=instance.product_color,
-                                               version=instance.product_version,
-                                               memory=instance.product_memory.memory_size
-                                               )
+            ProductMemoryChoice.objects.get_or_create(product=instance, subcategory=instance.subcategory,
+                                                      color=instance.product_color,
+                                                      version=instance.product_version,
+                                                      memory=instance.product_memory.memory_size
+                                                      )
 
         if instance.product_version:
-            ProductVersionChoice.objects.create(product=instance, subcategory=instance.subcategory,
-                                                memory=instance.product_memory,
-                                                color=instance.product_color,
-                                                version=instance.product_version.title)
+            ProductVersionChoice.objects.get_or_create(product=instance, subcategory=instance.subcategory,
+                                                       memory=instance.product_memory,
+                                                       color=instance.product_color,
+                                                       version=instance.product_version.title)
 
         if instance.product_color:
-            ProductColorChoice.objects.create(product=instance, subcategory=instance.subcategory,
-                                              color=instance.product_color.color, memory=instance.product_memory,
-                                              version=instance.product_version, is_active=True,
-                                              background_color=instance.product_color.color_hex)
+            ProductColorChoice.objects.get_or_create(product=instance, subcategory=instance.subcategory,
+                                                     color=instance.product_color.color, memory=instance.product_memory,
+                                                     version=instance.product_version, is_active=True,
+                                                     background_color=instance.product_color.color_hex)
 
         instance.editing = True  # value changing to True and similar choices won't be creating
         instance.save()

@@ -1,7 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from Products.models import Product
 from .services import *
 from Products.services import get_price_sep
+from Products.services import get_price_in_usd
+
+User = get_user_model()
 
 
 class Order(models.Model):
@@ -20,6 +24,12 @@ class Order(models.Model):
     paid = models.BooleanField(default=False, verbose_name='Paid')
     order_total_price = models.IntegerField(verbose_name='Order total price', default=0)
     order_total_price_usd = models.IntegerField(verbose_name='Order total price in USD', default=0)
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE,
+                             verbose_name='User',
+                             null=True,
+                             blank=True)
+    activate_bonuses = models.BooleanField(verbose_name='Activate bonuses?', default=False)
 
     def __str__(self):
         return f"Order ID: {self.id}, customer name and last name: {self.name} {self.last_name}"
@@ -51,8 +61,13 @@ class OrderItem(models.Model):
         return f'ID: {self.id}'
 
     def save(self, *args, **kwargs):
-        self.item_total_price = get_product_cost(self.price, self.quantity)
-        self.item_total_price_usd = get_product_cost(self.price_usd, self.quantity)
+        if self.order.activate_bonuses:
+            self.item_total_price = get_product_cost(self.price, self.quantity) - float(self.product.bonuses)
+            bonuses_in_usd = get_price_in_usd(self.product.bonuses)
+            self.item_total_price_usd = get_product_cost(self.price_usd, self.quantity) - float(bonuses_in_usd)
+        else:
+            self.item_total_price = get_product_cost(self.price, self.quantity)
+            self.item_total_price_usd = get_product_cost(self.price_usd, self.quantity)
         return super(OrderItem, self).save(*args, **kwargs)
 
     def get_total_price_view(self):

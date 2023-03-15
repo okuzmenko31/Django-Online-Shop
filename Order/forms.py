@@ -5,7 +5,9 @@ from .models import Order
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['name', 'last_name', 'surname', 'phone', 'email', 'address', 'country', 'city', 'post_office']
+        fields = ['name', 'last_name', 'surname',
+                  'phone', 'email', 'address', 'country', 'city', 'post_office',
+                  'activate_bonuses']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Write your name"}),
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Write your last name"}),

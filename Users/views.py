@@ -8,6 +8,7 @@ from django.contrib import messages
 from .forms import UserRegistration, AuthenticationForm, UserResetPasswordForm, UserChangePasswordForm
 from django.contrib.auth import login, logout, get_user_model
 from .tasks import send_password_reset_mail
+from .services import get_clean_email
 
 User = get_user_model()
 
@@ -25,6 +26,8 @@ class Registration(View):
         form = UserRegistration(self.request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+            user.username = get_clean_email(form.cleaned_data['email'])
+            # get_clean_email returns email without all symbols after @
             user.save()
 
             try:
