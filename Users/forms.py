@@ -43,3 +43,18 @@ class UserChangePasswordForm(PasswordChangeForm):
                                     widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 
+class ChangeEmailForm(forms.Form):
+    email = forms.EmailField(label='New email',
+                             widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        users = User.objects.all()
+        emails_list = []
+
+        for user in users:
+            emails_list.append(user.email)
+
+        if email in emails_list:
+            self.add_error("email", "This email is already taken!")
+        return email
