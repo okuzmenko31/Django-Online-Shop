@@ -8,10 +8,10 @@ from django.views import View
 from django.contrib import messages
 from django.views.generic import ListView
 
-from Order.services import generate_code
+from Coupons.models import Coupons
 from .forms import UserRegistration, AuthenticationForm, UserResetPasswordForm, UserChangePasswordForm, ChangeEmailForm
 from django.contrib.auth import login, logout, get_user_model
-from .tasks import send_password_reset_mail, email_confirmed_mail
+from .tasks import send_password_reset_mail, change_email_success_mail
 from .services import get_clean_email
 from Order.models import Order, OrderItem
 
@@ -63,6 +63,8 @@ class Authentication(View):
             user = form.get_user()
             login(self.request, user)
             return redirect('customer-account')
+        else:
+            messages.error(self.request, 'Login or password is wrong')
         return render(self.request, 'Users/authentication.html', {'form': form})
 
 
@@ -168,7 +170,7 @@ class UserChangeEmailView(LoginRequiredMixin, View):
             user.email = form.cleaned_data['email']
             user.save()
 
-            email_confirmed_mail.delay(user.username, user.email)
+            change_email_success_mail.delay(user.username, user.email)
             messages.success(self.request, 'Mail has been successfully changed, please, confirm it.')
         return render(self.request, 'Users/user-change-email.html', {'user': user, 'form': form})
 
@@ -196,3 +198,15 @@ class UserOrderDetail(LoginRequiredMixin, View):
             'order_items': order_items
         }
         return render(self.request, template_name='Users/user-order-detail.html', context=context)
+
+
+class UserCoupons(LoginRequiredMixin, View):
+    login_url = 'registration'
+
+    def get(self, *args, **kwargs):
+        coupons = Coupons.objects.filter(user=self.request.user)
+
+        context = {
+            'coupons': coupons
+        }
+        return render(self.request, template_name='Users/user-coupons.html', context=context)

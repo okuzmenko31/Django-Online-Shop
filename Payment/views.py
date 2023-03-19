@@ -8,6 +8,9 @@ from Cart.cart import Cart
 from Order.tasks import order_created
 from .utils import CSRFExemptMixin
 from Order.services import generate_code
+from Coupons.models import Coupons
+from Products.models import ProductSubcategory
+import random
 
 
 class PaymentDone(CSRFExemptMixin, View):
@@ -24,12 +27,28 @@ class PaymentDone(CSRFExemptMixin, View):
         for item in items:
             user_bonuses += item.product.bonuses
 
+            if self.request.user.is_authenticated:
+                subcategories = ProductSubcategory.objects.all()
+                subs = []
+
+                for subcategory in subcategories:
+                    subs.append(subcategory)
+                sub = random.choice(subs)
+
+                if not Coupons.objects.filter(user=self.request.user, subcategory=sub).exists():
+                    Coupons.objects.create(user=self.request.user,
+                                           subcategory=sub,
+                                           discount=random.randint(1, 20))
         if self.request.user.is_authenticated:
             self.request.user.bonuses_balance = user_bonuses
             self.request.user.save()
 
         del self.request.session['order_id']
         self.request.session.modified = True
+
+        if order.coupon:
+            order.coupon.is_active = False
+            order.coupon.save()
 
         order.paid = True
         order.save()

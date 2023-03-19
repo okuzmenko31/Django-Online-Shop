@@ -11,9 +11,9 @@ def send_password_reset_mail(subject, email, msg_html):
 
 
 @app.task
-def email_confirmed_mail(username, email):
+def change_email_success_mail(username, email):
     subject = f'{username} - You successfully confirmed new email!'
-    message = 'Thank you for being with is!\n' \
+    message = 'Thank you for being with us!\n' \
               'Sincerely, OnlineShop team.'
     send = send_mail(subject, message, str(settings.EMAIL_HOST_USER), [email])
     return send

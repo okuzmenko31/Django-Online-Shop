@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'Payment',
     'HomePage',
     'Users',
+    'Coupons',
 ]
 
 MIDDLEWARE = [

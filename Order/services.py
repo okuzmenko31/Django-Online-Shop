@@ -1,4 +1,5 @@
 import secrets
+from Coupons.models import Coupons
 
 
 def generate_code():

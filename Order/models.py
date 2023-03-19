@@ -2,8 +2,9 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from Products.models import Product
 from .services import *
-from Products.services import get_price_sep
+from Products.services import get_price_sep, get_discount
 from Products.services import get_price_in_usd
+from Coupons.models import Coupons
 
 User = get_user_model()
 
@@ -37,6 +38,11 @@ class Order(models.Model):
     order_status = models.IntegerField(verbose_name='Order status', default=2, choices=ORDER_STATUSES)
     order_bonuses = models.IntegerField(default=0, verbose_name='Order bonuses')
     order_bonuses_usd = models.IntegerField(default=0, verbose_name='Order bonuses in usd')
+    coupon = models.ForeignKey(Coupons,
+                               on_delete=models.SET_NULL,
+                               verbose_name='Coupon',
+                               blank=True,
+                               null=True)
 
     def __str__(self):
         return f"Order ID: {self.id}, customer name and last name: {self.name} {self.last_name}"

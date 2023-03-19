@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+
+from Products.services import get_price_in_usd
 from .services import get_clean_email
 
 
@@ -10,8 +12,9 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=300, verbose_name='Last name', blank=True)
     surname = models.CharField(max_length=300, verbose_name='Surname', blank=True)
     email = models.EmailField(unique=True, verbose_name='Email')
-    phone = models.CharField(unique=True, max_length=200, verbose_name='Phone number', blank=True)
+    phone = models.CharField(max_length=200, verbose_name='Phone number', blank=True)
     bonuses_balance = models.IntegerField(verbose_name='Bonuses balance', default=0)
+    bonuses_balance_usd = models.IntegerField(verbose_name='Bonuses balance in usd', default=0)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'name', 'last_name', 'surname']
@@ -25,6 +28,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         self.username = get_clean_email(self.email)
+        self.bonuses_balance = get_price_in_usd(self.bonuses_balance)
         return super().save(*args, **kwargs)
 
 

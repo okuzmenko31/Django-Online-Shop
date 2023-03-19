@@ -1,7 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
-from Products.services import get_price_in_usd
+from Products.services import get_price_in_usd, get_discount
 from .models import OrderItem
 
 
@@ -25,8 +24,14 @@ def item_in_order_post_save(**kwargs):
         order_bonuses += item.product.bonuses
         order_bonuses_usd = get_price_in_usd(item.product.bonuses)
 
+    if instance.order.coupon:
+        if instance.product.subcategory == instance.order.coupon.subcategory:
+            order_total_price = get_discount(order_total_price, instance.order.coupon.discount)
+            order_total_price_usd = get_price_in_usd(order_total_price)
+
     instance.order.order_total_price = order_total_price
     instance.order.order_total_price_usd = order_total_price_usd
+
     instance.order.order_bonuses = order_bonuses
     instance.order.order_bonuses_usd = order_bonuses_usd
     instance.order.save(force_update=True)

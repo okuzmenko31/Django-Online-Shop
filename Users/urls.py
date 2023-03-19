@@ -17,5 +17,6 @@ urlpatterns = [
     path('password-change/', UserChangePassword.as_view(), name='password-change'),
     path('settings/change-email/', UserChangeEmailView.as_view(), name='change-email'),
     path('my-orders/', UserOrders.as_view(), name='user-orders'),
-    path('order-detail/<int:order_id>/', UserOrderDetail.as_view(), name='user-order-detail')
+    path('order-detail/<int:order_id>/', UserOrderDetail.as_view(), name='user-order-detail'),
+    path('my-coupons/', UserCoupons.as_view(), name='user-coupons')
 ]
