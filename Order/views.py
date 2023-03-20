@@ -3,6 +3,7 @@ from django.views import View
 from .forms import OrderCreateForm
 from .models import *
 from Cart.cart import Cart
+from .tasks import order_created
 
 
 class OrderCreate(View):
@@ -34,4 +35,15 @@ class OrderCreate(View):
             cart.clear()
 
             self.request.session['order_id'] = order.id
-            return redirect('payment_process')
+
+            if order.order_total_price == 0 and order.order_total_price_usd == 0:
+                # If order total price os 0, user will be redirected
+                # to the payment done page, because he paid with his bonuses.
+
+                try:
+                    order_created.delay(order.id)
+                except (Exception,):
+                    print('Celery is not working now')
+                return redirect('payment_done')
+            else:
+                return redirect('payment_process')

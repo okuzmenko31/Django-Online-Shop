@@ -27,7 +27,7 @@ class Coupons(models.Model):
         verbose_name_plural = 'Coupons'
 
     def __str__(self):
-        return f'Coupon #{self.id}, user: {self.user}'
+        return f'Coupon for subcategory: {self.subcategory.name}'
 
     def save(self, *args, **kwargs):
         self.valid_to = generate_end_date(self.valid_from)

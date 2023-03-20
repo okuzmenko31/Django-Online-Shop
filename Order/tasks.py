@@ -1,12 +1,10 @@
 from django.template.loader import render_to_string
-
 from OnlineShop.celery import app
 from django.core.mail import send_mail
-from .models import Order, OrderItem
-from Cart.cart import Cart
+from .models import Order
 
 
-@app.task
+@app.task(default_retry_delay=30, max_retries=3)
 def order_created(order_id):
     order = Order.objects.get(id=order_id)
     html_msg = {

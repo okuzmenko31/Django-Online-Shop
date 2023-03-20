@@ -6,5 +6,7 @@ register = template.Library()
 
 @register.simple_tag()
 def get_product_category():
-    return ProductCategory.objects.all()
+    """Simple tag for getting products categories."""
+
+    return ProductCategory.objects.all().prefetch_related('subcategory__main_category')
 

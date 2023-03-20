@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-from Products.services import get_price_in_usd
 from .services import get_clean_email
 
 
@@ -28,7 +26,6 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         self.username = get_clean_email(self.email)
-        self.bonuses_balance = get_price_in_usd(self.bonuses_balance)
         return super().save(*args, **kwargs)
 
 

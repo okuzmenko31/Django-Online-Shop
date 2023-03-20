@@ -5,6 +5,11 @@ from .services import get_price_in_usd, get_price_sep
 
 @app.task
 def update_product_price_usd():
+    """
+    Task for updating product price
+    in USD currency. Runs every 48 hours.
+    """
+
     for product in Product.objects.all():
         product.price_in_usd = get_price_in_usd(product.price)
         product.price_in_usd_with_discount = get_price_in_usd(product.price_with_discount)

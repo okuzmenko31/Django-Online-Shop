@@ -1,6 +1,5 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView
 from .utils import ProductsSortMixin, ProductRelatedChoicesMixin, SearchMixin
 from .forms import ReviewsForms, OrderingChoicesForm
@@ -9,6 +8,7 @@ from .models import *
 
 class Search(SearchMixin, ListView):
     """View for search"""
+
     model = Product
     template_name = 'Products/products_list.html'
     paginate_by = 12
@@ -26,6 +26,7 @@ class Search(SearchMixin, ListView):
 
 class AllProductsList(ProductsSortMixin, ListView):
     """All products view"""
+
     model = Product
     template_name = 'Products/products_list.html'
     context_object_name = 'products'
@@ -46,6 +47,7 @@ class AllProductsList(ProductsSortMixin, ListView):
 
 class ProductsByCategory(ProductsSortMixin, ListView):
     """Products by category view"""
+
     model = Product
     template_name = 'Products/products_by_category.html'
     paginate_by = 12
@@ -79,6 +81,7 @@ class ProductsByCategory(ProductsSortMixin, ListView):
 
 class ProductsBySubCategory(ProductsSortMixin, ListView):
     """Products by subcategory view"""
+
     model = Product
     template_name = 'Products/products_by_subcategory.html'
     context_object_name = 'products'
@@ -112,6 +115,7 @@ class ProductsBySubCategory(ProductsSortMixin, ListView):
 
 class ProductsDetailView(ProductRelatedChoicesMixin, DetailView):
     """Product detail view"""
+
     model = Product
     template_name = 'Products/product_detail.html'
     context_object_name = 'product'
@@ -122,9 +126,12 @@ class ProductsDetailView(ProductRelatedChoicesMixin, DetailView):
                                                                            'product_color')
 
     def get_context_data(self, **kwargs):
-        """Added to the context colors, memory and version choices
-         which related with the product. Also added photos and reviews which related
-         with the product too, form and recommended products."""
+        """
+        Adding to the context: colors, memory and version choices,
+        which related with the product. Also added photos and reviews which related
+        with the product too, form and recommended products.
+        """
+
         context = super(ProductsDetailView, self).get_context_data(**kwargs)
         product = self.get_queryset().get()
         context.update(self.get_related_choices(product))

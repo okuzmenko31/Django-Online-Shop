@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from Products.models import Product
 from .services import *
-from Products.services import get_price_sep, get_discount
+from Products.services import get_price_sep
 from Products.services import get_price_in_usd
 from Coupons.models import Coupons
 
@@ -10,7 +10,8 @@ User = get_user_model()
 
 
 class Order(models.Model):
-    """Model of order"""
+    """Model of orders"""
+
     ORDER_STATUSES = (
         (1, 'Completed'),
         (2, 'In progress')
@@ -34,7 +35,7 @@ class Order(models.Model):
                              verbose_name='User',
                              null=True,
                              blank=True)
-    activate_bonuses = models.BooleanField(verbose_name='Activate bonuses?', default=False)
+    use_bonuses = models.BooleanField(verbose_name='Use bonuses?', default=False)
     order_status = models.IntegerField(verbose_name='Order status', default=2, choices=ORDER_STATUSES)
     order_bonuses = models.IntegerField(default=0, verbose_name='Order bonuses')
     order_bonuses_usd = models.IntegerField(default=0, verbose_name='Order bonuses in usd')
@@ -52,6 +53,12 @@ class Order(models.Model):
         verbose_name_plural = 'Orders'
 
     def get_order_total_price_view(self):
+        """
+        Method for getting order total price
+        in normal string representation.
+        More about it in 'Products.services.py'
+        """
+
         order_total_price_view = get_price_sep(self.order_total_price)
         return order_total_price_view
 
@@ -62,6 +69,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     """Model of orders items"""
+
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE, verbose_name='Order')
     product = models.ForeignKey(Product, related_name='order_items', on_delete=models.CASCADE, verbose_name='Product')
     price = models.IntegerField(verbose_name='Product price')
@@ -74,13 +82,13 @@ class OrderItem(models.Model):
         return f'ID: {self.id}'
 
     def save(self, *args, **kwargs):
-        if self.order.activate_bonuses:
-            self.item_total_price = get_product_cost(self.price, self.quantity) - float(self.product.bonuses)
-            bonuses_in_usd = get_price_in_usd(self.product.bonuses)
-            self.item_total_price_usd = get_product_cost(self.price_usd, self.quantity) - float(bonuses_in_usd)
-        else:
-            self.item_total_price = get_product_cost(self.price, self.quantity)
-            self.item_total_price_usd = get_product_cost(self.price_usd, self.quantity)
+        """
+        Calculating total price and total price in
+        USD currency of item.
+        """
+
+        self.item_total_price = get_product_cost(self.price, self.quantity)
+        self.item_total_price_usd = get_price_in_usd(self.item_total_price)
         return super(OrderItem, self).save(*args, **kwargs)
 
     def get_total_price_view(self):

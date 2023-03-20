@@ -1,6 +1,5 @@
 from django.db.models import Q
 from Products.models import Product
-from .services import get_price_in_usd
 from .forms import OrderingChoicesForm
 from .models import ProductColorChoice, ProductMemoryChoice, ProductVersionChoice
 
@@ -24,6 +23,7 @@ class ProductsSortMixin:
     @staticmethod
     def get_sort_context(request, queryset):
         """Method which returns context with form and sorted products"""
+
         form = OrderingChoicesForm(request.POST or {'form': request.session.get('sort')})
 
         if form.is_valid():
@@ -31,7 +31,7 @@ class ProductsSortMixin:
         sort = request.session.get('sort')
         products = queryset
 
-        """Checking the sort value and adding the appropriate product sorting"""
+        # Checking the sort value and adding the appropriate product sorting.
         if sort == 'standard':
             products = products.order_by('-id')
         elif sort == 'cheaper':
@@ -47,8 +47,10 @@ class ProductsSortMixin:
 
 
 class ProductRelatedChoicesMixin:
-    """Mixin for getting related choices of product.
-    Mixin returns context with choices."""
+    """
+    Mixin for getting related choices of product.
+    Mixin returns context with choices.
+    """
 
     @staticmethod
     def get_related_choices(product):

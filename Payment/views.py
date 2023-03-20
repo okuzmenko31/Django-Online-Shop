@@ -6,11 +6,10 @@ from Order.models import Order, OrderItem
 from django.conf import settings
 from Cart.cart import Cart
 from Order.tasks import order_created
+from Products.services import get_discount, get_price_in_usd
 from .utils import CSRFExemptMixin
 from Order.services import generate_code
-from Coupons.models import Coupons
-from Products.models import ProductSubcategory
-import random
+from .services import create_coupon
 
 
 class PaymentDone(CSRFExemptMixin, View):
@@ -19,36 +18,34 @@ class PaymentDone(CSRFExemptMixin, View):
         order_id = self.request.session.get('order_id')
         order = get_object_or_404(Order, id=order_id)
 
-        order_created.delay(order.id)
+        try:
+            order_created.delay(order.id)
+        except (Exception,):
+            print('Celery is not working now')
+
+        if self.request.user.is_authenticated:
+
+            user_bonuses = 0
+            user_bonuses_usd = 0
+
+            if order.order_bonuses and order.order_bonuses_usd:
+                """
+                If order have bonuses, we add them
+                to user's bonuses balance.
+                """
+                user_bonuses += order.order_bonuses
+                user_bonuses_usd += order.order_bonuses_usd
+
+                self.request.user.bonuses_balance += user_bonuses
+                self.request.user.bonuses_balance_usd += user_bonuses_usd
+                self.request.user.save()
+
+            create_coupon(order.user)  # a function is called to create a coupon
 
         items = OrderItem.objects.filter(order=order)
-        user_bonuses = 0
-
-        for item in items:
-            user_bonuses += item.product.bonuses
-
-            if self.request.user.is_authenticated:
-                subcategories = ProductSubcategory.objects.all()
-                subs = []
-
-                for subcategory in subcategories:
-                    subs.append(subcategory)
-                sub = random.choice(subs)
-
-                if not Coupons.objects.filter(user=self.request.user, subcategory=sub).exists():
-                    Coupons.objects.create(user=self.request.user,
-                                           subcategory=sub,
-                                           discount=random.randint(1, 20))
-        if self.request.user.is_authenticated:
-            self.request.user.bonuses_balance = user_bonuses
-            self.request.user.save()
 
         del self.request.session['order_id']
         self.request.session.modified = True
-
-        if order.coupon:
-            order.coupon.is_active = False
-            order.coupon.save()
 
         order.paid = True
         order.save()
@@ -81,6 +78,42 @@ class PaymentProcess(CSRFExemptMixin, View):
         if order_id:
             order = get_object_or_404(Order, id=order_id)
             order_items = OrderItem.objects.filter(order=order)
+            subcategories_list = []  # list for subcategories of all products in order
+
+            for item in order_items:
+                # We fill the list with subcategories
+                # of products in the order.
+
+                subcategories_list.append(item.product.subcategory)
+
+            if self.request.user.is_authenticated:
+                if order.coupon:
+
+                    order.coupon.is_active = False
+                    order.coupon.save()
+
+                    if order.coupon.subcategory in subcategories_list:
+                        # If subcategory of coupon is equal to
+                        # subcategory of one of products in order, the
+                        # user will receive discount for this order.
+
+                        order_total_price = order.order_total_price
+                        order.order_total_price = get_discount(order_total_price, order.coupon.discount)
+                        order.order_total_price_usd = get_price_in_usd(order.order_total_price)
+
+                if order.use_bonuses:
+                    usr_bonuses = self.request.user.bonuses_balance
+                    usr_bonuses_usd = self.request.user.bonuses_balance_usd
+
+                    if usr_bonuses < order.order_total_price and usr_bonuses_usd < order.order_total_price_usd:
+                        order.order_total_price -= usr_bonuses
+                        order.order_total_price_usd -= usr_bonuses_usd
+                        self.request.user.bonuses_balance = 0
+                        self.request.user.bonuses_balance_usd = 0
+                        self.request.user.save()
+
+                order.save()
+
             count_items = ''
 
             items_lst = []

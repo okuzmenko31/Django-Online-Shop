@@ -1,11 +1,14 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from .services import get_discount, get_price_sep, get_rating_star, get_price_in_usd
 
 
 class ProductCategory(models.Model):
-    """Model of product category, as well model of main category for subcategory"""
+    """
+    Model of product category,
+    as well model of main category for subcategory.
+    """
+
     title = models.CharField(max_length=200, verbose_name="Category name in header of page", blank=True)
     name = models.CharField(max_length=150, verbose_name="Category name")
     slug = models.SlugField(unique=True, verbose_name="Category name in url")
@@ -26,6 +29,7 @@ class ProductCategory(models.Model):
 
 class ProductSubcategory(models.Model):
     """Model of product subcategory"""
+
     title = models.CharField(max_length=200, verbose_name="Subcategory name in header of page", blank=True)
     name = models.CharField(max_length=150, verbose_name="Subcategory name")
     slug = models.SlugField(unique=True, verbose_name="Subcategory name in url")
@@ -45,6 +49,7 @@ class ProductSubcategory(models.Model):
 
 class ProductMemoryCategory(models.Model):
     """Category of products memories"""
+
     memory_size = models.CharField(max_length=250, verbose_name='Size of memory', blank=True)
     int_memory_value = models.IntegerField(verbose_name='Value of memory size(In megabytes)', blank=True)
 
@@ -71,6 +76,7 @@ class ProductMemoryCategory(models.Model):
 
 class ProductVersionCategory(models.Model):
     """Category of product versions"""
+
     title = models.CharField(max_length=250, verbose_name='Product version', blank=True)
 
     def __str__(self):
@@ -83,6 +89,7 @@ class ProductVersionCategory(models.Model):
 
 class ProductColorCategory(models.Model):
     """Category of products colors"""
+
     color_in_admin_panel = models.CharField(max_length=350, verbose_name='Product color in admin panel', blank=True)
     color = models.CharField(max_length=350, verbose_name='Product color')
     color_hex = models.CharField(max_length=350, verbose_name='Product HEX color', blank=True)
@@ -96,7 +103,8 @@ class ProductColorCategory(models.Model):
 
 
 class Product(models.Model):
-    """Model of product"""
+    """Model of products"""
+
     PRODUCT_STATUS_CHOICES = [
         ('Have in shop', 'In stock'),
         ('Ends in shop', 'Ends in shop'),
@@ -105,7 +113,7 @@ class Product(models.Model):
     name = models.CharField(max_length=250, verbose_name="Product name")
     characteristics = models.TextField(verbose_name='Characteristics of product', blank=True)
     info = models.TextField(verbose_name='Information about product', blank=True)
-    img = models.ImageField(upload_to='products_images/', verbose_name='Фото товару', blank=True)
+    img = models.ImageField(upload_to='products_images/', verbose_name='Photo of product', blank=True)
     main_category = models.ForeignKey(ProductCategory, on_delete=models.PROTECT, null=True,
                                       verbose_name='Main category of product', blank=True, db_index=True)
     subcategory = models.ForeignKey(ProductSubcategory, on_delete=models.PROTECT, null=True,
@@ -168,33 +176,43 @@ class Product(models.Model):
         return super(Product, self).save(*args, **kwargs)
 
     def get_star(self):
-        """Method for getting stars of rating.
-         Go to services.py to see how it works"""
+        """
+        Method for getting stars of rating.
+        Go to services.py to see how it works.
+        """
+
         return get_rating_star(self.total_rating)
 
     def get_price_view(self):
-        """Getting product price for template"""
+        """Getting product price for template."""
+
         price_view = get_price_sep(self.price)
         return price_view
 
     def get_price_in_usd_view(self):
-        """Getting product price in dollars for template"""
+        """Getting product price in dollars for template."""
+
         price_in_usd_view = get_price_sep(self.price_in_usd)
         return price_in_usd_view
 
     def get_price_with_discount_view(self):
-        """Getting product price with discount for template"""
+        """Getting product price with discount for template."""
+
         price_with_discount_view = get_price_sep(self.price_with_discount)
         return price_with_discount_view
 
     def get_price_in_usd_with_discount_view(self):
-        """Getting product price in dollars with discount for template"""
+        """
+        Getting product price in dollars
+        with discount for template.
+        """
         price_in_usd_with_discount_view = get_price_sep(self.price_in_usd_with_discount)
         return price_in_usd_with_discount_view
 
 
 class Reviews(models.Model):
     """Model of reviews"""
+
     name = models.CharField(max_length=200, verbose_name="Name")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Product',
                                 related_name='review_product')
@@ -212,13 +230,17 @@ class Reviews(models.Model):
         ordering = ['-created_at']
 
     def get_review_star(self):
-        """Method for getting stars of rating.
-         Go to services.py to see how it works"""
+        """
+        Method for getting stars of rating.
+        Go to services.py to see how it works.
+        """
+
         return get_rating_star(self.rating)
 
 
 class ProductColorChoice(models.Model):
     """Model of available choices of product colors"""
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, verbose_name='Product',
                                 related_name='product')
     subcategory = models.ForeignKey(ProductSubcategory, on_delete=models.CASCADE, db_index=True,
@@ -241,6 +263,7 @@ class ProductColorChoice(models.Model):
 
 class ProductMemoryChoice(models.Model):
     """Model of available choices of product memories"""
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, verbose_name='Product',
                                 related_name='memory_product')
     subcategory = models.ForeignKey(ProductSubcategory, on_delete=models.CASCADE, db_index=True,
@@ -265,6 +288,7 @@ class ProductMemoryChoice(models.Model):
 
 class ProductVersionChoice(models.Model):
     """Model of available choice of product versions"""
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE, db_index=True, verbose_name='Product',
                                 related_name='version_product')
     subcategory = models.ForeignKey(ProductSubcategory, on_delete=models.CASCADE, db_index=True,
@@ -277,7 +301,7 @@ class ProductVersionChoice(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='Is active?')
 
     def __str__(self):
-        return f'Версія: {self.memory}'
+        return f'Version: {self.memory}'
 
     class Meta:
         verbose_name = 'version choice'
@@ -286,6 +310,7 @@ class ProductVersionChoice(models.Model):
 
 class ProductPhotos(models.Model):
     """Model of product photos"""
+
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Product')
     photo = models.ImageField(upload_to='product_photos/%Y-%m-%d', blank=True, verbose_name='Photo')
 
